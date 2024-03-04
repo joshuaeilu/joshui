@@ -19,6 +19,7 @@ const WheelList: React.FC = () => {
           <WheelListItem name="Wheel 2" content="test 2" url="/settings" />
           <WheelListItem name="Wheel 3" content="test 3" url="/settings" />
           <WheelListItem name="Wheel 4" content="test 4" url="/settings" />
+          <WheelListItem name="Wheel 5" content="test 5" url="/settings" />
         </IonContent>
       </IonPage>
     </>
