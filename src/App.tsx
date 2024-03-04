@@ -1,17 +1,12 @@
 import { Redirect, Route } from 'react-router-dom';
 import {
   IonApp,
-  IonTitle,
-  IonLabel,
   IonRouterOutlet,
-  IonMenu,
-  IonTabs,
   setupIonicReact,
   IonSplitPane,
-  IonToolbar
+  IonMenu,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
-import { ellipse, square, triangle } from 'ionicons/icons';
 import WheelList from './pages/WheelList';
 import Settings from './pages/Settings';
 
@@ -39,10 +34,12 @@ setupIonicReact();
 
 const App: React.FC = () => (
   <IonApp>
-    <IonReactRouter>
-      <IonSplitPane>
-        <MenuSidebar></MenuSidebar>
-        <IonRouterOutlet>
+    <IonSplitPane when="md" contentId="main-content">
+      <IonReactRouter>
+        <IonMenu contentId="main-content">
+          <MenuSidebar></MenuSidebar>
+        </IonMenu>
+        <IonRouterOutlet id="main-content">
           <Route exact path="/wheellist">
             <WheelList />
           </Route>
@@ -53,8 +50,8 @@ const App: React.FC = () => (
             <Redirect to="/wheellist" />
           </Route>
         </IonRouterOutlet>
-      </IonSplitPane>
-    </IonReactRouter>
+      </IonReactRouter>
+    </IonSplitPane>
   </IonApp>
 );
 

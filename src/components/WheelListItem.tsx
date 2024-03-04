@@ -1,5 +1,5 @@
 import "./WheelListItem.css";
-import { IonItem, IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
 
 function WheelListItem({name, content, url}: {name: string, content: string, url: string}) {
   return (

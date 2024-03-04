@@ -29,25 +29,23 @@ const appPages = [
 function MenuSidebar() {
   return (
     <>
-      <IonMenu contentId="main-content">
-        <IonHeader>
-          <IonToolbar>
-            <IonTitle>Prayer Wheel</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          {appPages.map((appPage, index) => {
-            return (
-              <IonMenuToggle key={index} autoHide={false}>
-                <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                  <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                  <IonLabel>{appPage.title}</IonLabel>
-                </IonItem>
-              </IonMenuToggle>
-            );
-          })}
-        </IonContent>
-      </IonMenu>
+      <IonHeader>
+        <IonToolbar>
+          <IonTitle>Prayer Wheel</IonTitle>
+        </IonToolbar>
+      </IonHeader>
+      <IonContent>
+        {appPages.map((appPage, index) => {
+          return (
+            <IonMenuToggle key={index} autoHide={false}>
+              <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
+                <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+                <IonLabel>{appPage.title}</IonLabel>
+              </IonItem>
+            </IonMenuToggle>
+          );
+        })}
+      </IonContent>
     </>
   );
 };
