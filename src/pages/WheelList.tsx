@@ -9,16 +9,16 @@ const WheelList: React.FC = () => {
         <IonHeader>
           <IonToolbar>
             <IonButtons slot="start">
-              <IonMenuButton></IonMenuButton>
+              <IonMenuButton />
             </IonButtons>
             <IonTitle>Wheel List</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <WheelListItem name="Wheel 1" content="test" url="/settings"></WheelListItem>
-          <WheelListItem name="Wheel 2" content="test 2" url="/settings"></WheelListItem>
-          <WheelListItem name="Wheel 3" content="test 3" url="/settings"></WheelListItem>
-          <WheelListItem name="Wheel 4" content="test 4" url="/settings"></WheelListItem>
+          <WheelListItem name="Wheel 1" content="test" url="/settings" />
+          <WheelListItem name="Wheel 2" content="test 2" url="/settings" />
+          <WheelListItem name="Wheel 3" content="test 3" url="/settings" />
+          <WheelListItem name="Wheel 4" content="test 4" url="/settings" />
         </IonContent>
       </IonPage>
     </>
