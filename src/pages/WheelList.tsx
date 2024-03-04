@@ -1,6 +1,6 @@
-import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './WheelList.css';
-import WheelListItem from '../components/WheelListItem';
+import ListItem from '../components/ListItem';
 
 const WheelList: React.FC = () => {
   return (
@@ -15,11 +15,13 @@ const WheelList: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <WheelListItem name="Wheel 1" content="test" url="/settings" />
-          <WheelListItem name="Wheel 2" content="test 2" url="/settings" />
-          <WheelListItem name="Wheel 3" content="test 3" url="/settings" />
-          <WheelListItem name="Wheel 4" content="test 4" url="/settings" />
-          <WheelListItem name="Wheel 5" content="test 5" url="/settings" />
+          <IonList lines="none" className="wheellist">
+            <ListItem name="Wheel 1" content="test" url="/wheel/banana" />
+            <ListItem name="Wheel 2" content="test 2" url="/settings" />
+            <ListItem name="Wheel 3" content="test 3" url="/settings" />
+            <ListItem name="Wheel 4" content="test 4" url="/settings" />
+            <ListItem name="Wheel 5" content="test 5" url="/settings" />
+          </IonList>
         </IonContent>
       </IonPage>
     </>
