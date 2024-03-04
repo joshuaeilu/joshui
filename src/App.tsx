@@ -41,7 +41,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonReactRouter>
       <IonSplitPane>
-        <MenuSidebar></MenuSidebar>
+        <MenuSidebar />
         <IonRouterOutlet>
           <Route exact path="/wheellist">
             <WheelList />
