@@ -1,9 +1,10 @@
-import { IonButton, IonCol, IonFooter, IonIcon, IonRange, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import './PlayerControls.css';
 import { useContext } from 'react';
-import { PlayerState, PlayerStateContext } from './hooks/PlayerStateProvider';
+import { PlayerStateContext } from './hooks/PlayerStateProvider';
 import PlayerStepItem from './player/PlayerStepItem';
-import { pause, play } from 'ionicons/icons';
+import { pause, play, playSkipForward } from 'ionicons/icons';
+import { TimerContext } from './hooks/TimerProvider';
 
 function PlayerControls() {
   const playerStateContext = useContext(PlayerStateContext);
@@ -12,40 +13,46 @@ function PlayerControls() {
     return null;
   }
 
-  let { playerState } = playerStateContext;
+  let { playerState, playWheel, pauseWheel, advanceWheel } = playerStateContext;
   let wheel = playerState.wheel;
+
+  let timerContext = useContext(TimerContext);
+
+  if(timerContext == null) return null;
+
+  let timerSeconds = timerContext.timer.timerSeconds
 
   return (
     <IonFooter>
       <IonToolbar>
         <IonRow>
           <IonCol size="auto">
-            <IonTitle>{wheel?.title}</IonTitle>
-            <IonButton onClick={() => playAudio(playerState)}>
+            <IonTitle>{wheel?.title ?? "None Selected"}</IonTitle>
+            <IonButton onClick={playWheel}>
               <IonIcon icon={play} />
             </IonButton>
-            <IonButton onClick={() => pauseAudio(playerState)}>
+            <IonButton onClick={pauseWheel}>
               <IonIcon icon={pause} />
             </IonButton>
+            <IonButton onClick={advanceWheel}>
+              <IonIcon icon={playSkipForward} />
+            </IonButton>
+            <IonText>{Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}</IonText>
           </IonCol>
-          <PlayerStepItem name="step 1" desc="test"></PlayerStepItem>
+          {
+            wheel?.steps.map((step) => {
+              console.log(step.length)
+              return (
+                <IonCol size="auto">
+                  <PlayerStepItem name={step.head} seconds={step.length/1000} />
+                </IonCol>
+              )
+            })
+          }
         </IonRow>
       </IonToolbar>
     </IonFooter>
   )
-}
-
-function playAudio(playerState: PlayerState) {
-  // Swallowing errors for now
-  playerState.background_audio.play().catch((e)=>{
-  });
-  playerState.foreground_audio.play().catch((e)=>{
-  });
-}
-
-function pauseAudio(playerState: PlayerState) {
-  playerState.background_audio.pause();
-  playerState.foreground_audio.pause();
 }
 
 export default PlayerControls;

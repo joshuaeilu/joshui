@@ -1,14 +1,13 @@
 import './PlayerStepItem.css';
 import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText } from "@ionic/react";
 
-const PlayerStepItem = ({name, desc}: {name: string, desc: string}) => {
+const PlayerStepItem = ({name, seconds}: {name: string, seconds: number}) => {
   return (
     <IonCard>
-      <IonCardHeader>
-        <IonCardTitle>{name}</IonCardTitle>
-      </IonCardHeader>
       <IonCardContent>
-        <IonText>{desc}</IonText>
+        <IonText>{name}</IonText>
+        <br/>
+        <IonText>{Math.floor(seconds/60)}:{seconds%60 < 10 ? '0': ''}{seconds%60}</IonText>
       </IonCardContent>
     </IonCard>
   )

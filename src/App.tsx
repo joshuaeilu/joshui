@@ -5,9 +5,6 @@ import {
   setupIonicReact,
   IonSplitPane,
   IonMenu,
-  IonFooter,
-  IonToolbar,
-  IonTitle,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import WheelList from './pages/WheelList';
@@ -33,7 +30,6 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import MenuSidebar from './components/MenuSidebar';
-import PlayerControls from './components/PlayerControls';
 
 setupIonicReact();
 

@@ -14,13 +14,13 @@
     "android": "vite build && npx cap run android"
   },
   "dependencies": {
+    "@capacitor/android": "5.7.1",
     "@capacitor/app": "5.0.7",
     "@capacitor/core": "5.7.1",
     "@capacitor/haptics": "5.0.7",
+    "@capacitor/ios": "5.7.1",
     "@capacitor/keyboard": "5.0.8",
     "@capacitor/status-bar": "5.0.7",
-    "@capacitor/android": "5.7.1",
-    "@capacitor/ios": "5.7.1",
     "@ionic/react": "^7.0.0",
     "@ionic/react-router": "^7.0.0",
     "@types/react-router": "^5.1.20",
@@ -29,10 +29,12 @@
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^5.3.4",
-    "react-router-dom": "^5.3.4"
+    "react-router-dom": "^5.3.4",
+    "react-timer-hook": "^3.0.7"
   },
   "devDependencies": {
     "@capacitor/cli": "5.7.1",
+    "@ionic/cli": "^7.2.0",
     "@testing-library/dom": ">=7.21.4",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -41,7 +43,6 @@
     "@types/react-dom": "^18.0.10",
     "@vitejs/plugin-legacy": "^5.0.0",
     "@vitejs/plugin-react": "^4.0.1",
-    "@ionic/cli": "^7.2.0",
     "cypress": "^13.5.0",
     "eslint": "^8.35.0",
     "eslint-plugin-react": "^7.32.2",

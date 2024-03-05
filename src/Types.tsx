@@ -20,6 +20,6 @@ export type Step = {
 
 export type WheelAudio = {
     id: number
-    Wheel: Wheel
-    audio_file: string
+    wheel: Wheel
+    audio_url: string
 }
