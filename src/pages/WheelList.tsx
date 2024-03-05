@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types';
 import { API_URL } from '../App'
+import PlayerControls from '../components/PlayerControls';
 
 const WheelList: React.FC = () => {
 
@@ -40,7 +41,7 @@ const WheelList: React.FC = () => {
             }
           </IonList>
         </IonContent>
-        <Footer />
+        <PlayerControls />
       </IonPage>
     </>
   );
