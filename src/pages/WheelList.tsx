@@ -1,8 +1,25 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import './WheelList.css';
+import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
+import { Wheel } from '../Types/Wheel';
 
 const WheelList: React.FC = () => {
+
+  const [name, setName] = useState([])
+
+  useEffect(() => {
+      names()
+  }, [])
+
+  const names = async () => {
+      const response = await fetch("http://localhost:8000/wheels/")
+
+      console.log(response)
+
+      setName(await response.json())
+  }
+
   return (
     <>
       <IonPage>
@@ -16,11 +33,14 @@ const WheelList: React.FC = () => {
         </IonHeader>
         <IonContent fullscreen={true}>
           <IonList lines="none" className="wheellist">
-            <ListItem name="Wheel 1" content="test" url="/wheel/banana" />
-            <ListItem name="Wheel 2" content="test 2" url="/settings" />
-            <ListItem name="Wheel 3" content="test 3" url="/settings" />
-            <ListItem name="Wheel 4" content="test 4" url="/settings" />
-            <ListItem name="Wheel 5" content="test 5" url="/settings" />
+            {
+              name.map((data: Wheel) => {
+                
+                return (
+                  <ListItem name={data.title} content={data.description} url={`/wheel/${data.id}`} />
+                )
+              })
+            }
           </IonList>
         </IonContent>
       </IonPage>

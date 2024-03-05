@@ -47,11 +47,9 @@ const App: React.FC = () => (
           <Route exact path="/settings">
             <Settings />
           </Route>
-          <Route path="/wheel" >
-            <Route path="/:wheelId">
-              <WheelView />
-            </Route>
-          </Route>
+          <Route path="/wheel/:id" >
+            <WheelView />
+          </Route>  
           <Route exact path="/">
             <Redirect to="/wheellist" />
           </Route>
