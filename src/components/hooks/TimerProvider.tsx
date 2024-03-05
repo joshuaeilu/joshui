@@ -25,6 +25,9 @@ export function TimerProvider({
 
   React.useEffect(() => {
     setInterval(() => {
+      if(timer.timerSeconds <= 0) {
+        return;
+      }
       setTimer({timerSeconds: timer.timerSeconds - 1});
     }, 1000)
   })

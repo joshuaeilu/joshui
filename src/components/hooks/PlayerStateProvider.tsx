@@ -1,22 +1,22 @@
-import { createContext } from "react";
+import { createContext, useContext } from "react";
 import { Wheel } from "../../Types";
 import React from "react";
-import { useTimer } from "react-timer-hook";
+import { TimerContext } from "./TimerProvider";
 
 export type PlayerState = {
   wheel: Wheel | null;
-  currentStepIdx: number;
+  curStpIdx: number;
   currentBgAudioIdx: number;
-  background_audio: HTMLAudioElement;
-  foreground_audio: HTMLAudioElement;
+  backgroundAudio: HTMLAudioElement;
+  foregroundAudio: HTMLAudioElement;
 }
 
 export const defaultPlayerStateContext = {
   wheel: null,
-  currentStepIdx: 0,
+  curStpIdx: 0,
   currentBgAudioIdx: 0,
-  background_audio: new Audio(),
-  foreground_audio: new Audio()
+  backgroundAudio: new Audio(),
+  foregroundAudio: new Audio()
 };
 
 export const PlayerStateContext = createContext<{
@@ -34,19 +34,23 @@ export function PlayerStateProvider({
 }) {
   const [playerState, setPlayerState] = React.useState<PlayerState>(defaultPlayerStateContext);
 
-  function setActiveWheel(wheel: Wheel) {
-    const newPlayerState = {...playerState, wheel};
-    newPlayerState.currentBgAudioIdx = 0;
-    newPlayerState.currentStepIdx = 0;
+  const timerContext = useContext(TimerContext)!;
 
-    const bgAudio = newPlayerState.background_audio;
-    bgAudio.src = wheel.background_audio[newPlayerState.currentBgAudioIdx].audio_url;
+  const setTimer = timerContext.setTimer;
+
+  function setActiveWheel(wheel: Wheel) {
+    const newPS = {...playerState, wheel};
+    newPS.currentBgAudioIdx = 0;
+    newPS.curStpIdx = 0;
+
+    const bgAudio = newPS.backgroundAudio;
+    bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
     bgAudio.onended = () => {
-      newPlayerState.currentBgAudioIdx += 1;
-      let nextAudio = wheel.background_audio[newPlayerState.currentBgAudioIdx]?.audio_url;
+      newPS.currentBgAudioIdx += 1;
+      let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
       if(nextAudio == null) {
-        newPlayerState.currentBgAudioIdx = 0;
-        nextAudio = wheel.background_audio[newPlayerState.currentBgAudioIdx].audio_url;
+        newPS.currentBgAudioIdx = 0;
+        nextAudio = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
       }
       bgAudio.src = nextAudio;
       bgAudio.play();
@@ -54,47 +58,51 @@ export function PlayerStateProvider({
 
     bgAudio.play();
 
-    setPlayerState(newPlayerState);
+    setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
+
+    setPlayerState(newPS);
   }
 
   function playWheel() {
-    const newPlayerState = {...playerState};
+    const newPS = {...playerState};
 
-    newPlayerState.background_audio.play();
-    newPlayerState.foreground_audio.play();
+    newPS.backgroundAudio.play();
+    newPS.foregroundAudio.play();
 
-    setPlayerState(newPlayerState)
+    setPlayerState(newPS)
   }
 
   function pauseWheel() {
-    const newPlayerState = {...playerState};
+    const newPS = {...playerState};
 
-    newPlayerState.background_audio.pause();
-    newPlayerState.foreground_audio.pause();
+    newPS.backgroundAudio.pause();
+    newPS.foregroundAudio.pause();
 
-    setPlayerState(newPlayerState)
+    setPlayerState(newPS)
   }
 
   function advanceWheel() {
-    const newPlayerState = {...playerState};
+    const newPS = {...playerState};
 
-    if(newPlayerState.wheel == null) return;
+    if(newPS.wheel == null) return;
 
-    newPlayerState.currentStepIdx += 1;
+    newPS.curStpIdx += 1;
 
-    if(newPlayerState.currentStepIdx >= newPlayerState.wheel.steps.length) {
-      newPlayerState.wheel = null;
-      newPlayerState.foreground_audio.pause();
-      newPlayerState.background_audio.pause();
-      newPlayerState.foreground_audio.src = "";
-      newPlayerState.background_audio.src = "";
+    if(newPS.curStpIdx >= newPS.wheel.steps.length) {
+      newPS.wheel = null;
+      newPS.foregroundAudio.pause();
+      newPS.backgroundAudio.pause();
+      newPS.foregroundAudio.src = "";
+      newPS.backgroundAudio.src = "";
       return;
     }
 
-    newPlayerState.foreground_audio.src = newPlayerState.wheel.steps[newPlayerState.currentStepIdx].foreground_audio;
+    setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
+
+    newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foregroundAudio;
     playWheel()
 
-    setPlayerState(newPlayerState)
+    setPlayerState(newPS)
   }
 
   return (

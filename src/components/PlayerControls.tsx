@@ -41,9 +41,8 @@ function PlayerControls() {
           </IonCol>
           {
             wheel?.steps.map((step) => {
-              console.log(step.length)
               return (
-                <IonCol size="auto">
+                <IonCol size="auto" key={step.id}> 
                   <PlayerStepItem name={step.head} seconds={step.length/1000} />
                 </IonCol>
               )
