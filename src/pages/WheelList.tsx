@@ -8,15 +8,10 @@ const WheelList: React.FC = () => {
 
   const [name, setName] = useState([])
 
-  useEffect(() => {
-      names()
-  }, [])
+  useEffect(() => { names() }, [])
 
   const names = async () => {
       const response = await fetch("http://localhost:8000/wheels/")
-
-      console.log(response)
-
       setName(await response.json())
   }
 
@@ -35,7 +30,6 @@ const WheelList: React.FC = () => {
           <IonList lines="none" className="wheellist">
             {
               name.map((data: Wheel) => {
-                
                 return (
                   <ListItem name={data.title} content={data.description} url={`/wheel/${data.id}`} />
                 )

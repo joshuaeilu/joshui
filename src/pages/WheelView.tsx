@@ -3,27 +3,20 @@ import './WheelView.css';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
+import { Wheel } from '../Types/Wheel'
 import { useEffect, useState } from 'react';
 
 const WheelView: React.FC = () => {
-  let id = useParams<{id: string}>();
+  let { id } = useParams<{id: string}>();
 
   const [name, setName] = useState([])
 
-  useEffect(() => {
-      names()
-  }, [])
+  useEffect(() => { names() }, [])
 
   const names = async () => {
-      const response = await fetch(`http://localhost:8000/wheels/${id}`)
-
-      console.log(response)
-
+      const response = await fetch(`http://localhost:8000/wheels/${id}/`)
       setName(await response.json())
   }
-
-  // FIGURE OUT HOW TO PULL DATA FROM THE WHEEL
-
 
   return (
     <>
@@ -33,12 +26,12 @@ const WheelView: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>{`Title ${id.id}`}</IonTitle>
+            <IonTitle>{`Title ${name.title}`}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           <IonList>
-            <ListItem name={`Step 1 ${id.id}`} content="This is Step 1"/>
+            <ListItem name={`Step 1 ${id}`} content="This is Step 1"/>
             <ListItem name="Step 2" content="This is Step 2"/>
           </IonList>
         </IonContent>
