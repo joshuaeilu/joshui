@@ -2,12 +2,12 @@ import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, Ion
 import './WheelList.css';
 import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
-import { Wheel } from '../Types/Wheel';
+import { Wheel } from '../Types';
 import { API_URL } from '../App'
 
 const WheelList: React.FC = () => {
 
-  const [wheels, setWheels] = useState([])
+  const [wheels, setWheels] = useState<Wheel[]>([])
 
   useEffect(() => { getWheels() }, [])
 
@@ -32,9 +32,9 @@ const WheelList: React.FC = () => {
         <IonContent fullscreen={true}>
           <IonList lines="none" className="wheellist">
             {
-              wheels.map((data: Wheel) => {
+              wheels.map((data) => {
                 return (
-                  <ListItem name={data.title} content={data.description} url={`/wheel/${data.id}`} />
+                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} url={`/wheel/${data.id}`} />
                 )
               })
             }

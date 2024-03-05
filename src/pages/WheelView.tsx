@@ -3,7 +3,7 @@ import './WheelView.css';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
-import { Wheel } from '../Types/Wheel'
+import { Wheel } from '../Types'
 import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 
@@ -21,8 +21,10 @@ const WheelView: React.FC = () => {
       setWheel(await response.json())
   }
 
+  
   if (wheel == null) return <>Loading...</>
 
+  console.log(wheel.steps)
 
   return (
     <>
@@ -32,13 +34,19 @@ const WheelView: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>{`Title ${wheel.title}`}</IonTitle>
+            <IonTitle>{wheel.title}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
           <IonList>
-            <ListItem name={`Step 1 ${id}`} content="This is Step 1"/>
-            <ListItem name="Step 2" content="This is Step 2"/>
+            {
+              wheel.steps.map((step) => {
+
+                return (
+                  <ListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} />
+                )
+              })
+            }
           </IonList>
         </IonContent>
       </IonPage>
