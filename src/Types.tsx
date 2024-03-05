@@ -4,6 +4,7 @@ export type Wheel = {
     description: string
     owner: number
     steps: Step[]
+    background_audio: WheelAudio[]
 }
 
 export type Step = {
@@ -16,8 +17,9 @@ export type Step = {
     length: number
     wheel_index: number
 }
+
 export type WheelAudio = {
     id: number
-    wheel: number
+    Wheel: Wheel
     audio_file: string
 }
