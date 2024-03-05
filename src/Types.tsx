@@ -16,3 +16,8 @@ export type Step = {
     length: number
     wheel_index: number
 }
+export type WheelAudio = {
+    id: number
+    wheel: number
+    audio_file: string
+}
