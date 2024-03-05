@@ -3,7 +3,7 @@ import './WheelList.css';
 import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types/Wheel';
-import { API_URL } from '../config'
+import { API_URL } from '../App'
 
 const WheelList: React.FC = () => {
 

@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types/Wheel'
 import { useEffect, useState } from 'react';
-import { API_URL } from '../config'
+import { API_URL } from '../App'
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
@@ -22,6 +22,7 @@ const WheelView: React.FC = () => {
   }
 
   if (wheel == null) return <>Loading...</>
+
 
   return (
     <>
