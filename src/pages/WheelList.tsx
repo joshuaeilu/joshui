@@ -3,17 +3,20 @@ import './WheelList.css';
 import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types/Wheel';
+import { API_URL } from '../config'
 
 const WheelList: React.FC = () => {
 
-  const [name, setName] = useState([])
+  const [wheels, setWheels] = useState([])
 
-  useEffect(() => { names() }, [])
+  useEffect(() => { getWheels() }, [])
 
-  const names = async () => {
-      const response = await fetch("http://localhost:8000/wheels/")
-      setName(await response.json())
+  const getWheels = async () => {
+      const response = await fetch(`${API_URL}/wheels/`)
+      setWheels(await response.json())
   }
+
+  if (wheels.length == 0) return <>Loading...</>
 
   return (
     <>
@@ -29,7 +32,7 @@ const WheelList: React.FC = () => {
         <IonContent fullscreen={true}>
           <IonList lines="none" className="wheellist">
             {
-              name.map((data: Wheel) => {
+              wheels.map((data: Wheel) => {
                 return (
                   <ListItem name={data.title} content={data.description} url={`/wheel/${data.id}`} />
                 )

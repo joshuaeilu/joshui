@@ -5,18 +5,23 @@ import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types/Wheel'
 import { useEffect, useState } from 'react';
+import { API_URL } from '../config'
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
 
-  const [name, setName] = useState([])
+  const [wheel, setWheel] = useState<Wheel | null>(null)
 
-  useEffect(() => { names() }, [])
+  useEffect(() => { getWheel() }, [])
 
-  const names = async () => {
-      const response = await fetch(`http://localhost:8000/wheels/${id}/`)
-      setName(await response.json())
+  const getWheel = async () => {
+      const url = `${API_URL}/wheels/${id}/`
+      const response = await fetch(url)
+      console.log(url)
+      setWheel(await response.json())
   }
+
+  if (wheel == null) return <>Loading...</>
 
   return (
     <>
@@ -26,7 +31,7 @@ const WheelView: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>{`Title ${name.title}`}</IonTitle>
+            <IonTitle>{`Title ${wheel.title}`}</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent>
