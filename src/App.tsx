@@ -5,6 +5,9 @@ import {
   setupIonicReact,
   IonSplitPane,
   IonMenu,
+  IonFooter,
+  IonToolbar,
+  IonTitle,
 } from '@ionic/react';
 import { IonReactRouter } from '@ionic/react-router';
 import WheelList from './pages/WheelList';

@@ -16,6 +16,7 @@ import {
 import "./Settings.css";
 import { useContext } from "react";
 import { AppSettingsContext } from "../components/hooks/AppSettingsContext";
+import Footer from '../components/Footer';
 
 const Settings: React.FC = () => {
   const appSettingsContext = useContext(AppSettingsContext);
@@ -42,7 +43,6 @@ const Settings: React.FC = () => {
             <IonTitle size="large">Settings</IonTitle>
           </IonToolbar>
         </IonHeader>
-        <p>Settings</p>
         <IonCard>
           <IonCardHeader>
             <IonCardTitle>Voice</IonCardTitle>
@@ -148,6 +148,7 @@ const Settings: React.FC = () => {
           </IonCardContent>
         </IonCard>
       </IonContent>
+      <Footer />
     </IonPage>
   );
 };

@@ -40,6 +40,7 @@ const WheelList: React.FC = () => {
             }
           </IonList>
         </IonContent>
+        <Footer />
       </IonPage>
     </>
   );

@@ -6,6 +6,7 @@ import ListItem from '../components/ListItem';
 import { Wheel } from '../Types'
 import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
+import Footer from '../components/Footer';
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
@@ -49,6 +50,7 @@ const WheelView: React.FC = () => {
             }
           </IonList>
         </IonContent>
+        <Footer />
       </IonPage>
     </>
   )

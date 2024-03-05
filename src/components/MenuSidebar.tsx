@@ -1,5 +1,4 @@
 import {
-  IonMenu,
   IonHeader,
   IonTitle,
   IonContent,
