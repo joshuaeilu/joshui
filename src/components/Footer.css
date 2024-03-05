@@ -1,0 +1,4 @@
+ion-footer {
+  height: 100px;
+  background-color: var(--ion-toolbar-background);
+}
