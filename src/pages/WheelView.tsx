@@ -3,6 +3,7 @@ import './WheelView.css';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
+import Footer from '../components/Footer';
 
 const WheelView: React.FC = () => {
   let { wheelId } = useParams<{wheelId: string}>();
@@ -24,6 +25,7 @@ const WheelView: React.FC = () => {
             <ListItem name="Step 2" content="This is Step 2"/>
           </IonList>
         </IonContent>
+        <Footer />
       </IonPage>
     </>
   )

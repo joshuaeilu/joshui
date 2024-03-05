@@ -23,6 +23,7 @@ const WheelList: React.FC = () => {
             <ListItem name="Wheel 5" content="test 5" url="/settings" />
           </IonList>
         </IonContent>
+        <Footer />
       </IonPage>
     </>
   );
