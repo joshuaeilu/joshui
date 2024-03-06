@@ -7,7 +7,7 @@ import { Wheel } from '../Types'
 import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
-import { PlayerStateContext, PlayerStateProvider } from '../components/hooks/PlayerStateProvider';
+import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { play } from 'ionicons/icons';
 
 const WheelView: React.FC = () => {
