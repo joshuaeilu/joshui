@@ -14,6 +14,7 @@ export const TimerContext = createContext<{
       timerSeconds: number
     }>
   >
+  interval: () => any
 } | null>(null)
 
 export function TimerProvider({
@@ -22,18 +23,24 @@ export function TimerProvider({
   children: React.ReactNode;
 }) {
   const [timer, setTimer] = React.useState(defaultTimerContext);
+  let i = setInterval(() => {}, 100000000)
+  const [internalInterval, setInternalInterval] = React.useState<typeof i | null>(null);
 
-  React.useEffect(() => {
-    setInterval(() => {
-      if(timer.timerSeconds <= 0) {
-        return;
-      }
-      setTimer({timerSeconds: timer.timerSeconds - 1});
-    }, 1000)
-  })
+  const interval = () => {
+    if (internalInterval != null)
+      clearInterval(internalInterval);
+    setInternalInterval(setInterval(() => {
+      setTimer((last) => {
+        if(last.timerSeconds <= 0) {
+          return last;
+        }
+        return { timerSeconds: last.timerSeconds - 1 }
+      });
+    }, 1000));
+  };
 
   return (
-    <TimerContext.Provider value={{ timer, setTimer }}>
+    <TimerContext.Provider value={{ timer, setTimer, interval}}>
       {children}
     </TimerContext.Provider>
   )

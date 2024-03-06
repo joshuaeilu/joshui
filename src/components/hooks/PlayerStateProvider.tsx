@@ -36,7 +36,15 @@ export function PlayerStateProvider({
 
   const timerContext = useContext(TimerContext)!;
 
+  const timerSeconds = timerContext.timer.timerSeconds;
   const setTimer = timerContext.setTimer;
+  const interval = timerContext.interval;
+
+  React.useEffect(() => {
+    if(timerSeconds <= 0) {
+      advanceWheel();
+    }
+  }, [timerSeconds]);
 
   function setActiveWheel(wheel: Wheel) {
     const newPS = {...playerState, wheel};
@@ -59,6 +67,7 @@ export function PlayerStateProvider({
     bgAudio.play();
 
     setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
+    interval()
 
     setPlayerState(newPS);
   }
@@ -98,6 +107,7 @@ export function PlayerStateProvider({
     }
 
     setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
+    interval()
 
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foregroundAudio;
     playWheel()

@@ -1,5 +1,5 @@
 import './PlayerStepItem.css';
-import { IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonText } from "@ionic/react";
+import { IonCard, IonCardContent, IonText } from "@ionic/react";
 
 const PlayerStepItem = ({name, seconds}: {name: string, seconds: number}) => {
   return (
