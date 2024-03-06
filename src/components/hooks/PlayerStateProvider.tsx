@@ -37,8 +37,7 @@ export function PlayerStateProvider({
   const timerContext = useContext(TimerContext)!;
 
   const timerSeconds = timerContext.timer.timerSeconds;
-  const setTimer = timerContext.setTimer;
-  const interval = timerContext.interval;
+  const { stopTimer, startTimer, setTimerSecs } = timerContext;
 
   React.useEffect(() => {
     if(timerSeconds <= 0) {
@@ -66,8 +65,8 @@ export function PlayerStateProvider({
 
     bgAudio.play();
 
-    setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
-    interval()
+    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length/1000)
+    startTimer()
 
     setPlayerState(newPS);
   }
@@ -77,6 +76,7 @@ export function PlayerStateProvider({
 
     newPS.backgroundAudio.play();
     newPS.foregroundAudio.play();
+    startTimer();
 
     setPlayerState(newPS)
   }
@@ -86,6 +86,7 @@ export function PlayerStateProvider({
 
     newPS.backgroundAudio.pause();
     newPS.foregroundAudio.pause();
+    stopTimer();
 
     setPlayerState(newPS)
   }
@@ -106,8 +107,8 @@ export function PlayerStateProvider({
       return;
     }
 
-    setTimer({timerSeconds: newPS.wheel.steps[newPS.curStpIdx].length/1000})
-    interval()
+    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length/1000)
+    startTimer()
 
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foregroundAudio;
     playWheel()
