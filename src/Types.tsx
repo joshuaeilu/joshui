@@ -1,9 +1,14 @@
+export type User = {
+    id: number
+    username: string
+    wheel_set: Wheel[]
+}
+
 export type Wheel = {
     id: number
     title: string
     description: string
-    owner: number
-    steps: Step[]
+     steps: Step[]
     background_audio: WheelAudio[]
 }
 

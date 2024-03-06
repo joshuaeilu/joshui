@@ -10,6 +10,7 @@ import { IonReactRouter } from '@ionic/react-router';
 import WheelList from './pages/WheelList';
 import Settings from './pages/Settings';
 import WheelView from './pages/WheelView';
+import UserProfile from './pages/UserProfile'
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -52,6 +53,9 @@ const App: React.FC = () => (
           </Route>  
           <Route exact path="/">
             <Redirect to="/wheellist" />
+          </Route>
+          <Route path="/user/:id" >
+            <UserProfile />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
