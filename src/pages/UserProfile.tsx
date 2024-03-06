@@ -29,7 +29,7 @@ const WheelList: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>{user.username}</IonTitle>
+            <IonTitle>{user.username}'s Wheels</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
