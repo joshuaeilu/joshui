@@ -47,14 +47,15 @@ export function PlayerStateProvider({
 
   function setActiveWheel(wheel: Wheel) {
     const newPS = {...playerState, wheel};
+    console.log(wheel);
     newPS.currentBgAudioIdx = 0;
     newPS.curStpIdx = 0;
 
     const bgAudio = newPS.backgroundAudio;
-    if(wheel.steps[newPS.curStpIdx].override_song === "") {
-      bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
-    } else {
+    if(wheel.steps[newPS.curStpIdx].override_song != null) {
       bgAudio.src = wheel.steps[newPS.curStpIdx].override_song;
+    } else {
+      bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
     }
     
     bgAudio.onended = () => {
@@ -107,8 +108,6 @@ export function PlayerStateProvider({
       newPS.wheel = null;
       newPS.foregroundAudio.pause();
       newPS.backgroundAudio.pause();
-      newPS.foregroundAudio.src = "";
-      newPS.backgroundAudio.src = "";
       return;
     }
 
@@ -116,7 +115,7 @@ export function PlayerStateProvider({
     startTimer()
 
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
-    if(newPS.wheel.steps[newPS.curStpIdx].override_song != "") {
+    if(newPS.wheel.steps[newPS.curStpIdx].override_song != null) {
       newPS.backgroundAudio.pause()
       newPS.backgroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].override_song;
     }
