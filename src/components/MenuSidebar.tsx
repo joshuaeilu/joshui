@@ -6,9 +6,11 @@ import {
   IonMenuToggle,
   IonIcon,
   IonLabel,
-  IonItem
+  IonItem,
+  IonRow
 } from '@ionic/react'
 import { cogOutline, speedometerOutline } from 'ionicons/icons';
+import './MenuSidebar.css'
 
 const appPages = [
   {
@@ -30,7 +32,10 @@ function MenuSidebar() {
     <>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>Prayer Wheel</IonTitle>
+          <IonRow>
+            <img src="http://localhost/assets/logo.png" />
+            <IonTitle>Prayer Wheels</IonTitle>
+          </IonRow>
         </IonToolbar>
       </IonHeader>
       <IonContent>

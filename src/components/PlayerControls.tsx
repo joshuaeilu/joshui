@@ -22,8 +22,6 @@ function PlayerControls() {
 
   let timerSeconds = timerContext.timer.timerSeconds
 
-  // {Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}
-
   return (
     <IonFooter>
       <IonToolbar>
@@ -39,10 +37,12 @@ function PlayerControls() {
             <IonButton onClick={advanceWheel}>
               <IonIcon icon={playSkipForward} />
             </IonButton>
-            <IonText>{Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}</IonText>
+          </IonCol>
+          <IonCol size="auto">
+            {wheel && <PlayerStepItem name={wheel?.steps[playerState.curStpIdx].head} seconds={timerSeconds} active={true} />}
           </IonCol>
           {
-            wheel?.steps.map((step) => {
+            wheel?.steps.slice(playerState.curStpIdx+1).map((step) => {
               return (
                 <IonCol size="auto" key={step.id}> 
                   <PlayerStepItem name={step.head} seconds={step.length/1000} />
