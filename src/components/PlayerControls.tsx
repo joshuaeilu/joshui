@@ -22,12 +22,14 @@ function PlayerControls() {
 
   let timerSeconds = timerContext.timer.timerSeconds
 
+  // {Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}
+
   return (
     <IonFooter>
       <IonToolbar>
         <IonRow>
           <IonCol size="auto">
-            <IonTitle>{wheel?.title ?? "None Selected"}</IonTitle>
+            <IonTitle class="ion-text-start">{wheel?.title ?? "No Wheel Selected"}</IonTitle>
             <IonButton onClick={playWheel}>
               <IonIcon icon={play} />
             </IonButton>
@@ -37,7 +39,6 @@ function PlayerControls() {
             <IonButton onClick={advanceWheel}>
               <IonIcon icon={playSkipForward} />
             </IonButton>
-            <IonText>{Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}</IonText>
           </IonCol>
           {
             wheel?.steps.map((step) => {

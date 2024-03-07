@@ -18,7 +18,7 @@ export type Step = {
     head: string
     body: string
     override_song: string
-    foregroundAudio: string
+    foreground_audio: string
     length: number
     wheel_index: number
 }
