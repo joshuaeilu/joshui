@@ -3,7 +3,7 @@ import { IonCard, IonCardContent, IonText } from "@ionic/react";
 
 const PlayerStepItem = ({name, seconds}: {name: string, seconds: number}) => {
   return (
-    <IonCard>
+    <IonCard className="playerstepitem">
       <IonCardContent>
         <IonText>{name}</IonText>
         <br/>

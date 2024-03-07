@@ -1,4 +1,4 @@
-ion-card {
+.playerstepitem ion-card {
   border-style: solid;
   border-color: var(--ion-color-primary);
   border-width: 2px;

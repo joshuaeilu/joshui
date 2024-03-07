@@ -2,19 +2,17 @@ import React, { createContext } from "react";
 
 export const defaultAppSettingsContext = {
   voice: {
-    enabled: false,
-    volume: 0.0,
+    enabled: true,
+    volume: 100,
   },
   music: {
-    enabled: false,
-    volume: 0.0,
+    enabled: true,
+    volume: 100,
   },
-  headUpBeep: {
-    enabled: false,
-    volume: 0.0,
-    when: 0.2,
-  },
-  timerSpeed: 1,
+  headsUpBeep: {
+    enabled: true,
+    volume: 100,
+  }
 };
 
 export const AppSettingsContext = createContext<{
@@ -27,12 +25,10 @@ export const AppSettingsContext = createContext<{
       enabled: boolean;
       volume: number;
     };
-    headUpBeep: {
+    headsUpBeep: {
       enabled: boolean;
       volume: number;
-      when: number;
     };
-    timerSpeed: number;
   };
   setSettings: React.Dispatch<
     React.SetStateAction<{
@@ -44,12 +40,10 @@ export const AppSettingsContext = createContext<{
         enabled: boolean;
         volume: number;
       };
-      headUpBeep: {
+      headsUpBeep: {
         enabled: boolean;
         volume: number;
-        when: number;
       };
-      timerSpeed: number;
     }>
   >;
 } | null>(null);

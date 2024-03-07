@@ -39,6 +39,7 @@ function PlayerControls() {
             <IonButton onClick={advanceWheel}>
               <IonIcon icon={playSkipForward} />
             </IonButton>
+            <IonText>{Math.floor(timerSeconds/60)}:{timerSeconds%60 < 10 ? '0': ''}{timerSeconds%60}</IonText>
           </IonCol>
           {
             wheel?.steps.map((step) => {

@@ -8,7 +8,7 @@ export type Wheel = {
     id: number
     title: string
     description: string
-     steps: Step[]
+    steps: Step[]
     background_audio: WheelAudio[]
 }
 
