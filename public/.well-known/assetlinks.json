@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "android_app", "package_name": "com.coveredministries.prayerwheel",
+               "sha256_cert_fingerprints": ["15:DB:23:6C:1B:F0:6A:C9:BF:FD:E1:6A:D2:ED:19:1F:BF:9B:83:6B:93:5B:9A:CC:61:91:5B:B5:EA:0A:2A:A2"] }
+}]
