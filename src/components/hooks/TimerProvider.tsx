@@ -2,7 +2,7 @@ import React from "react"
 import { createContext } from "react"
 
 export const defaultTimerContext = {
-  timerSeconds: 0
+  timerSeconds: 0,
 }
 
 export const TimerContext = createContext<{
@@ -35,6 +35,7 @@ export function TimerProvider({
 
   const startTimer = () => {
     stopTimer();
+    console.log("starting timer")
     setInternalInterval(setInterval(() => {
       setTimer((last) => {
         if(last.timerSeconds <= 0) {

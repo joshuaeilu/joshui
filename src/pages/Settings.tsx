@@ -67,7 +67,7 @@ const Settings: React.FC = () => {
                   ...settings,
                   voice: {
                     ...settings.voice,
-                    volume: e.detail.value! as unknown as number,
+                    volume: e.detail.value! as number,
                   },
                 })
               }}
@@ -96,7 +96,7 @@ const Settings: React.FC = () => {
                   ...settings,
                   music: {
                     ...settings.music,
-                    volume: e.detail.value! as unknown as number,
+                    volume: e.detail.value! as number,
                   },
                 })
               }}
@@ -105,43 +105,28 @@ const Settings: React.FC = () => {
         </IonCard>
         <IonCard>
           <IonCardHeader>
-            <IonCardTitle>Head-Up Beep</IonCardTitle>
+            <IonCardTitle>Heads-Up Beep</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
             <IonButton onClick={() => {
               setSettings({
                 ...settings,
-                headUpBeep: {
-                  ...settings.headUpBeep,
-                  enabled: !settings.headUpBeep.enabled,
+                headsUpBeep: {
+                  ...settings.headsUpBeep,
+                  enabled: !settings.headsUpBeep.enabled,
                 },
               });
             }} >
-              {settings.headUpBeep.enabled ? "Disable" : "Enable"}
+              {settings.headsUpBeep.enabled ? "Disable" : "Enable"}
             </IonButton>
             <IonRange
               onIonInput={(e) => {
                 setSettings({
                   ...settings,
-                  headUpBeep: {
-                    ...settings.headUpBeep,
-                    volume: e.detail.value! as unknown as number,
+                  headsUpBeep: {
+                    ...settings.headsUpBeep,
+                    volume: e.detail.value! as number,
                   },
-                })
-              }}
-            />
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Timer Speed</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonRange 
-              onIonInput={(e) => {
-                setSettings({
-                  ...settings,
-                  timerSpeed: e.detail.value! as unknown as number,
                 })
               }}
             />
