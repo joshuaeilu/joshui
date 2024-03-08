@@ -76,7 +76,7 @@ export function PlayerStateProvider({
     if(wheel.steps[newPS.curStpIdx].override_song != null) {
       bgAudio.src = wheel.steps[newPS.curStpIdx].override_song;
     } else {
-      bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
+      bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
     }
     bgAudio.load()
     
@@ -86,10 +86,10 @@ export function PlayerStateProvider({
       if(!settings.shufflePlaylists) {
         if(nextAudio == null) {
           newPS.currentBgAudioIdx = 0;
-          nextAudio = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
+          nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
         }
       } else {
-        nextAudio = wheel.background_audio[Math.floor(Math.random()*wheel.background_audio.length)].audio_url;
+        nextAudio = wheel.background_audio[Math.floor(Math.random()*wheel.background_audio.length)]?.audio_url;
       }
       bgAudio.src = nextAudio;
       bgAudio.load();
