@@ -46,7 +46,7 @@ const SavedWheels: React.FC = () => {
               })
             }
           </IonList>}
-          {wheels.length == 0 && <>No wheels saved!</>}
+          {wheels.length == 0 && <>{"Loading... Do you have any wheels saved?"}</>}
         </IonContent>
         <PlayerControls />
       </IonPage>

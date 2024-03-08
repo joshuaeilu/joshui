@@ -69,7 +69,7 @@ export function PlayerStateProvider({
 
   function setActiveWheel(wheel: Wheel) {
     const newPS = {...playerState, wheel};
-    newPS.currentBgAudioIdx = 0;
+    newPS.currentBgAudioIdx = Math.floor(Math.random()*wheel.background_audio.length);
     newPS.curStpIdx = 0;
 
     const bgAudio = newPS.backgroundAudio;
@@ -83,6 +83,7 @@ export function PlayerStateProvider({
     bgAudio.onended = () => {
       newPS.currentBgAudioIdx += 1;
       let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
+      console.log(settings.shufflePlaylists)
       if(!settings.shufflePlaylists) {
         if(nextAudio == null) {
           newPS.currentBgAudioIdx = 0;
