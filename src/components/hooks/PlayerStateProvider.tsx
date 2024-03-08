@@ -51,21 +51,21 @@ export function PlayerStateProvider({
   React.useEffect(() => {
     if(!paused) {
       if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9 && settings.headsUpBeep.enabled) {
-        const headsUpBeep = new Audio(singleBeepMP3);
-        headsUpBeep.volume = settings.headsUpBeep.volume/100;
-        headsUpBeep.play();
+        const singleBeep = new Audio(singleBeepMP3);
+        singleBeep.volume = settings.headsUpBeep.volume/100;
+        singleBeep.play();
       }
 
       if(timerSeconds - 5 == 0 && settings.headsUpBeep.enabled) {
-        const wheelComplete = new Audio(headsUpMP3)
-        wheelComplete.volume = settings.headsUpBeep.volume/100;
-        wheelComplete.play();
+        const headsUp = new Audio(headsUpMP3)
+        headsUp.volume = settings.headsUpBeep.volume/100;
+        headsUp.play();
       }
     }
     if(timerSeconds <= 0) {
       advanceWheel();
     }
-  }, [timerContext.timer, settings, paused]);
+  }, [timerContext.timer, paused]);
 
   function setActiveWheel(wheel: Wheel) {
     const newPS = {...playerState, wheel};
@@ -117,6 +117,8 @@ export function PlayerStateProvider({
       console.log("Audio failed to play.")
     }
 
+    newPS.backgroundAudio.volume = settings.music.volume/100;
+    newPS.foregroundAudio.volume = settings.music.volume/100;
     newPS.backgroundAudio.play().catch(audioFailFunc);
     newPS.foregroundAudio.play().catch(audioFailFunc);
     startTimer();

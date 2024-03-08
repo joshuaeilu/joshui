@@ -57,6 +57,17 @@ export function AppSettingsProvider({
   children: React.ReactNode;
 }) {
   const [settings, setSettings] = React.useState(defaultAppSettingsContext);
+  const [loaded, setLoaded] = React.useState(false);
+
+  const savedSettings = window.localStorage.getItem("pw-settings")
+  if(savedSettings != null && !loaded) {
+    setLoaded(true)
+    setSettings(JSON.parse(savedSettings));
+  }
+
+  React.useEffect(() => {
+    window.localStorage.setItem("pw-settings", JSON.stringify(settings));
+  }, [settings])
 
   return (
     <AppSettingsContext.Provider value={{ settings, setSettings }}>

@@ -35,7 +35,6 @@ export function TimerProvider({
 
   const startTimer = () => {
     stopTimer();
-    console.log("starting timer")
     setInternalInterval(setInterval(() => {
       setTimer((last) => {
         if(last.timerSeconds <= 0) {
