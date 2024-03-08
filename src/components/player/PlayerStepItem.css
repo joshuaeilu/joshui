@@ -5,3 +5,13 @@
   width: 150px;
   height: 70px;
 }
+
+.playerstepitem.active {
+  background-color: var(--ion-color-primary);
+}
+
+.playerstepitem.active ion-text {
+  color: var(--ion-color-dark);
+}
+
+
