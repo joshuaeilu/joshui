@@ -14,7 +14,6 @@ import {
   IonToggle,
   IonToolbar,
 } from "@ionic/react";
-import "./Settings.css";
 import { useContext } from "react";
 import { AppSettingsContext } from "../components/hooks/AppSettingsContext";
 import PlayerControls from "../components/PlayerControls";

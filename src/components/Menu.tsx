@@ -9,11 +9,17 @@ import {
   IonItem,
   IonRow
 } from '@ionic/react'
-import { cogOutline, speedometerOutline } from 'ionicons/icons';
+import { cogOutline, documentTextOutline, speedometerOutline } from 'ionicons/icons';
 import './Menu.css'
 import logo from '../assets/logo.png'
 
 const appPages = [
+  {
+    title: 'Saved Wheels',
+    url: '/saved',
+    iosIcon: documentTextOutline,
+    mdIcon: documentTextOutline
+  },
   {
     title: 'Wheels',
     url: '/wheellist',

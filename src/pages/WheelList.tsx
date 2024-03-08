@@ -1,5 +1,4 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import './WheelList.css';
 import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
 import { Wheel } from '../Types';

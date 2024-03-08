@@ -11,6 +11,8 @@ import WheelList from './pages/WheelList';
 import Settings from './pages/Settings';
 import WheelView from './pages/WheelView';
 import UserProfile from './pages/UserProfile'
+import Menu from './components/Menu';
+import SavedWheels from './pages/SavedWheels';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -30,7 +32,6 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import Menu from './components/Menu';
 
 setupIonicReact();
 
@@ -42,6 +43,9 @@ const App: React.FC = () => (
           <Menu />
         </IonMenu>
         <IonRouterOutlet id="main-content">
+          <Route exact path="/saved">
+            <SavedWheels />
+          </Route>
           <Route exact path="/wheellist">
             <WheelList />
           </Route>

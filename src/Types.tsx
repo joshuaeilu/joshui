@@ -29,3 +29,7 @@ export type WheelAudio = {
     wheel: Wheel
     audio_url: string
 }
+
+export type SavedWheelsModel = {
+    wheel_ids: number[]
+}
