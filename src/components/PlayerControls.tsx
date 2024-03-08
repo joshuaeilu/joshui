@@ -1,4 +1,4 @@
-import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import './PlayerControls.css';
 import { useContext } from 'react';
 import { PlayerStateContext } from './hooks/PlayerStateProvider';
@@ -23,7 +23,7 @@ function PlayerControls() {
   let timerSeconds = timerContext.timer.timerSeconds
 
   return (
-    <IonFooter>
+    <IonFooter className="playerfooter">
       <IonToolbar>
         <IonRow>
           <IonCol size="auto">

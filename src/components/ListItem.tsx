@@ -1,16 +1,20 @@
 import "./ListItem.css";
-import { IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
 
 function ListItem({name, content, url}: {name: string, content: string, url?: string}) {
   const item =
-    <IonToolbar>
-      <IonTitle class="listitemtitle ion-padding">{name}</IonTitle>
-      <IonText class="listitemtext">{content}</IonText>
-    </IonToolbar>
+    <IonCard>
+      <IonCardHeader class="listitemheader">
+        <IonTitle>{name}</IonTitle>
+      </IonCardHeader>
+      <IonCardContent>
+        <IonText class="listitemtext">{content}</IonText>
+      </IonCardContent>
+    </IonCard>
 
   if(url != null) {
     return (
-      <IonRouterLink routerLink={url} routerDirection="none">
+      <IonRouterLink routerLink={url} routerDirection="none" className="pw-listitem">
         {item}
       </IonRouterLink>
     )

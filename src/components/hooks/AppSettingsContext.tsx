@@ -12,7 +12,8 @@ export const defaultAppSettingsContext = {
   headsUpBeep: {
     enabled: true,
     volume: 100,
-  }
+  },
+  shufflePlaylists: true
 };
 
 export const AppSettingsContext = createContext<{
@@ -29,6 +30,7 @@ export const AppSettingsContext = createContext<{
       enabled: boolean;
       volume: number;
     };
+    shufflePlaylists: boolean;
   };
   setSettings: React.Dispatch<
     React.SetStateAction<{
@@ -44,6 +46,7 @@ export const AppSettingsContext = createContext<{
         enabled: boolean;
         volume: number;
       };
+      shufflePlaylists: boolean;
     }>
   >;
 } | null>(null);

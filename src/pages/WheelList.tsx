@@ -17,8 +17,6 @@ const WheelList: React.FC = () => {
       setWheels(await response.json())
   }
 
-  if (wheels.length == 0) return <>Loading...</>
-
   return (
     <>
       <IonPage>
@@ -31,7 +29,7 @@ const WheelList: React.FC = () => {
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
-          <IonList lines="none" className="wheellist">
+          {wheels.length != 0 && <IonList lines="none" className="wheellist">
             {
               wheels.map((data) => {
                 return (
@@ -39,7 +37,8 @@ const WheelList: React.FC = () => {
                 )
               })
             }
-          </IonList>
+          </IonList>}
+          {wheels.length == 0 && <>Loading...</>}
         </IonContent>
         <PlayerControls />
       </IonPage>
