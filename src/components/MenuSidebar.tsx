@@ -11,6 +11,7 @@ import {
 } from '@ionic/react'
 import { cogOutline, speedometerOutline } from 'ionicons/icons';
 import './MenuSidebar.css'
+import logo from '../assets/logo.png'
 
 const appPages = [
   {
@@ -33,7 +34,7 @@ function MenuSidebar() {
       <IonHeader>
         <IonToolbar>
           <IonRow>
-            <img src="http://localhost/assets/logo.png" />
+            <img src={logo} />
             <IonTitle>Prayer Wheels</IonTitle>
           </IonRow>
         </IonToolbar>

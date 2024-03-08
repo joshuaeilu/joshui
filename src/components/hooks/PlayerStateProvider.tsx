@@ -3,6 +3,9 @@ import { Wheel } from "../../Types";
 import React from "react";
 import { TimerContext } from "./TimerProvider";
 import { AppSettingsContext } from "./AppSettingsContext";
+import singleBeepMP3 from '../../assets/single_beep.mp3';
+import headsUpMP3 from '../../assets/heads_up.mp3';
+import wheelCompleteMP3 from '../../assets/wheel_complete.mp3';
 
 export type PlayerState = {
   wheel: Wheel | null;
@@ -48,13 +51,13 @@ export function PlayerStateProvider({
   React.useEffect(() => {
     if(!paused) {
       if(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100000000)/2000 == 0 && settings.headsUpBeep.enabled) {
-        const headsUpBeep = new Audio("src/assets/single_beep.mp3");
+        const headsUpBeep = new Audio(singleBeepMP3);
         headsUpBeep.volume = settings.headsUpBeep.volume/100;
         headsUpBeep.play();
       }
 
       if(timerSeconds - 5 == 0 && settings.headsUpBeep.enabled) {
-        const wheelComplete = new Audio("src/assets/heads_up.mp3")
+        const wheelComplete = new Audio(headsUpMP3)
         wheelComplete.volume = settings.headsUpBeep.volume/100;
         wheelComplete.play();
       }
@@ -142,7 +145,7 @@ export function PlayerStateProvider({
       newPS.wheel = null;
       newPS.foregroundAudio.pause();
       newPS.backgroundAudio.pause();
-      const wheelComplete = new Audio("src/assets/wheel_complete.mp3")
+      const wheelComplete = new Audio(wheelCompleteMP3)
       wheelComplete.volume = settings.headsUpBeep.volume/100;
       wheelComplete.play()
       setTimerSecs(0)
