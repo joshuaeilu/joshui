@@ -37,7 +37,7 @@ const SavedWheels: React.FC = () => {
             {
               wheels.map((data) => {
                 return (
-                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} url={`/wheel/${data.id}`} />
+                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} length={data.wheel_time} url={`/wheel/${data.id}`} />
                 )
               })
             }
