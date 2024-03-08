@@ -44,7 +44,7 @@ function ListItem({name, content, length = 0, url}: {name: string, content: stri
           </IonRow>
       </IonGrid>
       </IonCardHeader>
-      <IonCardContent>
+      <IonCardContent style={{ paddingTop: '16px', paddingBottom: '16px' }}>
         <IonText class="listitemtext">{content}</IonText>
       </IonCardContent>
     </IonCard>
