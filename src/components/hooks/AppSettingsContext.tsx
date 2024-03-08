@@ -13,7 +13,7 @@ export const defaultAppSettingsContext = {
     enabled: true,
     volume: 100,
   },
-  shufflePlaylists: true
+  shufflePlaylists: false
 };
 
 export const AppSettingsContext = createContext<{
