@@ -2,7 +2,7 @@ import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, Ion
 import './WheelList.css';
 import { useEffect, useState } from 'react';
 import ListItem from '../components/ListItem';
-import { User, Wheel } from '../Types';
+import { User } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { useParams } from 'react-router';
