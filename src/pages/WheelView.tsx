@@ -1,5 +1,4 @@
 import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import './WheelView.css';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
