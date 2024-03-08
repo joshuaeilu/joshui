@@ -54,7 +54,7 @@ const WheelView: React.FC = () => {
             {
               wheel.steps.map((step) => {
                 return (
-                  <ListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} />
+                  <ListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
                 )
               })
             }

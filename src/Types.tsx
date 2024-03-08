@@ -10,6 +10,7 @@ export type Wheel = {
     description: string
     steps: Step[]
     background_audio: WheelAudio[]
+    wheel_time: number
 }
 
 export type Step = {

@@ -32,8 +32,11 @@ const WheelList: React.FC = () => {
           {wheels.length != 0 && <IonList lines="none" className="wheellist">
             {
               wheels.map((data) => {
+                const totalTime = data.steps.reduce(
+                  (accumulator, currentValue) => accumulator + currentValue.length, 0
+                )
                 return (
-                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} url={`/wheel/${data.id}`} />
+                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} length={totalTime} url={`/wheel/${data.id}`} />
                 )
               })
             }
