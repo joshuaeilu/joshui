@@ -132,6 +132,21 @@ const Settings: React.FC = () => {
             />
           </IonCardContent>
         </IonCard>
+        <IonCard>
+          <IonCardHeader>
+            <IonCardTitle>Shuffle Music</IonCardTitle>
+          </IonCardHeader>
+          <IonCardContent>
+            <IonButton onClick={() => {
+              setSettings({
+                ...settings,
+                shufflePlaylists: !settings.shufflePlaylists,
+              });
+            }} >
+              {settings.shufflePlaylists ? "Disable" : "Enable"}
+            </IonButton>
+          </IonCardContent>
+        </IonCard>
       </IonContent>
       <PlayerControls />
     </IonPage>

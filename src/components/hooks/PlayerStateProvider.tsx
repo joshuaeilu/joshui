@@ -50,7 +50,7 @@ export function PlayerStateProvider({
 
   React.useEffect(() => {
     if(!paused) {
-      if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length) ?? 100000000)/2000 <= 0.9 && settings.headsUpBeep.enabled) {
+      if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9 && settings.headsUpBeep.enabled) {
         const headsUpBeep = new Audio(singleBeepMP3);
         headsUpBeep.volume = settings.headsUpBeep.volume/100;
         headsUpBeep.play();
@@ -83,9 +83,13 @@ export function PlayerStateProvider({
     bgAudio.onended = () => {
       newPS.currentBgAudioIdx += 1;
       let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
-      if(nextAudio == null) {
-        newPS.currentBgAudioIdx = 0;
-        nextAudio = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
+      if(!settings.shufflePlaylists) {
+        if(nextAudio == null) {
+          newPS.currentBgAudioIdx = 0;
+          nextAudio = wheel.background_audio[newPS.currentBgAudioIdx].audio_url;
+        }
+      } else {
+        nextAudio = wheel.background_audio[Math.floor(Math.random()*wheel.background_audio.length)].audio_url;
       }
       bgAudio.src = nextAudio;
       bgAudio.load();
