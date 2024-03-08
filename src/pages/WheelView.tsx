@@ -72,10 +72,16 @@ function saveWheel(wheel: Wheel) {
   const wheelsJSON = window.localStorage.getItem("pw-saved")
   let savedWheels: SavedWheelsModel;
   if(wheelsJSON == null) {
-    savedWheels = { wheel_ids: [wheel.id] } 
+    savedWheels = { wheel_ids: [wheel.id] }
   } else {
     savedWheels = JSON.parse(wheelsJSON);
-    savedWheels.wheel_ids.push(wheel.id);
+    if (savedWheels.wheel_ids.includes(wheel.id)) {
+      savedWheels.wheel_ids.forEach((element, index) => {
+        if (element == wheel.id) savedWheels.wheel_ids.splice(index, 1)
+      });
+    } else {
+      savedWheels.wheel_ids.push(wheel.id);
+    }
   }
   window.localStorage.setItem("pw-saved", JSON.stringify(savedWheels))
 }

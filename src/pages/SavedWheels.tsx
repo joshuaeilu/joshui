@@ -10,8 +10,9 @@ const SavedWheels: React.FC = () => {
 
   useEffect(() => { getWheels() }, [])
 
+  const savedWheels: SavedWheelsModel = JSON.parse((window.localStorage.getItem("pw-saved") ?? "{\"wheel_ids\": []}"));
+
   const getWheels = async () => {
-    const savedWheels: SavedWheelsModel = JSON.parse((window.localStorage.getItem("pw-saved") ?? "{\"wheel_ids\": []}"));
     let wheels: Wheel[] = [];
     for(const id of savedWheels.wheel_ids) {
       const response = await fetch(`${API_URL}/wheels/${id}`)
@@ -48,6 +49,6 @@ const SavedWheels: React.FC = () => {
       </IonPage>
     </>
   );
-}
+};
 
 export default SavedWheels;
