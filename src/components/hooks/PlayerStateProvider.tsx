@@ -49,14 +49,14 @@ export function PlayerStateProvider({
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
 
   React.useEffect(() => {
-    if(!paused) {
-      if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9 && settings.headsUpBeep.enabled) {
+    if(!paused && settings.headsUpBeep.enabled) {
+      if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9) {
         const singleBeep = new Audio(singleBeepMP3);
         singleBeep.volume = settings.headsUpBeep.volume/100;
         singleBeep.play();
       }
 
-      if(timerSeconds - 5 == 0 && settings.headsUpBeep.enabled) {
+      if(timerSeconds - 5 == 0) {
         const headsUp = new Audio(headsUpMP3)
         headsUp.volume = settings.headsUpBeep.volume/100;
         headsUp.play();
@@ -119,8 +119,12 @@ export function PlayerStateProvider({
 
     newPS.backgroundAudio.volume = settings.music.volume/100;
     newPS.foregroundAudio.volume = settings.music.volume/100;
-    newPS.backgroundAudio.play().catch(audioFailFunc);
-    newPS.foregroundAudio.play().catch(audioFailFunc);
+    if(settings.music.enabled) {
+      newPS.backgroundAudio.play().catch(audioFailFunc);
+    }
+    if(settings.voice.enabled) {
+      newPS.foregroundAudio.play().catch(audioFailFunc);
+    }
     startTimer();
 
     setPaused(false)
@@ -151,9 +155,11 @@ export function PlayerStateProvider({
       newPS.wheel = null;
       newPS.foregroundAudio.pause();
       newPS.backgroundAudio.pause();
-      const wheelComplete = new Audio(wheelCompleteMP3)
-      wheelComplete.volume = settings.headsUpBeep.volume/100;
-      wheelComplete.play()
+      if(settings.headsUpBeep) {
+        const wheelComplete = new Audio(wheelCompleteMP3)
+        wheelComplete.volume = settings.headsUpBeep.volume/100;
+        wheelComplete.play()
+      }
       setTimerSecs(0)
       setPlayerState(newPS);
       return;
