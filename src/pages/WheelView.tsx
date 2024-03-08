@@ -2,12 +2,12 @@ import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList,
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
-import { Wheel } from '../Types'
+import { SavedWheelsModel, Wheel } from '../Types'
 import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
-import { play } from 'ionicons/icons';
+import { play, save } from 'ionicons/icons';
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
@@ -45,6 +45,9 @@ const WheelView: React.FC = () => {
               <IonButton onClick={() => setActiveWheel(wheel)}>
                 <IonIcon icon={play} />
               </IonButton>
+              <IonButton onClick={() => saveWheel(wheel)}>
+                <IonIcon icon={save} />
+              </IonButton>
             </IonRow>
           </IonToolbar>
         </IonHeader>
@@ -63,6 +66,18 @@ const WheelView: React.FC = () => {
       </IonPage>
     </>
   )
+}
+
+function saveWheel(wheel: Wheel) {
+  const wheelsJSON = window.localStorage.getItem("pw-saved")
+  let savedWheels: SavedWheelsModel;
+  if(wheelsJSON == null) {
+    savedWheels = { wheel_ids: [wheel.id] } 
+  } else {
+    savedWheels = JSON.parse(wheelsJSON);
+    savedWheels.wheel_ids.push(wheel.id);
+  }
+  window.localStorage.setItem("pw-saved", JSON.stringify(savedWheels))
 }
 
 export default WheelView;
