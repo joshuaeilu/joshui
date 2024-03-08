@@ -54,7 +54,7 @@ const App: React.FC = () => (
           <Route exact path="/">
             <Redirect to="/wheellist" />
           </Route>
-          <Route path="/user/:id" >
+          <Route path="/user/:username" >
             <UserProfile />
           </Route>
         </IonRouterOutlet>
