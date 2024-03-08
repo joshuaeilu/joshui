@@ -8,14 +8,14 @@ import PlayerControls from '../components/PlayerControls';
 import { useParams } from 'react-router';
 
 const WheelList: React.FC = () => {
-  let { id } = useParams<{id: string}>();
+  let { username } = useParams<{username: string}>();
 
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => { getUser() }, [])
 
   const getUser = async () => {
-      const response = await fetch(`${API_URL}/users/${id}`)
+      const response = await fetch(`${API_URL}/username/${username}`)
       setUser(await response.json())
   }
 
@@ -29,7 +29,7 @@ const WheelList: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonTitle>{user.username}'s Wheels</IonTitle>
+            <IonTitle>{username}'s Wheels</IonTitle>
           </IonToolbar>
         </IonHeader>
         <IonContent fullscreen={true}>
