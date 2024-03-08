@@ -118,7 +118,7 @@ export function PlayerStateProvider({
     }
 
     newPS.backgroundAudio.volume = settings.music.volume/100;
-    newPS.foregroundAudio.volume = settings.music.volume/100;
+    newPS.foregroundAudio.volume = settings.voice.volume/100;
     if(settings.music.enabled) {
       newPS.backgroundAudio.play().catch(audioFailFunc);
     }
