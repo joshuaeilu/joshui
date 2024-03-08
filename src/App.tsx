@@ -30,7 +30,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
-import MenuSidebar from './components/MenuSidebar';
+import Menu from './components/Menu';
 
 setupIonicReact();
 
@@ -39,7 +39,7 @@ const App: React.FC = () => (
     <IonSplitPane when="md" contentId="main-content">
       <IonReactRouter>
         <IonMenu contentId="main-content">
-          <MenuSidebar />
+          <Menu />
         </IonMenu>
         <IonRouterOutlet id="main-content">
           <Route exact path="/wheellist">
