@@ -11,6 +11,7 @@ import {
   IonPage,
   IonRange,
   IonTitle,
+  IonToggle,
   IonToolbar,
 } from "@ionic/react";
 import "./Settings.css";
@@ -48,7 +49,7 @@ const Settings: React.FC = () => {
             <IonCardTitle>Voice</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonButton
+            <IonToggle
               onClick={() => {
                 setSettings({
                   ...settings,
@@ -59,9 +60,11 @@ const Settings: React.FC = () => {
                 });
               }}
             >
-              {settings.voice.enabled ? "Disable" : "Enable"}
-            </IonButton>
+            Enable
+            </IonToggle>
             <IonRange
+              label="Volume"
+              value={settings.voice.volume}
               onIonInput={(e) => {
                 setSettings({
                   ...settings,
@@ -79,18 +82,22 @@ const Settings: React.FC = () => {
             <IonCardTitle>Music</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonButton onClick={() => {
-              setSettings({
-                ...settings,
-                music: {
-                  ...settings.music,
-                  enabled: !settings.music.enabled,
-                },
-              });
-            }}>
-              {settings.music.enabled ? "Disable" : "Enable"}
-            </IonButton>
+            <IonToggle
+              onClick={() => {
+                setSettings({
+                  ...settings,
+                  music: {
+                    ...settings.music,
+                    enabled: !settings.music.enabled,
+                  },
+                });
+              }}
+            >
+            Enable
+            </IonToggle>
             <IonRange
+              label="Volume"
+              value={settings.music.volume}
               onIonInput={(e) => {
                 setSettings({
                   ...settings,
@@ -108,7 +115,7 @@ const Settings: React.FC = () => {
             <IonCardTitle>Heads-Up Beep</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonButton onClick={() => {
+            <IonToggle onClick={() => {
               setSettings({
                 ...settings,
                 headsUpBeep: {
@@ -117,9 +124,11 @@ const Settings: React.FC = () => {
                 },
               });
             }} >
-              {settings.headsUpBeep.enabled ? "Disable" : "Enable"}
-            </IonButton>
+            Enable
+            </IonToggle>
             <IonRange
+              label="volume"
+              value={settings.headsUpBeep.volume}
               onIonInput={(e) => {
                 setSettings({
                   ...settings,
@@ -137,14 +146,14 @@ const Settings: React.FC = () => {
             <IonCardTitle>Shuffle Music</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonButton onClick={() => {
+            <IonToggle onClick={() => {
               setSettings({
                 ...settings,
                 shufflePlaylists: !settings.shufflePlaylists,
               });
             }} >
-              {settings.shufflePlaylists ? "Disable" : "Enable"}
-            </IonButton>
+            Enable
+            </IonToggle>
           </IonCardContent>
         </IonCard>
       </IonContent>
