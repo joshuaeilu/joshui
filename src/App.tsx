@@ -32,6 +32,7 @@ import '@ionic/react/css/display.css';
 
 /* Theme variables */
 import './theme/variables.css';
+import AppUrlListener from './components/AppUrlListener';
 
 setupIonicReact();
 
@@ -39,6 +40,7 @@ const App: React.FC = () => (
   <IonApp>
     <IonSplitPane when="md" contentId="main-content">
       <IonReactRouter>
+        <AppUrlListener />
         <IonMenu contentId="main-content">
           <Menu />
         </IonMenu>
