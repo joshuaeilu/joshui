@@ -49,7 +49,7 @@ export function PlayerStateProvider({
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
 
   React.useEffect(() => {
-    if(!paused && settings.headsUpBeep.enabled) {
+    if(playerState.wheel != null && !paused && settings.headsUpBeep.enabled) {
       if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9) {
         const singleBeep = new Audio(singleBeepMP3);
         singleBeep.volume = settings.headsUpBeep.volume/100;

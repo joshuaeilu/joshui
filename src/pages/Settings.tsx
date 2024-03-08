@@ -1,5 +1,4 @@
 import {
-  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
@@ -118,9 +117,9 @@ const Settings: React.FC = () => {
             <IonCardTitle>Heads-Up Beep</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonToggle 
-            checked={settings.headsUpBeep.enabled}
-            onClick={() => {
+            <IonToggle
+              checked={settings.headsUpBeep.enabled}
+              onClick={() => {
               setSettings({
                 ...settings,
                 headsUpBeep: {
@@ -151,9 +150,9 @@ const Settings: React.FC = () => {
             <IonCardTitle>Shuffle Music</IonCardTitle>
           </IonCardHeader>
           <IonCardContent>
-            <IonToggle 
-            checked={settings.shufflePlaylists}
-            onClick={() => {
+            <IonToggle
+              checked={settings.shufflePlaylists}
+              onClick={() => {
               setSettings({
                 ...settings,
                 shufflePlaylists: !settings.shufflePlaylists,

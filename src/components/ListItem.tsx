@@ -1,5 +1,4 @@
-import "./ListItem.css";
-import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRouterLink, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonRouterLink, IonRow, IonText, IonTitle } from "@ionic/react";
 
 // Utility function to format milliseconds to hours, minutes, and seconds
 const formatTime = (milliseconds: number): string => {
@@ -23,7 +22,10 @@ function ListItem({name, content, length = 0, url}: {name: string, content: stri
 
   const item =
     <IonCard>
-      <IonCardHeader class="listitemheader">
+      <IonCardHeader style={{
+        backgroundColor: "#4087c2",
+        color: "var(--ion-color-dark)"
+      }}>
         <IonGrid style={{
           width: "100%"
         }}>

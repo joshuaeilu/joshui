@@ -1,5 +1,4 @@
 import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonTitle, IonToolbar } from '@ionic/react';
-import './PlayerControls.css';
 import { useContext } from 'react';
 import { PlayerStateContext } from './hooks/PlayerStateProvider';
 import PlayerStepItem from './player/PlayerStepItem';
@@ -26,12 +25,12 @@ function PlayerControls() {
     <IonFooter>
       <IonToolbar>
         <IonRow style={{
-      maxHeight: 90,
-      height: "100%",
-      overflowY: "hidden",
-      overflowX: "auto",
-      flexWrap: "nowrap"
-    }}>
+          maxHeight: 90,
+          height: "100%",
+          overflowY: "hidden",
+          overflowX: "auto",
+          flexWrap: "nowrap"
+        }}>
           <IonCol size="auto">
             <IonTitle class="ion-text-start">{wheel?.title ?? "No Wheel Selected"}</IonTitle>
             <IonButton onClick={playWheel}>

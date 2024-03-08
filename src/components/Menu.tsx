@@ -10,7 +10,6 @@ import {
   IonRow
 } from '@ionic/react'
 import { cogOutline, documentTextOutline, speedometerOutline } from 'ionicons/icons';
-import './Menu.css'
 import logo from '../assets/logo.png'
 
 const appPages = [
@@ -40,7 +39,7 @@ function Menu() {
       <IonHeader>
         <IonToolbar>
           <IonRow>
-            <img src={logo} />
+            <img src={logo} style={{height: 48}}/>
             <IonTitle>Prayer Wheels</IonTitle>
           </IonRow>
         </IonToolbar>
