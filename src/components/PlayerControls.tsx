@@ -2,7 +2,6 @@ import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonTitle, IonToolbar } f
 import { useContext } from 'react';
 import { PlayerStateContext } from './hooks/PlayerStateProvider';
 import { pause, play, playSkipForward } from 'ionicons/icons';
-import { TimerContext } from './hooks/TimerProvider';
 
 function PlayerControls() {
   const playerStateContext = useContext(PlayerStateContext);
@@ -17,12 +16,6 @@ function PlayerControls() {
   if(wheel == null) {
     return <></>
   }
-
-  let timerContext = useContext(TimerContext);
-
-  if(timerContext == null) return null;
-
-  let timerSeconds = timerContext.timer.timerSeconds
 
   return (
     <IonFooter>
