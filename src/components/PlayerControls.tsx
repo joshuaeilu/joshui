@@ -15,6 +15,10 @@ function PlayerControls() {
   let { playerState, playWheel, pauseWheel, advanceWheel } = playerStateContext;
   let wheel = playerState.wheel;
 
+  if(wheel == null) {
+    return <></>
+  }
+
   let timerContext = useContext(TimerContext);
 
   if(timerContext == null) return null;
