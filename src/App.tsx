@@ -71,4 +71,4 @@ const App: React.FC = () => (
 
 export default App;
 
-export const API_URL = 'https://api-new.prayerwheel.coveredministries.com'
+export const API_URL = 'http://localhost:8000'
