@@ -1,7 +1,6 @@
 import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonTitle, IonToolbar } from '@ionic/react';
 import { useContext } from 'react';
 import { PlayerStateContext } from './hooks/PlayerStateProvider';
-import PlayerStepItem from './player/PlayerStepItem';
 import { pause, play, playSkipForward } from 'ionicons/icons';
 import { TimerContext } from './hooks/TimerProvider';
 
@@ -29,14 +28,20 @@ function PlayerControls() {
     <IonFooter>
       <IonToolbar>
         <IonRow style={{
-          maxHeight: 90,
+          maxHeight: 100,
           height: "100%",
           overflowY: "hidden",
           overflowX: "auto",
           flexWrap: "nowrap"
         }}>
           <IonCol size="auto">
-            <IonTitle class="ion-text-start">{wheel?.title ?? "No Wheel Selected"}</IonTitle>
+            <h4 style={{
+              marginTop: 10,
+              marginLeft: 0
+            }}><b>{wheel?.title ?? "No Wheel Selected"}</b></h4>
+            Part {playerState.curStpIdx+1}/{wheel?.steps.length}: {wheel?.steps[playerState.curStpIdx].head}
+          </IonCol>
+          <IonCol size="auto">
             <IonButton onClick={playWheel}>
               <IonIcon icon={play} />
             </IonButton>
@@ -47,18 +52,6 @@ function PlayerControls() {
               <IonIcon icon={playSkipForward} />
             </IonButton>
           </IonCol>
-          <IonCol size="auto">
-            {wheel && <PlayerStepItem name={wheel?.steps[playerState.curStpIdx].head} seconds={timerSeconds} active={true} />}
-          </IonCol>
-          {
-            wheel?.steps.slice(playerState.curStpIdx+1).map((step) => {
-              return (
-                <IonCol size="auto" key={step.id}> 
-                  <PlayerStepItem name={step.head} seconds={step.length/1000} />
-                </IonCol>
-              )
-            })
-          }
         </IonRow>
       </IonToolbar>
     </IonFooter>

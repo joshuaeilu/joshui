@@ -3,7 +3,9 @@ import { IonCard, IonCardContent, IonText } from "@ionic/react";
 
 const PlayerStepItem = ({name, seconds, active=false}: {name: string, seconds: number, active?: boolean}) => {
   return (
-    <IonCard className={"playerstepitem " + (active ? "active" : "")}>
+    <IonCard className={"playerstepitem " + (active ? "active" : "")} style={{
+      marginTop: 0
+    }}>
       <IonCardContent>
         <IonText>{name}</IonText>
         <br/>
