@@ -7,7 +7,8 @@ import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
-import { play, save } from 'ionicons/icons';
+import { play, save, share } from 'ionicons/icons';
+import ShareModal from '../components/ShareModal';
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
@@ -48,6 +49,10 @@ const WheelView: React.FC = () => {
               <IonButton onClick={() => saveWheel(wheel)}>
                 <IonIcon icon={save} />
               </IonButton>
+              <IonButton id="open-share-modal">
+                <IonIcon icon={share} />
+              </IonButton>
+              <ShareModal wheelId={wheel.id} modaltrigger="open-share-modal"/>
             </IonRow>
           </IonToolbar>
         </IonHeader>
