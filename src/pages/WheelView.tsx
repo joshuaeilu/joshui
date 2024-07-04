@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, useIonModal, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
@@ -8,10 +8,11 @@ import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { play, save, share } from 'ionicons/icons';
-import ShareModal from '../components/ShareModal';
+import { Share } from '@capacitor/share'
 
 const WheelView: React.FC = () => {
   let { id } = useParams<{id: string}>();
+  const [present] = useIonToast();
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
 
@@ -31,6 +32,25 @@ const WheelView: React.FC = () => {
   
   if (wheel == null) return <>Loading...</>
 
+
+  async function shareDialog() {
+    const linkText = API_URL + "/wheel/" + wheel?.id;
+    if((await Share.canShare()).value) {
+      await Share.share({
+        title: "Check out this Prayer Wheel!",
+        url: API_URL + "/wheel/" + wheel?.id,
+        dialogTitle: "Share this Prayer Wheel with friends"
+      })
+    } else {
+      navigator.clipboard.writeText(linkText);
+      present({
+        message: "Copied link to clipboard!",
+        duration: 1500,
+        position: 'bottom'
+      })
+    }
+  }
+
   return (
     <>
       <IonPage>
@@ -49,10 +69,9 @@ const WheelView: React.FC = () => {
               <IonButton onClick={() => saveWheel(wheel)}>
                 <IonIcon icon={save} />
               </IonButton>
-              <IonButton id="open-share-modal">
+              <IonButton onClick={() => shareDialog()}>
                 <IonIcon icon={share} />
               </IonButton>
-              <ShareModal wheelId={wheel.id} modaltrigger="open-share-modal"/>
             </IonRow>
           </IonToolbar>
         </IonHeader>
