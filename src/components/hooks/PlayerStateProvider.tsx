@@ -67,15 +67,15 @@ export function PlayerStateProvider({
     }
   }, [timerContext.timer, paused]);
 
-  function updateVolume() {
+  function updateSettings() {
     const newPS = {...playerState}
-    newPS.backgroundAudio.volume = settings.music.volume/100;
-    newPS.foregroundAudio.volume = settings.music.volume/100;
+    newPS.backgroundAudio.volume = settings.music.enabled ? settings.music.volume/100 : 0;
+    newPS.foregroundAudio.volume = settings.voice.enabled ? settings.voice.volume/100 : 0;
     setPlayerState(newPS)
   }
 
   React.useEffect(() => {
-    updateVolume()
+    updateSettings()
   }, [settingsContext.settings]);
 
   function setActiveWheel(wheel: Wheel) {
@@ -113,6 +113,7 @@ export function PlayerStateProvider({
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
 
+    updateSettings();
 
     playWheel();
     setPaused(false)
@@ -127,14 +128,9 @@ export function PlayerStateProvider({
       console.log("Audio failed to play.")
     }
 
-    newPS.backgroundAudio.volume = settings.music.volume/100;
-    newPS.foregroundAudio.volume = settings.voice.volume/100;
-    if(settings.music.enabled) {
-      newPS.backgroundAudio.play().catch(audioFailFunc);
-    }
-    if(settings.voice.enabled) {
-      newPS.foregroundAudio.play().catch(audioFailFunc);
-    }
+    updateSettings();
+    newPS.backgroundAudio.play().catch(audioFailFunc);
+    newPS.foregroundAudio.play().catch(audioFailFunc);
     startTimer();
 
     setPaused(false)
