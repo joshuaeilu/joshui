@@ -67,6 +67,17 @@ export function PlayerStateProvider({
     }
   }, [timerContext.timer, paused]);
 
+  function updateVolume() {
+    const newPS = {...playerState}
+    newPS.backgroundAudio.volume = settings.music.volume/100;
+    newPS.foregroundAudio.volume = settings.music.volume/100;
+    setPlayerState(newPS)
+  }
+
+  React.useEffect(() => {
+    updateVolume()
+  }, [settingsContext.settings]);
+
   function setActiveWheel(wheel: Wheel) {
     const newPS = {...playerState, wheel};
     newPS.currentBgAudioIdx = Math.floor(Math.random()*wheel.background_audio.length);
@@ -102,8 +113,6 @@ export function PlayerStateProvider({
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
 
-    newPS.backgroundAudio.volume = settings.music.volume/100;
-    newPS.foregroundAudio.volume = settings.music.volume/100;
 
     playWheel();
     setPaused(false)
