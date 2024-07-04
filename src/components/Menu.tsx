@@ -7,13 +7,10 @@ import {
   IonIcon,
   IonLabel,
   IonItem,
-  IonRow,
-  IonInput,
-  IonButton
+  IonRow
 } from '@ionic/react'
 import { cogOutline, documentTextOutline, speedometerOutline } from 'ionicons/icons';
 import logo from '../assets/logo.png'
-import { useHistory } from 'react-router-dom';
 
 const appPages = [
   {
@@ -37,17 +34,6 @@ const appPages = [
 ]
 
 function Menu() {
-  const history = useHistory();
-
-  function processURLInput() {
-    const id = (document.getElementById("pw-id-input") as any).value;
-    console.log((document.getElementById("pw-id-input") as any).value)
-    if(id == null) {
-      return;
-    }
-    history.push('/wheel/' + id)
-  }
-
   return (
     <>
       <IonHeader>
@@ -69,8 +55,6 @@ function Menu() {
             </IonMenuToggle>
           );
         })}
-        <IonInput id="pw-id-input" label="Wheel ID" placeholder="Enter Here" type="number"/>
-        <IonButton onClick={(e) => {{e.preventDefault(); processURLInput()}}}>Navigate</IonButton>
       </IonContent>
     </>
   );
