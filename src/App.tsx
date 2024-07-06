@@ -33,6 +33,8 @@ import '@ionic/react/css/display.css';
 /* Theme variables */
 import './theme/variables.css';
 import AppUrlListener from './components/AppUrlListener';
+import Home from './pages/Home';
+import Support from './pages/Support';
 
 setupIonicReact();
 
@@ -45,6 +47,12 @@ const App: React.FC = () => (
           <Menu />
         </IonMenu>
         <IonRouterOutlet id="main-content">
+          <Route exact path="/">
+            <Redirect to="/homepage" />
+          </Route>
+          <Route exact path="/homepage">
+            <Home />
+          </Route>
           <Route exact path="/saved">
             <SavedWheels />
           </Route>
@@ -56,12 +64,12 @@ const App: React.FC = () => (
           </Route>
           <Route path="/wheel/:id" >
             <WheelView />
-          </Route>  
-          <Route exact path="/">
-            <Redirect to="/wheellist" />
           </Route>
           <Route path="/user/:username" >
             <UserProfile />
+          </Route>
+          <Route exact path="/support">
+            <Support />
           </Route>
         </IonRouterOutlet>
       </IonReactRouter>
@@ -71,5 +79,5 @@ const App: React.FC = () => (
 
 export default App;
 
-export const API_URL = 
+export const API_URL =
   import.meta.env.VITE_API_BASE_URL ?? 'https://api-new.prayerwheel.coveredministries.com'

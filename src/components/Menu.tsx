@@ -6,13 +6,18 @@ import {
   IonMenuToggle,
   IonIcon,
   IonLabel,
-  IonItem,
-  IonRow
+  IonItem
 } from '@ionic/react'
-import { cogOutline, documentTextOutline, speedometerOutline } from 'ionicons/icons';
+import { cogOutline, documentTextOutline, home, information, speedometerOutline } from 'ionicons/icons';
 import logo from '../assets/logo.png'
 
 const appPages = [
+  {
+    title: 'Home',
+    url: '/homepage',
+    iosIcon: home,
+    mdIcon: home
+  },
   {
     title: 'Saved Wheels',
     url: '/saved',
@@ -30,6 +35,12 @@ const appPages = [
     url: '/settings',
     iosIcon: cogOutline,
     mdIcon: cogOutline
+  },
+  {
+    title: 'Support',
+    url: '/support',
+    iosIcon: information,
+    mdIcon: information
   }
 ]
 
@@ -38,10 +49,10 @@ function Menu() {
     <>
       <IonHeader>
         <IonToolbar>
-          <IonRow>
+          <IonItem routerLink="/homepage">
             <img src={logo} style={{height: 48}}/>
             <IonTitle>Prayer Wheels</IonTitle>
-          </IonRow>
+          </IonItem>
         </IonToolbar>
       </IonHeader>
       <IonContent>
