@@ -9,7 +9,8 @@ const Support = () => {
     </IonHeader>
     <IonContent>
       <div style={{ marginLeft: 15 }}>
-        <p>No support.</p>
+        <p>You can reach the Prayer Wheel team at <a href="mailto:test@example.com">test@example.com</a>.</p>
+        <p></p>
       </div>
     </IonContent>
   </IonPage>

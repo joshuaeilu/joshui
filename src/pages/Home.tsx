@@ -1,4 +1,4 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonContent, IonHeader, IonPage, IonRouterLink, IonTitle, IonToolbar } from "@ionic/react";
 
 const Home = () => {
   return <IonPage>
@@ -12,7 +12,9 @@ const Home = () => {
         marginLeft: 15
       }}>
         <h3>Welcome to Prayer Wheels!</h3>
-        <p>This app brings to you the accessibility of a prayer wheel.</p>
+        <p>Prayer Wheels is a project by Covered Ministries to assist in guiding you through long periods of prayer.</p>
+        <p>You can find wheels by either searching the <IonRouterLink routerLink="/wheellist">wheel list tab</IonRouterLink> or by getting a link directly from a author.</p>
+        <p>This app is currently in <b style={{color: "red"}}>alpha</b>.  Please report any issues through the links in <IonRouterLink routerLink="/support">the support tab</IonRouterLink>.</p>
       </div>
     </IonContent>
   </IonPage>
