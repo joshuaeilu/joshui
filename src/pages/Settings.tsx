@@ -1,5 +1,5 @@
 import {
-  IonBackButton,
+  IonButton,
   IonButtons,
   IonCard,
   IonCardContent,
@@ -62,7 +62,7 @@ const Settings: React.FC = () => {
                 });
               }}
             >
-            Enable
+              Enable
             </IonToggle>
             <IonRange
               label="Volume"
@@ -96,7 +96,7 @@ const Settings: React.FC = () => {
                 });
               }}
             >
-            Enable
+              Enable
             </IonToggle>
             <IonRange
               label="Volume"
@@ -121,15 +121,15 @@ const Settings: React.FC = () => {
             <IonToggle
               checked={settings.headsUpBeep.enabled}
               onClick={() => {
-              setSettings({
-                ...settings,
-                headsUpBeep: {
-                  ...settings.headsUpBeep,
-                  enabled: !settings.headsUpBeep.enabled,
-                },
-              });
-            }} >
-            Enable
+                setSettings({
+                  ...settings,
+                  headsUpBeep: {
+                    ...settings.headsUpBeep,
+                    enabled: !settings.headsUpBeep.enabled,
+                  },
+                });
+              }} >
+              Enable
             </IonToggle>
             <IonRange
               label="volume"
@@ -154,14 +154,18 @@ const Settings: React.FC = () => {
             <IonToggle
               checked={settings.shufflePlaylists}
               onClick={() => {
-              setSettings({
-                ...settings,
-                shufflePlaylists: !settings.shufflePlaylists,
-              });
-            }} >
-            Enable
+                setSettings({
+                  ...settings,
+                  shufflePlaylists: !settings.shufflePlaylists,
+                });
+              }} >
+              Enable
             </IonToggle>
           </IonCardContent>
+        </IonCard>
+        <IonCard
+          style={{ padding: 10 }}>
+          <IonButton onClick={() => {history.back()}}>Go Back</IonButton>
         </IonCard>
       </IonContent>
       <PlayerControls />
