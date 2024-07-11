@@ -10,6 +10,7 @@ import {
 } from '@ionic/react'
 import { cogOutline, documentTextOutline, home, information, speedometerOutline } from 'ionicons/icons';
 import logo from '../assets/logo.png'
+import "./Menu.css"
 
 const appPages = [
   {

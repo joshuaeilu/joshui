@@ -1,9 +1,12 @@
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react"
 
 const Support = () => {
   return <IonPage>
     <IonHeader>
       <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
         <IonTitle>Support</IonTitle>
       </IonToolbar>
     </IonHeader>

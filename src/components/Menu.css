@@ -1,0 +1,11 @@
+.split-pane-visible >.split-pane-side {
+  flex-grow: 28;
+}
+.split-pane-visible >.split-pane-main {
+  flex-grow: 72;
+}
+
+.split-pane-visible >.split-pane-side {
+  min-width: 200px; /* Default: 270px */
+  max-width: 304px; /* Same as when menu opens in mobile mode */
+}

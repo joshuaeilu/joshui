@@ -1,9 +1,12 @@
-import { IonContent, IonHeader, IonPage, IonRouterLink, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonContent, IonHeader, IonMenuButton, IonPage, IonRouterLink, IonTitle, IonToolbar } from "@ionic/react";
 
 const Home = () => {
   return <IonPage>
     <IonHeader>
       <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
         <IonTitle>Home</IonTitle>
       </IonToolbar>
     </IonHeader>

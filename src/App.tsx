@@ -43,9 +43,7 @@ const App: React.FC = () => (
     <IonSplitPane when="md" contentId="main-content">
       <IonReactRouter>
         <AppUrlListener />
-        <IonMenu contentId="main-content" style={{
-          maxWidth: 50
-        }}>
+        <IonMenu contentId="main-content">
           <Menu />
         </IonMenu>
         <IonRouterOutlet id="main-content">
