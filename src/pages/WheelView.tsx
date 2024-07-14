@@ -15,7 +15,8 @@ const WheelView: React.FC = () => {
   let { id } = useParams<{ id: string }>();
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
-  const [saved, setSaved] = useState<boolean>(wheelSaved(parseInt(id)))
+  const [saved, setSaved] = useState(wheelSaved(parseInt(id)))
+  const [screenWidth] = useState(window.innerWidth)
 
   useEffect(() => { getWheel() }, [])
 
@@ -32,7 +33,6 @@ const WheelView: React.FC = () => {
   const { setActiveWheel } = playerStateContext;
 
   if (wheel == null) return <>Loading...</>
-
 
   const shareButton = async () => {
     const wheel_url = `${API_URL}/wheels/${id}`
@@ -58,23 +58,26 @@ const WheelView: React.FC = () => {
             <IonButtons slot="start">
               <IonMenuButton />
             </IonButtons>
-            <IonRow>
-              <IonCol size="auto">
-                <IonTitle>{wheel.title}</IonTitle>
-              </IonCol>
+            <IonTitle style={{
+              marginTop: 8
+            }}>{wheel.title}</IonTitle>
+            <IonButtons slot="end">
               <IonButton onClick={() => setActiveWheel(wheel)}>
                 <IonIcon icon={play} />
+                <p className="ion-hide-md-down">&nbsp;Play</p>
               </IonButton>
               <IonButton onClick={() => {
                 saveWheel(wheel)
                 setSaved(wheelSaved(wheel.id))
               }}>
                 {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
+                <p className="ion-hide-md-down">&nbsp;Save</p>
               </IonButton>
               <IonButton onClick={() => shareButton()}>
                 <IonIcon icon={share} />
+                <p className="ion-hide-md-down">&nbsp;Share</p>
               </IonButton>
-            </IonRow>
+            </IonButtons>
           </IonToolbar>
         </IonHeader>
         <IonContent>
