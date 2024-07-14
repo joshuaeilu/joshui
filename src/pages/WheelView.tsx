@@ -7,34 +7,36 @@ import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
-import { play, save, share } from 'ionicons/icons';
+import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 
 const WheelView: React.FC = () => {
-  const [ present ] = useIonToast();
-  let { id } = useParams<{id: string}>();
+  const [present] = useIonToast();
+  let { id } = useParams<{ id: string }>();
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
+  const [saved, setSaved] = useState<boolean>(wheelSaved(parseInt(id)))
 
   useEffect(() => { getWheel() }, [])
 
   const getWheel = async () => {
-      const url = `${API_URL}/wheels/${id}/`
-      const response = await fetch(url)
-      setWheel(await response.json())
+    const url = `${API_URL}/wheels/${id}/`
+    const response = await fetch(url)
+    setWheel(await response.json())
   }
 
   const playerStateContext = useContext(PlayerStateContext);
 
-  if(playerStateContext == null) return null;
+  if (playerStateContext == null) return null;
 
   const { setActiveWheel } = playerStateContext;
-  
+
   if (wheel == null) return <>Loading...</>
+
 
   const shareButton = async () => {
     const wheel_url = `${API_URL}/wheels/${id}`
-    if((await Share.canShare()).value) {
+    if ((await Share.canShare()).value) {
       await Share.share({
         url: wheel_url
       })
@@ -63,8 +65,11 @@ const WheelView: React.FC = () => {
               <IonButton onClick={() => setActiveWheel(wheel)}>
                 <IonIcon icon={play} />
               </IonButton>
-              <IonButton onClick={() => saveWheel(wheel)}>
-                <IonIcon icon={save} />
+              <IonButton onClick={() => {
+                saveWheel(wheel)
+                setSaved(wheelSaved(wheel.id))
+              }}>
+                {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
               </IonButton>
               <IonButton onClick={() => shareButton()}>
                 <IonIcon icon={share} />
@@ -92,7 +97,7 @@ const WheelView: React.FC = () => {
 function saveWheel(wheel: Wheel) {
   const wheelsJSON = window.localStorage.getItem("pw-saved")
   let savedWheels: SavedWheelsModel;
-  if(wheelsJSON == null) {
+  if (wheelsJSON == null) {
     savedWheels = { wheel_ids: [wheel.id] }
   } else {
     savedWheels = JSON.parse(wheelsJSON);
@@ -105,6 +110,14 @@ function saveWheel(wheel: Wheel) {
     }
   }
   window.localStorage.setItem("pw-saved", JSON.stringify(savedWheels))
+}
+
+function wheelSaved(wheelId: number): boolean {
+  const wheelsJSON = window.localStorage.getItem("pw-saved")
+  if (wheelsJSON == null) return false
+
+  const wheels: SavedWheelsModel = JSON.parse(wheelsJSON)
+  return wheels.wheel_ids.includes(wheelId)
 }
 
 export default WheelView;

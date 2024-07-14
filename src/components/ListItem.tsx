@@ -16,9 +16,8 @@ const formatTime = (milliseconds: number): string => {
   return time;
 };
 
-function ListItem({name, content, length = 0, url}: {name: string, content: string, length?: number, url?: string}) {
-
-  const time = (length > 0) ? formatTime(length) : "0sec";    
+function ListItem({ name, content, length = 0, url }: { name: string, content: string, length?: number, url?: string }) {
+  const time = (length > 0) ? formatTime(length) : "0sec";
 
   const item =
     <IonCard>
@@ -42,21 +41,21 @@ function ListItem({name, content, length = 0, url}: {name: string, content: stri
               <IonTitle>{time}</IonTitle>
             </IonCol>
           </IonRow>
-      </IonGrid>
+        </IonGrid>
       </IonCardHeader>
       <IonCardContent style={{ paddingTop: '16px', paddingBottom: '16px' }}>
         <IonText class="listitemtext">{content}</IonText>
       </IonCardContent>
     </IonCard>
 
-  if(url != null) {
+  if (url != null) {
     return (
       <IonRouterLink routerLink={url} routerDirection="none" className="pw-listitem">
         {item}
       </IonRouterLink>
     )
   }
-  
+
   return item;
 }
 
