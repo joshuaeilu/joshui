@@ -4,7 +4,6 @@ import { SavedWheelsModel, Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
 import ListItem from "../components/ListItem"
-import AppUrlListener from "../components/AppUrlListener"
 
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
