@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from '@ionic/react';
+import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
@@ -8,9 +8,10 @@ import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { play, save, share } from 'ionicons/icons';
-import ShareModal from '../components/ShareModal';
+import { Share } from '@capacitor/share';
 
 const WheelView: React.FC = () => {
+  const [ present ] = useIonToast();
   let { id } = useParams<{id: string}>();
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
@@ -31,6 +32,22 @@ const WheelView: React.FC = () => {
   
   if (wheel == null) return <>Loading...</>
 
+  const shareButton = async () => {
+    const wheel_url = `${API_URL}/wheels/${id}`
+    if((await Share.canShare()).value) {
+      await Share.share({
+        url: wheel_url
+      })
+    } else {
+      navigator.clipboard.writeText(wheel_url)
+      present({
+        message: "Link to wheel has been copied to clipboard!  Paste it anywhere with Ctrl-V.",
+        duration: 1500,
+        position: "top"
+      })
+    }
+  }
+
   return (
     <>
       <IonPage>
@@ -49,10 +66,9 @@ const WheelView: React.FC = () => {
               <IonButton onClick={() => saveWheel(wheel)}>
                 <IonIcon icon={save} />
               </IonButton>
-              <IonButton id="open-share-modal">
+              <IonButton onClick={() => shareButton()}>
                 <IonIcon icon={share} />
               </IonButton>
-              <ShareModal wheelId={wheel.id} modaltrigger="open-share-modal"/>
             </IonRow>
           </IonToolbar>
         </IonHeader>
