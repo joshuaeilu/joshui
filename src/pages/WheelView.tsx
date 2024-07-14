@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonCol, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
@@ -16,7 +16,6 @@ const WheelView: React.FC = () => {
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
   const [saved, setSaved] = useState(wheelSaved(parseInt(id)))
-  const [screenWidth] = useState(window.innerWidth)
 
   useEffect(() => { getWheel() }, [])
 
