@@ -1,18 +1,23 @@
-import './PlayerStepItem.css';
-import { IonCard, IonCardContent, IonText } from "@ionic/react";
+import { IonCard, IonCardContent } from "@ionic/react";
 
-const PlayerStepItem = ({name, seconds, active=false}: {name: string, seconds: number, active?: boolean}) => {
+const PlayerStepItem = ({name, seconds, active=false, style}: 
+  {name: string, seconds: number, active?: boolean, style?: {[key: string]: any}}) => {
   return (
-    <IonCard className={"playerstepitem " + (active ? "active" : "")} style={{
-      marginTop: 0
+    <IonCard color={active ? "primary" : "light"} style={{
+      marginTop: 0,
+      ...style
     }}>
       <IonCardContent>
-        <IonText>{name}</IonText>
+        {name}
         <br/>
-        <IonText>{Math.floor(seconds/60)}:{seconds%60 < 10 ? '0': ''}{seconds%60}</IonText>
+        {prettyPrintSeconds(seconds)}
       </IonCardContent>
     </IonCard>
   )
+}
+
+export function prettyPrintSeconds(seconds: number): string {
+  return Math.floor(seconds/60) + ":" + (seconds%60 < 10 ? '0': '') + seconds%60
 }
 
 export default PlayerStepItem;
