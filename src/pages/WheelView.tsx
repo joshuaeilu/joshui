@@ -2,13 +2,14 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenu
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import ListItem from '../components/ListItem';
-import { SavedWheelsModel, Wheel } from '../Types'
+import { Wheel } from '../Types'
 import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
+import { toggleSaveWheel, wheelSaved } from '../SavedWheelHandler';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
@@ -66,7 +67,7 @@ const WheelView: React.FC = () => {
                 <p className="ion-hide-md-down">&nbsp;Play</p>
               </IonButton>
               <IonButton onClick={() => {
-                saveWheel(wheel)
+                toggleSaveWheel(wheel)
                 setSaved(wheelSaved(wheel.id))
               }}>
                 {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
@@ -96,30 +97,6 @@ const WheelView: React.FC = () => {
   )
 }
 
-function saveWheel(wheel: Wheel) {
-  const wheelsJSON = window.localStorage.getItem("pw-saved")
-  let savedWheels: SavedWheelsModel;
-  if (wheelsJSON == null) {
-    savedWheels = { wheel_ids: [wheel.id] }
-  } else {
-    savedWheels = JSON.parse(wheelsJSON);
-    if (savedWheels.wheel_ids.includes(wheel.id)) {
-      savedWheels.wheel_ids.forEach((element, index) => {
-        if (element == wheel.id) savedWheels.wheel_ids.splice(index, 1)
-      });
-    } else {
-      savedWheels.wheel_ids.push(wheel.id);
-    }
-  }
-  window.localStorage.setItem("pw-saved", JSON.stringify(savedWheels))
-}
 
-function wheelSaved(wheelId: number): boolean {
-  const wheelsJSON = window.localStorage.getItem("pw-saved")
-  if (wheelsJSON == null) return false
-
-  const wheels: SavedWheelsModel = JSON.parse(wheelsJSON)
-  return wheels.wheel_ids.includes(wheelId)
-}
 
 export default WheelView;

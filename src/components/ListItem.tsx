@@ -21,10 +21,7 @@ function ListItem({ name, content, length = 0, url }: { name: string, content: s
 
   const item =
     <IonCard>
-      <IonCardHeader style={{
-        backgroundColor: "#4087c2",
-        color: "var(--ion-color-dark)"
-      }}>
+      <IonCardHeader color="primary">
         <IonGrid style={{
           width: "100%"
         }}>

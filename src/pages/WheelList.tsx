@@ -6,14 +6,13 @@ import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 
 const WheelList: React.FC = () => {
-
   const [wheels, setWheels] = useState<Wheel[]>([])
 
   useEffect(() => { getWheels() }, [])
 
   const getWheels = async () => {
-      const response = await fetch(`${API_URL}/wheels/`)
-      setWheels(await response.json())
+    const response = await fetch(`${API_URL}/wheels/`)
+    setWheels(await response.json())
   }
 
   return (

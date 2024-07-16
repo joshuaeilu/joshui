@@ -1,25 +1,38 @@
-import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react"
+import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react"
 import { useEffect, useState } from "react"
-import { SavedWheelsModel, Wheel } from "../Types"
+import { Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
 import ListItem from "../components/ListItem"
+import { getSavedWheels, removeSavedWheel } from "../SavedWheelHandler"
 
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
+  const [present] = useIonToast();
 
-  const savedWheels: SavedWheelsModel = JSON.parse((window.localStorage.getItem("pw-saved") ?? "{\"wheel_ids\": []}"));
+  const savedWheels = getSavedWheels()
 
   useEffect(() => {
-    getWheels() 
+    getWheels()
   }, [savedWheels])
 
   const getWheels = async () => {
-    let wheels: Wheel[] = [];
-    for(const id of savedWheels.wheel_ids) {
+    let wheels: Wheel[] = []
+    for (const id of savedWheels.wheel_ids) {
       const response = await fetch(`${API_URL}/wheels/${id}`)
-      const wheel: Wheel = await response.json()
-      wheels.push(wheel);
+      if (!response.ok) {
+        present({
+          message: `Could not access wheel ${id}.  Error code ${response.status}: ${response.statusText}.`,
+          duration: 5000,
+          position: "top",
+          buttons: [
+            { text: "Remove Wheel From Saved", handler: () => { removeSavedWheel(id) } }
+          ]
+        })
+      } else {
+        const wheel: Wheel = await response.json()
+        wheels.push(wheel);
+      }
     }
     setWheels(wheels)
   }

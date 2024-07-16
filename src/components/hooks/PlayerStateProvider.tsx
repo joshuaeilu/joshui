@@ -94,7 +94,6 @@ export function PlayerStateProvider({
     bgAudio.onended = () => {
       newPS.currentBgAudioIdx += 1;
       let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
-      console.log(settings.shufflePlaylists)
       if(!settings.shufflePlaylists) {
         if(nextAudio == null) {
           newPS.currentBgAudioIdx = 0;

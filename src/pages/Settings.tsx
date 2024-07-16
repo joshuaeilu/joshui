@@ -27,8 +27,6 @@ const Settings: React.FC = () => {
 
   const { settings, setSettings } = appSettingsContext;
 
-  console.log(settings);
-
   return (
     <IonPage>
       <IonHeader>
