@@ -211,7 +211,7 @@ const setUpMediaSession = (wheel: Wheel, currentStep: Step, playHandler: () => v
 
     navigator.mediaSession.setActionHandler("play", playHandler)
     navigator.mediaSession.setActionHandler("pause", playHandler)
-    navigator.mediaSession.setActionHandler("stop", playHandler)
-    navigator.mediaSession.setActionHandler("nexttrack", playHandler)
+    navigator.mediaSession.setActionHandler("stop", pauseHandler)
+    navigator.mediaSession.setActionHandler("nexttrack", skipHandler)
   }
 }
