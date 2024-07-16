@@ -1,5 +1,5 @@
 import { createContext, useContext } from "react";
-import { Wheel } from "../../Types";
+import { Step, Wheel } from "../../Types";
 import React from "react";
 import { TimerContext } from "./TimerProvider";
 import { AppSettingsContext } from "./AppSettingsContext";
@@ -40,7 +40,7 @@ export function PlayerStateProvider({
   const [paused, setPaused] = React.useState(false);
 
   const settingsContext = useContext(AppSettingsContext);
-  if(settingsContext == null) return null;
+  if (settingsContext == null) return null;
   const { settings } = settingsContext;
 
   const timerContext = useContext(TimerContext)!;
@@ -49,28 +49,28 @@ export function PlayerStateProvider({
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
 
   React.useEffect(() => {
-    if(playerState.wheel != null && !paused && settings.headsUpBeep.enabled) {
-      if(Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100)/2000) <= 0.9) {
+    if (playerState.wheel != null && !paused && settings.headsUpBeep.enabled) {
+      if (Math.abs(timerSeconds - (playerState.wheel?.steps[playerState.curStpIdx]?.length ?? 100) / 2000) <= 0.9) {
         const singleBeep = new Audio(singleBeepMP3);
-        singleBeep.volume = settings.headsUpBeep.volume/100;
+        singleBeep.volume = settings.headsUpBeep.volume / 100;
         singleBeep.play();
       }
 
-      if(timerSeconds - 5 == 0) {
+      if (timerSeconds - 5 == 0) {
         const headsUp = new Audio(headsUpMP3)
-        headsUp.volume = settings.headsUpBeep.volume/100;
+        headsUp.volume = settings.headsUpBeep.volume / 100;
         headsUp.play();
       }
     }
-    if(timerSeconds <= 0) {
+    if (timerSeconds <= 0) {
       advanceWheel();
     }
   }, [timerContext.timer, paused]);
 
   function updateSettings() {
-    const newPS = {...playerState}
-    newPS.backgroundAudio.volume = settings.music.enabled ? settings.music.volume/100 : 0;
-    newPS.foregroundAudio.volume = settings.voice.enabled ? settings.voice.volume/100 : 0;
+    const newPS = { ...playerState }
+    newPS.backgroundAudio.volume = settings.music.enabled ? settings.music.volume / 100 : 0;
+    newPS.foregroundAudio.volume = settings.voice.enabled ? settings.voice.volume / 100 : 0;
     setPlayerState(newPS)
   }
 
@@ -79,35 +79,35 @@ export function PlayerStateProvider({
   }, [settingsContext.settings]);
 
   function setActiveWheel(wheel: Wheel) {
-    const newPS = {...playerState, wheel};
-    newPS.currentBgAudioIdx = Math.floor(Math.random()*wheel.background_audio.length);
+    const newPS = { ...playerState, wheel };
+    newPS.currentBgAudioIdx = Math.floor(Math.random() * wheel.background_audio.length);
     newPS.curStpIdx = 0;
 
     const bgAudio = newPS.backgroundAudio;
-    if(wheel.steps[newPS.curStpIdx].override_song != null) {
+    if (wheel.steps[newPS.curStpIdx].override_song != null) {
       bgAudio.src = wheel.steps[newPS.curStpIdx].override_song;
     } else {
       bgAudio.src = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
     }
     bgAudio.load()
-    
+
     bgAudio.onended = () => {
       newPS.currentBgAudioIdx += 1;
       let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
-      if(!settings.shufflePlaylists) {
-        if(nextAudio == null) {
+      if (!settings.shufflePlaylists) {
+        if (nextAudio == null) {
           newPS.currentBgAudioIdx = 0;
           nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
         }
       } else {
-        nextAudio = wheel.background_audio[Math.floor(Math.random()*wheel.background_audio.length)]?.audio_url;
+        nextAudio = wheel.background_audio[Math.floor(Math.random() * wheel.background_audio.length)]?.audio_url;
       }
       bgAudio.src = nextAudio;
       bgAudio.load();
       bgAudio.play();
     }
 
-    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length/1000)
+    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length / 1000)
 
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
@@ -121,7 +121,7 @@ export function PlayerStateProvider({
   }
 
   function playWheel() {
-    const newPS = {...playerState};
+    const newPS = { ...playerState };
 
     const audioFailFunc = () => {
       console.log("Audio failed to play.")
@@ -134,11 +134,15 @@ export function PlayerStateProvider({
 
     setPaused(false)
 
+    if (newPS.wheel) {
+      setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
+    }
+
     setPlayerState(newPS)
   }
 
   function pauseWheel() {
-    const newPS = {...playerState};
+    const newPS = { ...playerState };
 
     newPS.backgroundAudio.pause();
     newPS.foregroundAudio.pause();
@@ -150,19 +154,19 @@ export function PlayerStateProvider({
   }
 
   function advanceWheel() {
-    const newPS = {...playerState};
+    const newPS = { ...playerState };
 
-    if(newPS.wheel == null) return;
+    if (newPS.wheel == null) return;
 
     newPS.curStpIdx += 1;
 
-    if(newPS.curStpIdx >= newPS.wheel.steps.length) {
+    if (newPS.curStpIdx >= newPS.wheel.steps.length) {
       newPS.wheel = null;
       newPS.foregroundAudio.pause();
       newPS.backgroundAudio.pause();
-      if(settings.headsUpBeep) {
+      if (settings.headsUpBeep) {
         const wheelComplete = new Audio(wheelCompleteMP3)
-        wheelComplete.volume = settings.headsUpBeep.volume/100;
+        wheelComplete.volume = settings.headsUpBeep.volume / 100;
         wheelComplete.play()
       }
       setTimerSecs(0)
@@ -170,11 +174,11 @@ export function PlayerStateProvider({
       return;
     }
 
-    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length/1000)
+    setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length / 1000)
 
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
-    if(newPS.wheel.steps[newPS.curStpIdx].override_song != null) {
+    if (newPS.wheel.steps[newPS.curStpIdx].override_song != null) {
       newPS.backgroundAudio.pause()
       newPS.backgroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].override_song;
       newPS.backgroundAudio.load()
@@ -187,8 +191,27 @@ export function PlayerStateProvider({
   }
 
   return (
-    <PlayerStateContext.Provider value={{playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel}}>
+    <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
       {children}
     </PlayerStateContext.Provider>
   )
+}
+
+const wheelMediaMetadata = (wheel: Wheel) => {
+  return {
+    artist: "Prayer Wheel",
+    album: wheel.title,
+    artwork: []
+  }
+}
+
+const setUpMediaSession = (wheel: Wheel, currentStep: Step, playHandler: () => void, pauseHandler: () => void, skipHandler: () => void) => {
+  if ("mediaSession" in navigator) {
+    navigator.mediaSession.metadata = { ...wheelMediaMetadata(wheel), title: currentStep.head }
+
+    navigator.mediaSession.setActionHandler("play", playHandler)
+    navigator.mediaSession.setActionHandler("pause", playHandler)
+    navigator.mediaSession.setActionHandler("stop", playHandler)
+    navigator.mediaSession.setActionHandler("nexttrack", playHandler)
+  }
 }
