@@ -10,7 +10,7 @@ const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [present] = useIonToast();
 
-  const savedWheels = getSavedWheels()
+  const [savedWheels] = useState(getSavedWheels())
 
   useEffect(() => {
     getWheels()
