@@ -1,9 +1,9 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import ListItem from '../components/ListItem';
 import { Wheel } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
+import { WheelListItem } from '../components/ListItem';
 
 const WheelList: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
@@ -34,7 +34,7 @@ const WheelList: React.FC = () => {
                   (accumulator, currentValue) => accumulator + currentValue.length, 0
                 )
                 return (
-                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} length={totalTime} url={`/wheel/${data.id}`} />
+                  <WheelListItem key={wheels.indexOf(data)} wheel={data} length={totalTime} />
                 )
               })
             }

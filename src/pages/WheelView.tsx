@@ -1,7 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import ListItem from '../components/ListItem';
 import { Wheel } from '../Types'
 import { useContext, useEffect, useState } from 'react';
 import { API_URL } from '../App'
@@ -10,6 +9,7 @@ import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 import { toggleSaveWheel, wheelSaved } from '../SavedWheelHandler';
+import { StepListItem } from '../components/ListItem';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
@@ -43,7 +43,7 @@ const WheelView: React.FC = () => {
     } else {
       navigator.clipboard.writeText(wheel_url)
       present({
-        message: "Link to wheel has been copied to clipboard!  Paste it anywhere with Ctrl-V.",
+        message: "Link to wheel has been copied to clipboard!  Paste it anywhere.",
         duration: 1500,
         position: "top"
       })
@@ -85,7 +85,7 @@ const WheelView: React.FC = () => {
             {
               wheel.steps.map((step) => {
                 return (
-                  <ListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
+                  <StepListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
                 )
               })
             }

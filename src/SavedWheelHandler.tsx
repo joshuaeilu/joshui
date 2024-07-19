@@ -4,12 +4,14 @@ export type SavedWheelsModel = {
   wheel_ids: number[]
 }
 
+export const SAVED_WHEELS_LS_KEY = "pw-saved"
+
 export const getSavedWheels: () => SavedWheelsModel = () => {
-  return JSON.parse((window.localStorage.getItem("pw-saved") ?? "{\"wheel_ids\": []}"));
+  return JSON.parse((window.localStorage.getItem(SAVED_WHEELS_LS_KEY) ?? "{\"wheel_ids\": []}"));
 }
 
 const setSavedWheels = (savedWheels: SavedWheelsModel) => {
-  window.localStorage.setItem("pw-saved", JSON.stringify(savedWheels))
+  window.localStorage.setItem(SAVED_WHEELS_LS_KEY, JSON.stringify(savedWheels))
 }
 
 export const addSavedWheel = (id: number) => {

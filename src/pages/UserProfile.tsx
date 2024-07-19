@@ -1,10 +1,10 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import ListItem from '../components/ListItem';
 import { User } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { useParams } from 'react-router';
+import { WheelListItem } from '../components/ListItem';
 
 const WheelList: React.FC = () => {
   let { username } = useParams<{username: string}>();
@@ -36,7 +36,7 @@ const WheelList: React.FC = () => {
             {
               user.wheel_set.map((data) => {
                 return (
-                    <ListItem key={user.wheel_set.indexOf(data)} name={data.title} content={data.description} length={data.wheel_time} url={`/wheel/${data.id}`} />
+                    <WheelListItem key={user.wheel_set.indexOf(data)} wheel={data} length={data.wheel_time} />
                 )
               })
             }

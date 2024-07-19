@@ -3,14 +3,14 @@ import { useEffect, useState } from "react"
 import { Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
-import ListItem from "../components/ListItem"
 import { getSavedWheels, removeSavedWheel } from "../SavedWheelHandler"
+import { WheelListItem } from "../components/ListItem"
 
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [present] = useIonToast();
 
-  const [savedWheels] = useState(getSavedWheels())
+  const savedWheels = getSavedWheels()
 
   useEffect(() => {
     getWheels()
@@ -53,7 +53,7 @@ const SavedWheels: React.FC = () => {
             {
               wheels.map((data) => {
                 return (
-                  <ListItem key={wheels.indexOf(data)} name={data.title} content={data.description} length={data.wheel_time} url={`/wheel/${data.id}`} />
+                  <WheelListItem key={wheels.indexOf(data)} wheel={data} length={data.wheel_time} />
                 )
               })
             }
