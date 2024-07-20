@@ -46,32 +46,28 @@ const appPages = [
 ]
 
 function Menu() {
-  return (
-    <>
-      <IonHeader>
-        <IonToolbar>
-          <IonItem routerLink="/homepage">
-            <img src={logo} style={{height: 48}}/>
-            <IonTitle>Prayer Wheels</IonTitle>
-          </IonItem>
-        </IonToolbar>
-      </IonHeader>
-      <IonContent>
-        {appPages.map((appPage, index) => {
-          return (
-            <IonMenuToggle key={index} autoHide={false}>
-              <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
-                <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
-                <IonLabel>{appPage.title}</IonLabel>
-              </IonItem>
-            </IonMenuToggle>
-          );
-        })}
-      </IonContent>
-    </>
-  );
+  return <>
+    <IonHeader>
+      <IonToolbar>
+        <IonItem routerLink="/homepage">
+          <img src={logo} style={{ height: 48 }} />
+          <IonTitle>Prayer Wheels</IonTitle>
+        </IonItem>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent>
+      {appPages.map((appPage, index) => {
+        return (
+          <IonMenuToggle key={index} autoHide={false}>
+            <IonItem className={location.pathname === appPage.url ? 'selected' : ''} routerLink={appPage.url} routerDirection="none" lines="none" detail={false}>
+              <IonIcon slot="start" ios={appPage.iosIcon} md={appPage.mdIcon} />
+              <IonLabel>{appPage.title}</IonLabel>
+            </IonItem>
+          </IonMenuToggle>
+        );
+      })}
+    </IonContent>
+  </>
 };
-
-
 
 export default Menu;

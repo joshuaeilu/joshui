@@ -38,7 +38,7 @@ import Support from './pages/Support';
 
 setupIonicReact();
 
-const App: React.FC = () => (
+const App = () => (
   <IonApp>
     <IonSplitPane when="md" contentId="main-content">
       <IonReactRouter>

@@ -15,36 +15,32 @@ const WheelList: React.FC = () => {
     setWheels(await response.json())
   }
 
-  return (
-    <>
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>Wheel List</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen={true}>
-          {wheels.length != 0 && <IonList lines="none" className="wheellist">
-            {
-              wheels.map((data) => {
-                const totalTime = data.steps.reduce(
-                  (accumulator, currentValue) => accumulator + currentValue.length, 0
-                )
-                return (
-                  <WheelListItem key={wheels.indexOf(data)} wheel={data} length={totalTime} />
-                )
-              })
-            }
-          </IonList>}
-          {wheels.length == 0 && <>Loading...</>}
-        </IonContent>
-        <PlayerControls />
-      </IonPage>
-    </>
-  );
+  return <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
+        <IonTitle>Wheel List</IonTitle>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent fullscreen={true}>
+      {wheels.length != 0 && <IonList lines="none" className="wheellist">
+        {
+          wheels.map((data) => {
+            const totalTime = data.steps.reduce(
+              (accumulator, currentValue) => accumulator + currentValue.length, 0
+            )
+            return (
+              <WheelListItem key={wheels.indexOf(data)} wheel={data} length={totalTime} />
+            )
+          })
+        }
+      </IonList>}
+      {wheels.length == 0 && <>Loading...</>}
+    </IonContent>
+    <PlayerControls />
+  </IonPage>
 };
 
 export default WheelList;

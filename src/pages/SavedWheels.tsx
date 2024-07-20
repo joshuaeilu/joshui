@@ -38,33 +38,27 @@ const SavedWheels: React.FC = () => {
     setWheels(newWheels)
   }
 
-  return (
-    <>
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>Saved Wheels</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen={true}>
-          {wheels.length != 0 && <IonList lines="none" className="wheellist">
-            {
-              wheels.map((data) => {
-                return (
-                  <WheelListItem key={wheels.indexOf(data)} wheel={data} length={data.wheel_time} />
-                )
-              })
-            }
-          </IonList>}
-          {wheels.length == 0 && <>{"Loading... Do you have any wheels saved?"}</>}
-        </IonContent>
-        <PlayerControls />
-      </IonPage>
-    </>
-  );
+  return <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
+        <IonTitle>Saved Wheels</IonTitle>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent fullscreen={true}>
+      {wheels.length != 0 && <IonList lines="none" className="wheellist">
+        {
+          wheels.map((data) => {
+            return <WheelListItem key={wheels.indexOf(data)} wheel={data} length={data.wheel_time} />
+          })
+        }
+      </IonList>}
+      {wheels.length == 0 && <>{"Loading... Do you have any wheels saved?"}</>}
+    </IonContent>
+    <PlayerControls />
+  </IonPage>
 };
 
 export default SavedWheels;

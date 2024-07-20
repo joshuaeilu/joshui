@@ -53,53 +53,47 @@ const WheelView: React.FC = () => {
     }
   }
 
-  return (
-    <>
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle style={{
-              marginTop: 8
-            }}>{wheel.title}</IonTitle>
-            <IonButtons slot="end">
-              <IonButton onClick={() => setActiveWheel(wheel)}>
-                <IonIcon icon={play} />
-                <p className="ion-hide-md-down">&nbsp;Play</p>
-              </IonButton>
-              <IonButton onClick={() => {
-                savedWheelsContext.toggleSaveWheel(wheel.id)
-                setSaved(savedWheelsContext.wheelSaved(wheel.id))
-              }}>
-                {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
-                <p className="ion-hide-md-down">&nbsp;Save</p>
-              </IonButton>
-              <IonButton onClick={() => shareButton()}>
-                <IonIcon icon={share} />
-                <p className="ion-hide-md-down">&nbsp;Share</p>
-              </IonButton>
-            </IonButtons>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {
-              wheel.steps.map((step) => {
-                return (
-                  <StepListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
-                )
-              })
-            }
-          </IonList>
-        </IonContent>
-        <PlayerControls />
-      </IonPage>
-    </>
-  )
+  return <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
+        <IonTitle style={{
+          marginTop: 8
+        }}>{wheel.title}</IonTitle>
+        <IonButtons slot="end">
+          <IonButton onClick={() => setActiveWheel(wheel)}>
+            <IonIcon icon={play} />
+            <p className="ion-hide-md-down">&nbsp;Play</p>
+          </IonButton>
+          <IonButton onClick={() => {
+            savedWheelsContext.toggleSaveWheel(wheel.id)
+            setSaved(savedWheelsContext.wheelSaved(wheel.id))
+          }}>
+            {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
+            <p className="ion-hide-md-down">&nbsp;Save</p>
+          </IonButton>
+          <IonButton onClick={() => shareButton()}>
+            <IonIcon icon={share} />
+            <p className="ion-hide-md-down">&nbsp;Share</p>
+          </IonButton>
+        </IonButtons>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent>
+      <IonList>
+        {
+          wheel.steps.map((step) => {
+            return (
+              <StepListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
+            )
+          })
+        }
+      </IonList>
+    </IonContent>
+    <PlayerControls />
+  </IonPage>
 }
-
-
 
 export default WheelView;

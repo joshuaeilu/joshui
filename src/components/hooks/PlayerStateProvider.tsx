@@ -31,11 +31,7 @@ export const PlayerStateContext = createContext<{
   advanceWheel: () => void
 } | null>(null);
 
-export function PlayerStateProvider({
-  children
-}: {
-  children: React.ReactNode;
-}) {
+export const PlayerStateProvider = ({ children }: { children: React.ReactNode }) => {
   const [playerState, setPlayerState] = React.useState<PlayerState>(defaultPlayerStateContext);
   const [paused, setPaused] = React.useState(false);
 
@@ -67,7 +63,7 @@ export function PlayerStateProvider({
     }
   }, [timerContext.timer, paused]);
 
-  function updateSettings() {
+  const updateSettings = () => {
     const newPS = { ...playerState }
     newPS.backgroundAudio.volume = settings.music.enabled ? settings.music.volume / 100 : 0;
     newPS.foregroundAudio.volume = settings.voice.enabled ? settings.voice.volume / 100 : 0;
@@ -78,7 +74,7 @@ export function PlayerStateProvider({
     updateSettings()
   }, [settingsContext.settings]);
 
-  function setActiveWheel(wheel: Wheel) {
+  const setActiveWheel = (wheel: Wheel) => {
     const newPS = { ...playerState, wheel };
     newPS.currentBgAudioIdx = Math.floor(Math.random() * wheel.background_audio.length);
     newPS.curStpIdx = 0;
@@ -120,7 +116,7 @@ export function PlayerStateProvider({
     setPlayerState(newPS);
   }
 
-  function playWheel() {
+  const playWheel = () => {
     const newPS = { ...playerState };
 
     const audioFailFunc = () => {
@@ -141,7 +137,7 @@ export function PlayerStateProvider({
     setPlayerState(newPS)
   }
 
-  function pauseWheel() {
+  const pauseWheel = () => {
     const newPS = { ...playerState };
 
     newPS.backgroundAudio.pause();
@@ -153,7 +149,7 @@ export function PlayerStateProvider({
     setPlayerState(newPS)
   }
 
-  function advanceWheel() {
+  const advanceWheel = () => {
     const newPS = { ...playerState };
 
     if (newPS.wheel == null) return;
@@ -190,11 +186,9 @@ export function PlayerStateProvider({
     setPlayerState(newPS)
   }
 
-  return (
-    <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
-      {children}
-    </PlayerStateContext.Provider>
-  )
+  return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
+    {children}
+  </PlayerStateContext.Provider>
 }
 
 const wheelMediaMetadata = (wheel: Wheel) => {

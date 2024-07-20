@@ -1,18 +1,18 @@
-import legacy from '@vitejs/plugin-legacy'
-import react from '@vitejs/plugin-react'
-import { defineConfig } from 'vite'
-import { VitePWA } from 'vite-plugin-pwa'
+import legacy from "@vitejs/plugin-legacy";
+import react from "@vitejs/plugin-react";
+import { defineConfig } from "vite";
+import { VitePWA } from "vite-plugin-pwa";
 
 // https://vitejs.dev/config/
 export default defineConfig({
   plugins: [
     react(),
     legacy(),
-    VitePWA({ registerType: 'autoUpdate', devOptions: { enabled: true } })
+    VitePWA({ registerType: "autoUpdate", devOptions: { enabled: true } }),
   ],
   test: {
     globals: true,
-    environment: 'jsdom',
-    setupFiles: './src/setupTests.ts',
+    environment: "jsdom",
+    setupFiles: "./src/setupTests.ts",
   },
-})
+});

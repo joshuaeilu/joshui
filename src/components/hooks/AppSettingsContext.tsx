@@ -51,16 +51,12 @@ export const AppSettingsContext = createContext<{
   >;
 } | null>(null);
 
-export function AppSettingsProvider({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export const AppSettingsProvider = ({ children }: { children: React.ReactNode }) => {
   const [settings, setSettings] = React.useState(defaultAppSettingsContext);
   const [loaded, setLoaded] = React.useState(false);
 
   const savedSettings = window.localStorage.getItem("pw-settings")
-  if(savedSettings != null && !loaded) {
+  if (savedSettings != null && !loaded) {
     setLoaded(true)
     setSettings(JSON.parse(savedSettings));
   }
@@ -69,9 +65,7 @@ export function AppSettingsProvider({
     window.localStorage.setItem("pw-settings", JSON.stringify(settings));
   }, [settings])
 
-  return (
-    <AppSettingsContext.Provider value={{ settings, setSettings }}>
-      {children}
-    </AppSettingsContext.Provider>
-  );
+  return <AppSettingsContext.Provider value={{ settings, setSettings }}>
+    {children}
+  </AppSettingsContext.Provider>
 }

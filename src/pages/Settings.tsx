@@ -27,148 +27,146 @@ const Settings: React.FC = () => {
 
   const { settings, setSettings } = appSettingsContext;
 
-  return (
-    <IonPage>
-      <IonHeader>
+  return <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
+        <IonTitle>Settings</IonTitle>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent fullscreen={true}>
+      <IonHeader collapse="condense">
         <IonToolbar>
-          <IonButtons slot="start">
-            <IonMenuButton />
-          </IonButtons>
-          <IonTitle>Settings</IonTitle>
+          <IonTitle size="large">Settings</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen={true}>
-        <IonHeader collapse="condense">
-          <IonToolbar>
-            <IonTitle size="large">Settings</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Voice</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonToggle
-              checked={settings.voice.enabled}
-              onClick={() => {
-                setSettings({
-                  ...settings,
-                  voice: {
-                    ...settings.voice,
-                    enabled: !settings.voice.enabled,
-                  },
-                });
-              }}
-            >
-              Enable
-            </IonToggle>
-            <IonRange
-              label="Volume"
-              value={settings.voice.volume}
-              onIonInput={(e) => {
-                setSettings({
-                  ...settings,
-                  voice: {
-                    ...settings.voice,
-                    volume: e.detail.value! as number,
-                  },
-                })
-              }}
-            />
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Music</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonToggle
-              checked={settings.music.enabled}
-              onClick={() => {
-                setSettings({
-                  ...settings,
-                  music: {
-                    ...settings.music,
-                    enabled: !settings.music.enabled,
-                  },
-                });
-              }}
-            >
-              Enable
-            </IonToggle>
-            <IonRange
-              label="Volume"
-              value={settings.music.volume}
-              onIonInput={(e) => {
-                setSettings({
-                  ...settings,
-                  music: {
-                    ...settings.music,
-                    volume: e.detail.value! as number,
-                  },
-                })
-              }}
-            />
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Heads-Up Beep</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonToggle
-              checked={settings.headsUpBeep.enabled}
-              onClick={() => {
-                setSettings({
-                  ...settings,
-                  headsUpBeep: {
-                    ...settings.headsUpBeep,
-                    enabled: !settings.headsUpBeep.enabled,
-                  },
-                });
-              }} >
-              Enable
-            </IonToggle>
-            <IonRange
-              label="volume"
-              value={settings.headsUpBeep.volume}
-              onIonInput={(e) => {
-                setSettings({
-                  ...settings,
-                  headsUpBeep: {
-                    ...settings.headsUpBeep,
-                    volume: e.detail.value! as number,
-                  },
-                })
-              }}
-            />
-          </IonCardContent>
-        </IonCard>
-        <IonCard>
-          <IonCardHeader>
-            <IonCardTitle>Shuffle Music</IonCardTitle>
-          </IonCardHeader>
-          <IonCardContent>
-            <IonToggle
-              checked={settings.shufflePlaylists}
-              onClick={() => {
-                setSettings({
-                  ...settings,
-                  shufflePlaylists: !settings.shufflePlaylists,
-                });
-              }} >
-              Enable
-            </IonToggle>
-          </IonCardContent>
-        </IonCard>
-        <IonCard
-          style={{ padding: 10 }}>
-          <IonButton onClick={() => { history.back() }}>Go Back</IonButton>
-        </IonCard>
-      </IonContent>
-      <PlayerControls />
-    </IonPage>
-  );
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Voice</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonToggle
+            checked={settings.voice.enabled}
+            onClick={() => {
+              setSettings({
+                ...settings,
+                voice: {
+                  ...settings.voice,
+                  enabled: !settings.voice.enabled,
+                },
+              });
+            }}
+          >
+            Enable
+          </IonToggle>
+          <IonRange
+            label="Volume"
+            value={settings.voice.volume}
+            onIonInput={(e) => {
+              setSettings({
+                ...settings,
+                voice: {
+                  ...settings.voice,
+                  volume: e.detail.value! as number,
+                },
+              })
+            }}
+          />
+        </IonCardContent>
+      </IonCard>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Music</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonToggle
+            checked={settings.music.enabled}
+            onClick={() => {
+              setSettings({
+                ...settings,
+                music: {
+                  ...settings.music,
+                  enabled: !settings.music.enabled,
+                },
+              });
+            }}
+          >
+            Enable
+          </IonToggle>
+          <IonRange
+            label="Volume"
+            value={settings.music.volume}
+            onIonInput={(e) => {
+              setSettings({
+                ...settings,
+                music: {
+                  ...settings.music,
+                  volume: e.detail.value! as number,
+                },
+              })
+            }}
+          />
+        </IonCardContent>
+      </IonCard>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Heads-Up Beep</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonToggle
+            checked={settings.headsUpBeep.enabled}
+            onClick={() => {
+              setSettings({
+                ...settings,
+                headsUpBeep: {
+                  ...settings.headsUpBeep,
+                  enabled: !settings.headsUpBeep.enabled,
+                },
+              });
+            }} >
+            Enable
+          </IonToggle>
+          <IonRange
+            label="volume"
+            value={settings.headsUpBeep.volume}
+            onIonInput={(e) => {
+              setSettings({
+                ...settings,
+                headsUpBeep: {
+                  ...settings.headsUpBeep,
+                  volume: e.detail.value! as number,
+                },
+              })
+            }}
+          />
+        </IonCardContent>
+      </IonCard>
+      <IonCard>
+        <IonCardHeader>
+          <IonCardTitle>Shuffle Music</IonCardTitle>
+        </IonCardHeader>
+        <IonCardContent>
+          <IonToggle
+            checked={settings.shufflePlaylists}
+            onClick={() => {
+              setSettings({
+                ...settings,
+                shufflePlaylists: !settings.shufflePlaylists,
+              });
+            }} >
+            Enable
+          </IonToggle>
+        </IonCardContent>
+      </IonCard>
+      <IonCard
+        style={{ padding: 10 }}>
+        <IonButton onClick={() => { history.back() }}>Go Back</IonButton>
+      </IonCard>
+    </IonContent>
+    <PlayerControls />
+  </IonPage>
 };
 
 export default Settings;

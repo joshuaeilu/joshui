@@ -7,45 +7,41 @@ import { useParams } from 'react-router';
 import { WheelListItem } from '../components/ListItem';
 
 const WheelList: React.FC = () => {
-  let { username } = useParams<{username: string}>();
+  let { username } = useParams<{ username: string }>();
 
   const [user, setUser] = useState<User | null>(null)
 
   useEffect(() => { getUser() }, [])
 
   const getUser = async () => {
-      const response = await fetch(`${API_URL}/username/${username}`)
-      setUser(await response.json())
+    const response = await fetch(`${API_URL}/username/${username}`)
+    setUser(await response.json())
   }
 
   if (user == null) return <>Loading...</>
 
-  return (
-    <>
-      <IonPage>
-        <IonHeader>
-          <IonToolbar>
-            <IonButtons slot="start">
-              <IonMenuButton />
-            </IonButtons>
-            <IonTitle>{username}'s Wheels</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent fullscreen={true}>
-          <IonList lines="none" className="wheellist">
-            {
-              user.wheel_set.map((data) => {
-                return (
-                    <WheelListItem key={user.wheel_set.indexOf(data)} wheel={data} length={data.wheel_time} />
-                )
-              })
-            }
-          </IonList>
-        </IonContent>
-        <PlayerControls />
-      </IonPage>
-    </>
-  );
+  return <IonPage>
+    <IonHeader>
+      <IonToolbar>
+        <IonButtons slot="start">
+          <IonMenuButton />
+        </IonButtons>
+        <IonTitle>{username}'s Wheels</IonTitle>
+      </IonToolbar>
+    </IonHeader>
+    <IonContent fullscreen={true}>
+      <IonList lines="none" className="wheellist">
+        {
+          user.wheel_set.map((data) => {
+            return (
+              <WheelListItem key={user.wheel_set.indexOf(data)} wheel={data} length={data.wheel_time} />
+            )
+          })
+        }
+      </IonList>
+    </IonContent>
+    <PlayerControls />
+  </IonPage>
 };
 
 export default WheelList;
