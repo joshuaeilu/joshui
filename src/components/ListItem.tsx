@@ -1,10 +1,9 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRouterLink, IonRow, IonText, IonTitle } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonTitle } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
-import { useEffect, useRef, useState } from "react";
-import { toggleSaveWheel, wheelSaved } from "../SavedWheelHandler";
+import { useContext, useEffect, useState } from "react";
 import { Wheel } from "../Types";
-import { API_URL } from "../App";
 import { useHistory } from "react-router";
+import { SavedWheelsContext } from "./hooks/SavedWheelsProvider";
 
 // Utility function to format milliseconds to hours, minutes, and seconds
 const formatTime = (milliseconds: number): string => {
@@ -25,7 +24,13 @@ const formatTime = (milliseconds: number): string => {
 export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: number }) => {
   const time = (length > 0) ? formatTime(length) : "0sec";
 
-  const [saved, setSaved] = useState(wheelSaved(wheel.id))
+  const savedWheelsContext = useContext(SavedWheelsContext)!
+
+  const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(wheel.id))
+  useEffect(() => {
+    setSaved(savedWheelsContext.wheelSaved(wheel.id))
+  }, [savedWheelsContext.wheelIDs])
+
   const history = useHistory()
 
   return <IonCard>
@@ -60,8 +65,8 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
       </IonButton>
       <IonButton onClick={(e) => {
         e.preventDefault()
-        toggleSaveWheel(wheel)
-        setSaved(wheelSaved(wheel.id))
+        savedWheelsContext.toggleSaveWheel(wheel.id)
+        setSaved(savedWheelsContext.wheelSaved(wheel.id))
       }}>
         {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
         <p className="ion-hide-md-down">&nbsp;Save</p>

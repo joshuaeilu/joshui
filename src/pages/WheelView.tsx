@@ -8,17 +8,20 @@ import PlayerControls from '../components/PlayerControls';
 import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
 import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
-import { toggleSaveWheel, wheelSaved } from '../SavedWheelHandler';
 import { StepListItem } from '../components/ListItem';
+import { SavedWheelsContext } from '../components/hooks/SavedWheelsProvider';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
   let { id } = useParams<{ id: string }>();
 
+  const savedWheelsContext = useContext(SavedWheelsContext)!
+
   const [wheel, setWheel] = useState<Wheel | null>(null)
-  const [saved, setSaved] = useState(wheelSaved(parseInt(id)))
+  const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(parseInt(id)))
 
   useEffect(() => { getWheel() }, [])
+  useEffect(() => { setSaved(savedWheelsContext.wheelSaved(parseInt(id))) }, [savedWheelsContext.wheelIDs])
 
   const getWheel = async () => {
     const url = `${API_URL}/wheels/${id}/`
@@ -67,8 +70,8 @@ const WheelView: React.FC = () => {
                 <p className="ion-hide-md-down">&nbsp;Play</p>
               </IonButton>
               <IonButton onClick={() => {
-                toggleSaveWheel(wheel)
-                setSaved(wheelSaved(wheel.id))
+                savedWheelsContext.toggleSaveWheel(wheel.id)
+                setSaved(savedWheelsContext.wheelSaved(wheel.id))
               }}>
                 {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
                 <p className="ion-hide-md-down">&nbsp;Save</p>

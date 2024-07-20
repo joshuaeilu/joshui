@@ -4,6 +4,7 @@ import App from './App';
 import { AppSettingsProvider } from './components/hooks/AppSettingsContext';
 import { PlayerStateProvider } from './components/hooks/PlayerStateProvider';
 import { TimerProvider } from './components/hooks/TimerProvider';
+import { SavedWheelsProvider } from './components/hooks/SavedWheelsProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -12,7 +13,9 @@ root.render(
     <AppSettingsProvider>
       <TimerProvider>
         <PlayerStateProvider>
-          <App />
+          <SavedWheelsProvider>
+            <App />
+          </SavedWheelsProvider>
         </PlayerStateProvider>
       </TimerProvider>
     </AppSettingsProvider>

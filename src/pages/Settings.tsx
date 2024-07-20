@@ -163,7 +163,7 @@ const Settings: React.FC = () => {
         </IonCard>
         <IonCard
           style={{ padding: 10 }}>
-          <IonButton onClick={() => {history.back()}}>Go Back</IonButton>
+          <IonButton onClick={() => { history.back() }}>Go Back</IonButton>
         </IonCard>
       </IonContent>
       <PlayerControls />

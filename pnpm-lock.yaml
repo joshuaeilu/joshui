@@ -59,9 +59,9 @@ importers:
       react-router-dom:
         specifier: ^5.0.1
         version: 5.3.4(react@18.3.1)
-      vite-plugin-pwa:
-        specifier: ^0.20.0
-        version: 0.20.0(vite@5.3.3(@types/node@20.14.10)(terser@5.31.2))(workbox-build@7.1.1(@types/babel__core@7.20.5))(workbox-window@7.1.0)
+      use-local-storage-state:
+        specifier: ^19.3.1
+        version: 19.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
     devDependencies:
       '@capacitor/cli':
         specifier: ^6.1.0
@@ -114,6 +114,9 @@ importers:
       vite:
         specifier: ^5.3.3
         version: 5.3.3(@types/node@20.14.10)(terser@5.31.2)
+      vite-plugin-pwa:
+        specifier: ^0.20.0
+        version: 0.20.0(vite@5.3.3(@types/node@20.14.10)(terser@5.31.2))(workbox-build@7.1.1(@types/babel__core@7.20.5))(workbox-window@7.1.0)
       vitest:
         specifier: ^2.0.2
         version: 2.0.2(@types/node@20.14.10)(jsdom@24.1.0)(terser@5.31.2)
@@ -3669,6 +3672,13 @@ packages:
 
   url-parse@1.5.10:
     resolution: {integrity: sha512-WypcfiRhfeUP9vvF0j6rw0J3hrWrw6iZv3+22h6iRMJ/8z1Tj6XfLP4DsUix5MhMPnXpiHDoKyoZ/bdCkwBCiQ==}
+
+  use-local-storage-state@19.3.1:
+    resolution: {integrity: sha512-y3Z1dODXvZXZB4qtLDNN8iuXbsYD6TAxz61K58GWB9/yKwrNG9ynI0GzCTHi/Je1rMiyOwMimz0oyFsZn+Kj7Q==}
+    engines: {node: '>=14'}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -8057,6 +8067,11 @@ snapshots:
     dependencies:
       querystringify: 2.2.0
       requires-port: 1.0.0
+
+  use-local-storage-state@19.3.1(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
+    dependencies:
+      react: 18.3.1
+      react-dom: 18.3.1(react@18.3.1)
 
   util-deprecate@1.0.2: {}
 

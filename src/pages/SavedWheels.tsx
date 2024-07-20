@@ -1,24 +1,25 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react"
-import { useEffect, useState } from "react"
+import { useContext, useEffect, useState } from "react"
 import { Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
-import { getSavedWheels, removeSavedWheel } from "../SavedWheelHandler"
 import { WheelListItem } from "../components/ListItem"
+import { SavedWheelsContext } from "../components/hooks/SavedWheelsProvider"
 
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [present] = useIonToast();
 
-  const savedWheels = getSavedWheels()
+  const savedWheelsContext = useContext(SavedWheelsContext)!
+  const savedWheels = savedWheelsContext.wheelIDs
 
   useEffect(() => {
     getWheels()
   }, [savedWheels])
 
   const getWheels = async () => {
-    let wheels: Wheel[] = []
-    for (const id of savedWheels.wheel_ids) {
+    let newWheels: Wheel[] = []
+    for (const id of savedWheels) {
       const response = await fetch(`${API_URL}/wheels/${id}`)
       if (!response.ok) {
         present({
@@ -26,15 +27,15 @@ const SavedWheels: React.FC = () => {
           duration: 5000,
           position: "top",
           buttons: [
-            { text: "Remove Wheel From Saved", handler: () => { removeSavedWheel(id) } }
+            { text: "Remove Wheel From Saved", handler: () => { savedWheelsContext.removeSavedWheel(id) } }
           ]
         })
       } else {
         const wheel: Wheel = await response.json()
-        wheels.push(wheel);
+        newWheels.push(wheel);
       }
     }
-    setWheels(wheels)
+    setWheels(newWheels)
   }
 
   return (
