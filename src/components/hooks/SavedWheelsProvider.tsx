@@ -29,7 +29,6 @@ export const SavedWheelsProvider = ({ children }: { children: React.ReactNode })
   }
 
   const wheelSaved = (wheelID: number) => {
-    console.log(wheelIDs)
     return wheelIDs.includes(wheelID)
   }
 

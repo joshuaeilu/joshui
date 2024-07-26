@@ -120,7 +120,7 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     const newPS = { ...playerState };
 
     const audioFailFunc = () => {
-      console.log("Audio failed to play.")
+      console.error("Audio failed to play.")
     }
 
     updateSettings();
