@@ -1,19 +1,38 @@
-import { IonButtons, IonContent, IonHeader, IonInput, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from '@ionic/react';
-import { useEffect, useState } from 'react';
+import { IonButtons, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonList, IonMenuButton, IonPage, IonRow, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { useEffect, useRef, useState } from 'react';
 import { Wheel } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { WheelListItem } from '../components/ListItem';
+import { search } from 'ionicons/icons';
 
 const WheelList: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [searchTerm, setSearchTerm] = useState("")
+  const [loading, setLoading] = useState(true)
+  const [failed, setFailed] = useState(false)
+  const [present] = useIonToast()
 
   useEffect(() => { getWheels() }, [])
 
   const getWheels = async () => {
-    const response = await fetch(`${API_URL}/wheels/`)
-    setWheels(await response.json())
+    fetch(`${API_URL}/wheels/`).then(response => {
+      if (response.ok) {
+        response.json().then(json => {
+          setWheels(json)
+          setLoading(false)
+        })
+      } else {
+        setFailed(true)
+      }
+    }).catch(() => {
+      present({
+        message: "Ran into an error while fetching wheels.  Please report this via the support page.",
+        duration: 10000,
+        position: "top"
+      })
+      setFailed(true)
+    })
   }
 
   const setFilter = (filter: string) => {
@@ -29,9 +48,11 @@ const WheelList: React.FC = () => {
         <IonTitle>Wheel List</IonTitle>
       </IonToolbar>
     </IonHeader>
-    <IonContent fullscreen={true}>
-      <IonInput className="ion-padding" label="Search" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}/>
-      {wheels.length != 0 && <IonList lines="none" className="wheellist">
+    {!failed ? <IonContent fullscreen={true}>
+      <IonInput className="ion-padding-horizontal" label="Search Wheels" fill="solid" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}>
+        <IonIcon slot="start" icon={search} aria-hidden="true" />
+      </IonInput>
+      {wheels.length != 0 && !loading && <IonList lines="none" className="wheellist">
         {
           wheels.filter((wheel) => wheel.title.includes(searchTerm) || wheel.description.includes(searchTerm)).map((data) => {
             const totalTime = data.steps.reduce(
@@ -43,8 +64,29 @@ const WheelList: React.FC = () => {
           })
         }
       </IonList>}
-      {wheels.length == 0 && <>Loading...</>}
-    </IonContent>
+      {wheels.length == 0 && !loading && <IonGrid>
+        <IonRow className="ion-margin-bottom">
+          <h3 style={{ margin: "auto" }}>No Wheels Available</h3>
+        </IonRow>
+      </IonGrid>}
+      {loading && <IonGrid>
+        <IonRow className="ion-margin-bottom">
+          <h3 style={{ margin: "auto" }}>Loading Wheels, Please Wait</h3>
+        </IonRow>
+        <IonRow>
+          <IonSpinner style={{ margin: "auto" }} />
+        </IonRow>
+      </IonGrid>}
+    </IonContent> : <IonContent>
+      <IonGrid>
+        <IonRow className="ion-margin-vertical">
+          <h3 style={{ margin: "auto" }}>Failed to fetch wheels.</h3>
+        </IonRow>
+        <IonRow>
+          <p style={{margin: "auto"}}>Please refresh the app and contact support if this happens regularly.</p>
+        </IonRow>
+      </IonGrid>
+    </IonContent>}
     <PlayerControls />
   </IonPage>
 };
