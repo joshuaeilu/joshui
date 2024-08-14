@@ -1,8 +1,14 @@
 import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonMenuButton, IonPage, IonRouterLink, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
 import { searchOutline, speedometer } from "ionicons/icons";
+import { useHistory } from "react-router";
 
-const QuickstartCard = ({name, icon}: {name: string, icon: string}) => {
-  return <IonCard className="ion-padding">
+const QuickstartCard = ({name, icon, url}: {name: string, icon: string, url: string}) => {
+  const history = useHistory()
+
+  return <IonCard className="ion-padding" onClick={(e) => {
+    e.preventDefault()
+    history.push(url)
+  }}>
     <IonIcon icon={icon} style={{ fontSize: 64 }}/>
     <h3>{name}</h3>
   </IonCard>
@@ -25,7 +31,7 @@ const Home = () => {
         <p>You can find wheels by either searching the <IonRouterLink routerLink="/wheellist">wheel list tab</IonRouterLink> or by getting a link from a friend.</p>
         <p>This app is currently in <IonText color="danger"><b>alpha</b></IonText>.  Please report any issues through the links in <IonRouterLink routerLink="/support">the support tab</IonRouterLink>.</p>
         <h3>Quick Start</h3>
-        <QuickstartCard name="Find Wheels" icon={searchOutline} />
+        <QuickstartCard name="Find Wheels" icon={searchOutline} url="/wheellist" />
       </IonGrid>
     </IonContent>
   </IonPage>
