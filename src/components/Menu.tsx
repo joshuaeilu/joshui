@@ -8,9 +8,10 @@ import {
   IonLabel,
   IonItem
 } from '@ionic/react'
-import { cogOutline, documentTextOutline, home, information, speedometerOutline } from 'ionicons/icons';
+import { cogOutline, documentTextOutline, home, information, searchOutline, speedometerOutline } from 'ionicons/icons';
 import logo from '../assets/logo.png'
 import "./Menu.css"
+import { useHistory } from 'react-router';
 
 const appPages = [
   {
@@ -26,10 +27,10 @@ const appPages = [
     mdIcon: documentTextOutline
   },
   {
-    title: 'Wheels',
+    title: 'Find Wheels',
     url: '/wheellist',
-    iosIcon: speedometerOutline,
-    mdIcon: speedometerOutline
+    iosIcon: searchOutline,
+    mdIcon: searchOutline
   },
   {
     title: 'Settings',
@@ -46,10 +47,15 @@ const appPages = [
 ]
 
 function Menu() {
+  const history = useHistory()
+
   return <>
     <IonHeader>
       <IonToolbar>
-        <IonItem routerLink="/homepage">
+        <IonItem onClick={(e) => {
+          e.preventDefault()
+          history.push("/homepage")
+        }}>
           <img src={logo} style={{ height: 48 }} />
           <IonTitle>Prayer Wheels</IonTitle>
         </IonItem>
