@@ -108,45 +108,36 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
 
-    updateSettings();
+    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
 
-    playWheel();
-    setPaused(false)
-
-    setPlayerState(newPS);
+    updateSettings()
+    playWheel()
+    setPlayerState(newPS)
   }
 
   const playWheel = () => {
-    const newPS = { ...playerState };
-
     const audioFailFunc = () => {
       console.error("Audio failed to play.")
     }
 
-    updateSettings();
-    newPS.backgroundAudio.play().catch(audioFailFunc);
-    newPS.foregroundAudio.play().catch(audioFailFunc);
-    startTimer();
+    updateSettings()
+    playerState.backgroundAudio.play().catch(audioFailFunc)
+    playerState.foregroundAudio.play().catch(audioFailFunc)
+    startTimer()
 
-    setPaused(false)
-
-    if (newPS.wheel) {
-      setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
+    if(playerState.wheel) {
+      setUpMediaSession(playerState.wheel, playerState.wheel.steps[playerState.curStpIdx], playWheel, pauseWheel, advanceWheel)
     }
 
-    setPlayerState(newPS)
+    setPaused(false)
   }
 
   const pauseWheel = () => {
-    const newPS = { ...playerState };
-
-    newPS.backgroundAudio.pause();
-    newPS.foregroundAudio.pause();
+    playerState.backgroundAudio.pause();
+    playerState.foregroundAudio.pause();
     stopTimer();
 
     setPaused(true)
-
-    setPlayerState(newPS)
   }
 
   const advanceWheel = () => {
@@ -183,6 +174,8 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
 
     setPaused(false)
 
+    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
+
     setPlayerState(newPS)
   }
 
@@ -191,17 +184,18 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
   </PlayerStateContext.Provider>
 }
 
-const wheelMediaMetadata = (wheel: Wheel) => {
+const wheelMediaMetadata = (wheel: Wheel, currentStep: Step) => {
   return {
-    artist: "Prayer Wheel",
+    title: currentStep.head,
+    artist: wheel.title,
     album: wheel.title,
-    artwork: []
+    artwork: [] // To be implemented with icons when those are implemented
   }
 }
 
 const setUpMediaSession = (wheel: Wheel, currentStep: Step, playHandler: () => void, pauseHandler: () => void, skipHandler: () => void) => {
   if ("mediaSession" in navigator) {
-    navigator.mediaSession.metadata = { ...wheelMediaMetadata(wheel), title: currentStep.head }
+    navigator.mediaSession.metadata = new MediaMetadata({ ...wheelMediaMetadata(wheel, currentStep), title: currentStep.head })
 
     navigator.mediaSession.setActionHandler("play", playHandler)
     navigator.mediaSession.setActionHandler("pause", playHandler)

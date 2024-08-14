@@ -1,5 +1,5 @@
-import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonItem, IonMenuButton, IonPage, IonRouterLink, IonRow, IonText, IonTitle, IonToolbar } from "@ionic/react";
-import { searchOutline, speedometer, speedometerOutline } from "ionicons/icons";
+import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
+import { searchOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 const QuickstartCard = ({name, icon, url}: {name: string, icon: string, url: string}) => {
