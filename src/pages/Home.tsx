@@ -1,5 +1,5 @@
 import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonRouterLink, IonText, IonTitle, IonToolbar } from "@ionic/react";
-import { searchOutline } from "ionicons/icons";
+import { cogOutline, searchOutline } from "ionicons/icons";
 import { useHistory } from "react-router";
 
 const QuickstartCard = ({name, icon, url}: {name: string, icon: string, url: string}) => {
@@ -32,6 +32,7 @@ const Home = () => {
         <p>This app is currently in <IonText color="danger"><b>alpha</b></IonText>.  Please report any issues through the links in the <IonRouterLink routerLink="/support">Support</IonRouterLink> tab.</p>
         <h3>Quick Start</h3>
         <QuickstartCard name="Find Wheels" icon={searchOutline} url="/wheellist" />
+        <QuickstartCard name="Settings" icon={cogOutline} url="/settings" />
       </IonGrid>
     </IonContent>
   </IonPage>
