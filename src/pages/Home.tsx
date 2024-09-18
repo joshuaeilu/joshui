@@ -33,6 +33,10 @@ const Home = () => {
         <h3>Quick Start</h3>
         <QuickstartCard name="Find Wheels" icon={searchOutline} url="/wheellist" />
         <QuickstartCard name="Settings" icon={cogOutline} url="/settings" />
+
+        <h3>PWA Support</h3>
+        <p>If you would like to use this app natively on mobile, it supports being installed as a PWA!</p>
+        <p>Tap the three dots in the upper right corner of your browser and select the option to install this app to your home screen.  This will install the app onto your device.</p>
       </IonGrid>
     </IonContent>
   </IonPage>
