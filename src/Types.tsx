@@ -11,6 +11,7 @@ export type Wheel = {
   steps: Step[]
   background_audio: WheelAudio[]
   wheel_time: number
+  icon: string
 }
 
 export type Step = {

@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonTitle } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, IonThumbnail, IonTitle } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useContext, useEffect, useState } from "react";
 import { Wheel } from "../Types";
@@ -42,6 +42,9 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
           display: "flex",
           justifyContent: "between"
         }}>
+          <IonThumbnail>
+            <img src={wheel.icon} style={{ width: 40 }} />
+          </IonThumbnail>
           <IonCol>
             <IonTitle>{wheel.title}</IonTitle>
           </IonCol>
@@ -57,8 +60,8 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
       <IonText class="listitemtext">{wheel.description}</IonText>
       <br />
       <IonButton onClick={(e) => {
-          e.preventDefault()
-          history.push(`/wheel/${wheel.id}`)
+        e.preventDefault()
+        history.push(`/wheel/${wheel.id}`)
       }}>
         <IonIcon icon={logOutOutline} />
         <p className="ion-hide-md-down">View Wheel</p>
