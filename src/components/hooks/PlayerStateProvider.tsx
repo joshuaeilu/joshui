@@ -75,6 +75,7 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
   }, [settingsContext.settings]);
 
   const setActiveWheel = (wheel: Wheel) => {
+    wheel.steps = wheel.steps.sort((a, b) => a.wheel_index - b.wheel_index)
     const newPS = { ...playerState, wheel };
     newPS.currentBgAudioIdx = Math.floor(Math.random() * wheel.background_audio.length);
     newPS.curStpIdx = 0;

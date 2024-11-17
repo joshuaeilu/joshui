@@ -84,7 +84,7 @@ const WheelView: React.FC = () => {
     <IonContent>
       <IonList>
         {
-          wheel.steps.map((step) => {
+          wheel.steps.sort((a, b) => a.wheel_index - b.wheel_index).map((step) => {
             return (
               <StepListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
             )
