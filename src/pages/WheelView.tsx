@@ -2,20 +2,20 @@ import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenu
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
 import { Wheel } from '../Types'
-import { useContext, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
-import { PlayerStateContext } from '../components/hooks/PlayerStateProvider';
+import { usePlayerState } from '../components/hooks/PlayerStateProvider';
 import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 import { StepListItem } from '../components/ListItem';
-import { SavedWheelsContext } from '../components/hooks/SavedWheelsProvider';
+import { useSavedWheels } from '../components/hooks/SavedWheelsProvider';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
   let { id } = useParams<{ id: string }>();
 
-  const savedWheelsContext = useContext(SavedWheelsContext)!
+  const savedWheelsContext = useSavedWheels()!
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
   const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(parseInt(id)))
@@ -29,7 +29,7 @@ const WheelView: React.FC = () => {
     setWheel(await response.json())
   }
 
-  const playerStateContext = useContext(PlayerStateContext);
+  const playerStateContext = usePlayerState();
 
   if (playerStateContext == null) return null;
 

@@ -1,11 +1,11 @@
-import React from "react"
+import React, { useContext } from "react"
 import { createContext } from "react"
 
 export const defaultTimerContext = {
   timerSeconds: 0,
 }
 
-export const TimerContext = createContext<{
+const TimerContext = createContext<{
   timer: {
     timerSeconds: number;
   }
@@ -48,4 +48,8 @@ export const TimerProvider = ({ children }: { children: React.ReactNode }) => {
   return <TimerContext.Provider value={{ timer, setTimer, stopTimer, startTimer, setTimerSecs }}>
     {children}
   </TimerContext.Provider>
+}
+
+export const useTimer = () => {
+  return useContext(TimerContext)
 }

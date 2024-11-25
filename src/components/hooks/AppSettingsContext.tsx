@@ -1,4 +1,4 @@
-import React, { createContext } from "react";
+import React, { createContext, useContext } from "react";
 
 export const defaultAppSettingsContext = {
   voice: {
@@ -16,7 +16,7 @@ export const defaultAppSettingsContext = {
   shufflePlaylists: false
 };
 
-export const AppSettingsContext = createContext<{
+const AppSettingsContext = createContext<{
   settings: {
     voice: {
       enabled: boolean;
@@ -68,4 +68,8 @@ export const AppSettingsProvider = ({ children }: { children: React.ReactNode })
   return <AppSettingsContext.Provider value={{ settings, setSettings }}>
     {children}
   </AppSettingsContext.Provider>
+}
+
+export const useSettings = () => {
+  return useContext(AppSettingsContext)
 }

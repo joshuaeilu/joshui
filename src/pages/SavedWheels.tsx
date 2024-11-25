@@ -1,16 +1,16 @@
 import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react"
-import { useContext, useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
 import { WheelListItem } from "../components/ListItem"
-import { SavedWheelsContext } from "../components/hooks/SavedWheelsProvider"
+import { useSavedWheels } from "../components/hooks/SavedWheelsProvider"
 
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [present] = useIonToast();
 
-  const savedWheelsContext = useContext(SavedWheelsContext)!
+  const savedWheelsContext = useSavedWheels()!
   const savedWheels = savedWheelsContext.wheelIDs
 
   useEffect(() => {

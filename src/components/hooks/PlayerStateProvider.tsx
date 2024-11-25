@@ -1,8 +1,8 @@
 import { createContext, useContext } from "react";
 import { Step, Wheel } from "../../Types";
 import React from "react";
-import { TimerContext } from "./TimerProvider";
-import { AppSettingsContext } from "./AppSettingsContext";
+import { useTimer } from "./TimerProvider";
+import { useSettings } from "./AppSettingsContext";
 import singleBeepMP3 from '../../assets/single_beep.mp3';
 import headsUpMP3 from '../../assets/heads_up.mp3';
 import wheelCompleteMP3 from '../../assets/wheel_complete.mp3';
@@ -23,7 +23,7 @@ export const defaultPlayerStateContext = {
   foregroundAudio: new Audio()
 };
 
-export const PlayerStateContext = createContext<{
+const PlayerStateContext = createContext<{
   playerState: PlayerState
   setActiveWheel: (wheel: Wheel) => void
   playWheel: () => void
@@ -35,11 +35,11 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
   const [playerState, setPlayerState] = React.useState<PlayerState>(defaultPlayerStateContext);
   const [paused, setPaused] = React.useState(false);
 
-  const settingsContext = useContext(AppSettingsContext);
+  const settingsContext = useSettings();
   if (settingsContext == null) return null;
   const { settings } = settingsContext;
 
-  const timerContext = useContext(TimerContext)!;
+  const timerContext = useTimer()!;
 
   const { timerSeconds } = timerContext.timer;
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
@@ -185,12 +185,16 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
   </PlayerStateContext.Provider>
 }
 
+export const usePlayerState = () => {
+  return useContext(PlayerStateContext)
+}
+
 const wheelMediaMetadata = (wheel: Wheel, currentStep: Step) => {
   return {
     title: currentStep.head,
     artist: wheel.title,
     album: wheel.title,
-    artwork: [] // To be implemented with icons when those are implemented
+    artwork: []
   }
 }
 

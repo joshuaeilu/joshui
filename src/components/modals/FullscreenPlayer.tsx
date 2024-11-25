@@ -1,8 +1,7 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow } from "@ionic/react";
 import { chevronDownOutline, pause, play, playSkipForward } from "ionicons/icons";
-import { useContext } from "react";
-import { PlayerStateContext } from "../hooks/PlayerStateProvider";
-import { TimerContext } from "../hooks/TimerProvider";
+import { usePlayerState } from "../hooks/PlayerStateProvider";
+import { useTimer } from "../hooks/TimerProvider";
 import { prettyPrintSeconds } from "../player/PlayerStepItem";
 
 const FullscreenStepItem = ({ name, description, seconds, active = false, style }:
@@ -24,7 +23,7 @@ const FullscreenStepItem = ({ name, description, seconds, active = false, style 
 }
 
 const PlayerWheelView = () => {
-  const playerStateContext = useContext(PlayerStateContext);
+  const playerStateContext = usePlayerState();
 
   if (!playerStateContext) {
     return null;
@@ -34,7 +33,7 @@ const PlayerWheelView = () => {
 
   if (wheel == null) return <></>
 
-  let timerContext = useContext(TimerContext);
+  let timerContext = useTimer();
   if (timerContext == null) return null;
   let timerSeconds = timerContext.timer.timerSeconds
 
@@ -89,13 +88,13 @@ const NothingView = () => {
 }
 
 const FullscreenPlayer = ({ dismiss }: { dismiss: () => any }) => {
-  const playerStateContext = useContext(PlayerStateContext);
+  const playerStateContext = usePlayerState()
 
   if (!playerStateContext) {
-    return null;
+    return null
   }
-  let { playerState } = playerStateContext;
-  let wheel = playerState.wheel;
+  let { playerState } = playerStateContext
+  let wheel = playerState.wheel
 
   return <IonPage>
     <IonContent>

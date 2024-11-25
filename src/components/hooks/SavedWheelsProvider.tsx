@@ -1,9 +1,9 @@
-import { createContext } from "react"
+import { createContext, useContext } from "react"
 import useLocalStorageState from "use-local-storage-state"
 
 export const defaultSavedWheels: number[] = []
 
-export const SavedWheelsContext = createContext<{
+const SavedWheelsContext = createContext<{
   wheelIDs: number[]
   addSavedWheel: (wheelID: number) => void,
   removeSavedWheel: (wheelID: number) => void,
@@ -43,4 +43,8 @@ export const SavedWheelsProvider = ({ children }: { children: React.ReactNode })
   return <SavedWheelsContext.Provider value={{ wheelIDs, addSavedWheel, removeSavedWheel, wheelSaved, toggleSaveWheel }}>
     {children}
   </SavedWheelsContext.Provider>
+}
+
+export const useSavedWheels = () => {
+  return useContext(SavedWheelsContext)
 }

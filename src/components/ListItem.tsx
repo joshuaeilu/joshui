@@ -1,9 +1,9 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
-import { useContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { Wheel } from "../Types";
 import { useHistory } from "react-router";
-import { SavedWheelsContext } from "./hooks/SavedWheelsProvider";
+import { useSavedWheels } from "./hooks/SavedWheelsProvider";
 
 // Utility function to format milliseconds to hours, minutes, and seconds
 const formatTime = (milliseconds: number): string => {
@@ -24,7 +24,7 @@ const formatTime = (milliseconds: number): string => {
 export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: number }) => {
   const time = (length > 0) ? formatTime(length) : "0sec";
 
-  const savedWheelsContext = useContext(SavedWheelsContext)!
+  const savedWheelsContext = useSavedWheels()!
 
   const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(wheel.id))
   useEffect(() => {

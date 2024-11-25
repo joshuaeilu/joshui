@@ -1,13 +1,12 @@
 import { IonButton, IonCol, IonFooter, IonIcon, IonRow, IonToolbar, useIonModal } from '@ionic/react';
-import { useContext } from 'react';
-import { PlayerStateContext } from './hooks/PlayerStateProvider';
+import { usePlayerState } from './hooks/PlayerStateProvider';
 import { pause, play, playSkipForward } from 'ionicons/icons';
 import FullscreenPlayer from './modals/FullscreenPlayer';
 import PlayerStepItem from './player/PlayerStepItem';
-import { TimerContext } from './hooks/TimerProvider';
+import { useTimer } from './hooks/TimerProvider';
 
 function PlayerControls() {
-  const playerStateContext = useContext(PlayerStateContext);
+  const playerStateContext = usePlayerState();
 
   if (!playerStateContext) {
     return null;
@@ -28,7 +27,7 @@ function PlayerControls() {
     present()
   }
 
-  let timerContext = useContext(TimerContext);
+  let timerContext = useTimer();
 
   if (timerContext == null) return null;
 

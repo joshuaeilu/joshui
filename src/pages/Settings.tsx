@@ -14,12 +14,11 @@ import {
   IonToggle,
   IonToolbar,
 } from "@ionic/react";
-import { useContext } from "react";
-import { AppSettingsContext } from "../components/hooks/AppSettingsContext";
+import { useSettings } from "../components/hooks/AppSettingsContext";
 import PlayerControls from "../components/PlayerControls";
 
 const Settings: React.FC = () => {
-  const appSettingsContext = useContext(AppSettingsContext);
+  const appSettingsContext = useSettings();
 
   if (!appSettingsContext) {
     return null;
