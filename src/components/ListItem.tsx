@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonItem, IonRow, IonText, IonThumbnail, IonTitle } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useContext, useEffect, useState } from "react";
 import { Wheel } from "../Types";

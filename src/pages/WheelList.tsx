@@ -1,5 +1,5 @@
-import { IonButtons, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonItem, IonList, IonMenuButton, IonPage, IonRow, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
-import { useEffect, useRef, useState } from 'react';
+import { IonButtons, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonList, IonMenuButton, IonPage, IonRow, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { useEffect, useState } from 'react';
 import { Wheel } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
