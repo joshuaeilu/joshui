@@ -39,6 +39,9 @@ const PlayerWheelView = () => {
   let timerSeconds = timerContext.timer.timerSeconds
 
   return <IonGrid>
+    <IonRow className="ion-justify-content-center">
+      <img src={wheel.icon} style={{ width: 100 }} />
+    </IonRow>
     <IonRow>
       <IonCol className="ion-text-center"><h2>{wheel.title}</h2></IonCol>
     </IonRow>

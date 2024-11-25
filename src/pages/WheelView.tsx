@@ -59,9 +59,14 @@ const WheelView: React.FC = () => {
         <IonButtons slot="start">
           <IonMenuButton />
         </IonButtons>
-        <IonTitle style={{
-          marginTop: 8
-        }}>{wheel.title}</IonTitle>
+        <div style={{ display: "flex" }}>
+          <img src={wheel.icon} style={{ width: 50, marginLeft: 10, marginTop: 10, marginRight: 0 }} />
+          <IonTitle style={{
+            marginTop: 8
+          }}>
+            {wheel.title}
+          </IonTitle>
+        </div>
         <IonButtons slot="end">
           <IonButton onClick={() => setActiveWheel(wheel)}>
             <IonIcon icon={play} />
