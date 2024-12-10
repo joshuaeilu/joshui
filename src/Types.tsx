@@ -14,6 +14,25 @@ export type Wheel = {
   icon: string
 }
 
+export type ResolvedWheel = {
+  id: number
+  title: string
+  description: string
+  steps: ResolvedStep[]
+  background_audio: ResolvedWheelAudio[]
+  wheel_time: number
+  icon: string
+}
+
+export type ResolvedStep = {
+  id: number
+  wheel: number
+  head: string
+  body: string
+  foreground_audio: Blob
+  override_song: Blob
+}
+
 export type Step = {
   id: number
   wheel: number
@@ -29,4 +48,10 @@ export type WheelAudio = {
   id: number
   wheel: Wheel
   audio_url: string
+}
+
+export type ResolvedWheelAudio = {
+  id: number
+  wheel: number
+  audio: Blob
 }
