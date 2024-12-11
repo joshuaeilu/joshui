@@ -7,6 +7,11 @@ import { useTimer } from './hooks/TimerProvider';
 
 function PlayerControls() {
   const playerStateContext = usePlayerState();
+  let timerContext = useTimer();
+
+  const [present, dismiss] = useIonModal(FullscreenPlayer, {
+    dismiss: () => dismiss()
+  })
 
   if (!playerStateContext) {
     return null;
@@ -19,15 +24,9 @@ function PlayerControls() {
     return <></>
   }
 
-  const [present, dismiss] = useIonModal(FullscreenPlayer, {
-    dismiss: () => dismiss()
-  })
-
   const openFullscreen = () => {
     present()
   }
-
-  let timerContext = useTimer();
 
   if (timerContext == null) return null;
 
