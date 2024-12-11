@@ -1,11 +1,12 @@
 import { createContext, useContext } from "react";
-import { Step, Wheel } from "../../Types";
+import { Wheel } from "../../Types";
 import React from "react";
 import { useTimer } from "./TimerProvider";
 import { useSettings } from "./AppSettingsContext";
 import singleBeepMP3 from '../../assets/single_beep.mp3';
 import headsUpMP3 from '../../assets/heads_up.mp3';
 import wheelCompleteMP3 from '../../assets/wheel_complete.mp3';
+import { useMediaMeta, useMediaSession } from "use-media-session";
 
 export type PlayerState = {
   wheel: Wheel | null;
@@ -34,12 +35,14 @@ const PlayerStateContext = createContext<{
 export const PlayerStateProvider = ({ children }: { children: React.ReactNode }) => {
   const [playerState, setPlayerState] = React.useState<PlayerState>(defaultPlayerStateContext);
   const [paused, setPaused] = React.useState(false);
-
   const settingsContext = useSettings();
+  const timerContext = useTimer()!;
+
+
+
   if (settingsContext == null) return null;
   const { settings } = settingsContext;
 
-  const timerContext = useTimer()!;
 
   const { timerSeconds } = timerContext.timer;
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
@@ -110,8 +113,6 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
     newPS.foregroundAudio.load()
 
-    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
-
     updateSettings()
     playWheel()
     setPlayerState(newPS)
@@ -172,8 +173,20 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     setPaused(false)
 
     setPlayerState(newPS)
-    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
   }
+
+  useMediaMeta({
+    title: playerState.wheel?.title,
+    artist: playerState.wheel?.steps[playerState.curStpIdx].head,
+    album: playerState.wheel?.steps[playerState.curStpIdx].head,
+    artwork: []
+  });
+  useMediaSession({
+    onPlay: playWheel,
+    onPause: pauseWheel,
+    onStop: pauseWheel,
+    onNextTrack: advanceWheel
+  });
 
   return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
     {children}
@@ -182,48 +195,4 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
 
 export const usePlayerState = () => {
   return useContext(PlayerStateContext)
-}
-
-const wheelMediaMetadata = (wheel: Wheel, currentStep: Step) => {
-  return {
-    title: currentStep.head,
-    artist: wheel.title,
-    album: wheel.title,
-    artwork: []
-  }
-}
-
-const setUpMediaSession = (wheel: Wheel, currentStep: Step, playHandler: () => void, pauseHandler: () => void, skipHandler: () => void) => {
-  if ("mediaSession" in navigator) {
-    navigator.mediaSession.metadata = new MediaMetadata({ ...wheelMediaMetadata(wheel, currentStep), title: currentStep.head })
-
-    navigator.mediaSession.setActionHandler("play", () => {
-      if ("mediaSession" in navigator) {
-        navigator.mediaSession.playbackState = "playing";
-      }
-
-      playHandler()
-    })
-    navigator.mediaSession.setActionHandler("pause", () => {
-      if ("mediaSession" in navigator) {
-        navigator.mediaSession.playbackState = "paused";
-      }
-
-      pauseHandler()
-    })
-    navigator.mediaSession.setActionHandler("stop", () => {
-      if ("mediaSession" in navigator) {
-        navigator.mediaSession.playbackState = "paused";
-      }
-
-      pauseHandler()
-    })
-    navigator.mediaSession.setActionHandler("nexttrack", () => {
-      if ("mediaSession" in navigator) {
-        navigator.mediaSession.playbackState = "playing";
-      }
-
-      skipHandler()
-    })
-  }
 }

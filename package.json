@@ -33,7 +33,8 @@
     "react-router": "^5.3.4",
     "react-router-dom": "^5.3.4",
     "react-use": "^17.5.1",
-    "use-local-storage-state": "^19.4.0"
+    "use-local-storage-state": "^19.4.0",
+    "use-media-session": "^0.0.3"
   },
   "devDependencies": {
     "@capacitor/cli": "^6.1.2",
