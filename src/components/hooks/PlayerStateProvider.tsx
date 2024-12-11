@@ -74,7 +74,8 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     updateSettings()
   }, [settingsContext.settings]);
 
-  const setActiveWheel = (wheel: Wheel) => {
+  const setActiveWheel = (wheelOrResolved: Wheel) => {
+    const wheel = wheelOrResolved as Wheel
     wheel.steps = wheel.steps.sort((a, b) => a.wheel_index - b.wheel_index)
     const newPS = { ...playerState, wheel };
     newPS.currentBgAudioIdx = Math.floor(Math.random() * wheel.background_audio.length);
@@ -126,7 +127,7 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     playerState.foregroundAudio.play().catch(audioFailFunc)
     startTimer()
 
-    if(playerState.wheel) {
+    if (playerState.wheel) {
       setUpMediaSession(playerState.wheel, playerState.wheel.steps[playerState.curStpIdx], playWheel, pauseWheel, advanceWheel)
     }
 

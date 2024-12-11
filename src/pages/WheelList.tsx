@@ -1,10 +1,12 @@
 import { IonButtons, IonContent, IonGrid, IonHeader, IonIcon, IonInput, IonList, IonMenuButton, IonPage, IonRow, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import { useEffect, useState } from 'react';
-import { Wheel } from '../Types';
+import { ResolvedWheel, Wheel } from '../Types';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
-import { WheelListItem } from '../components/ListItem';
+import { resolvedWheelToWheel, WheelListItem } from '../components/ListItem';
 import { search } from 'ionicons/icons';
+import { Storage } from '@ionic/storage';
+import useNetworkConnectivity from '../components/hooks/UseNetworkConnectivity';
 
 const WheelList: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
@@ -12,10 +14,22 @@ const WheelList: React.FC = () => {
   const [loading, setLoading] = useState(true)
   const [failed, setFailed] = useState(false)
   const [present] = useIonToast()
+  const isConnected = useNetworkConnectivity()
 
   useEffect(() => { getWheels() }, [])
 
   const getWheels = async () => {
+    if (!isConnected) {
+      const storage = new Storage()
+      await storage.create()
+      const wheelsFromStorage: Wheel[] = await storage.keys().then(keys => {
+        return Promise.all(keys.map(async key => resolvedWheelToWheel(await storage.get(key))))
+      })
+      setWheels(wheelsFromStorage)
+      setLoading(false)
+      return
+    }
+
     fetch(`${API_URL}/wheels/`).then(response => {
       if (response.ok) {
         response.json().then(json => {

@@ -24,15 +24,6 @@ export type ResolvedWheel = {
   icon: string
 }
 
-export type ResolvedStep = {
-  id: number
-  wheel: number
-  head: string
-  body: string
-  foreground_audio: Blob
-  override_song: Blob
-}
-
 export type Step = {
   id: number
   wheel: number
@@ -40,6 +31,17 @@ export type Step = {
   body: string
   override_song: string
   foreground_audio: string
+  length: number
+  wheel_index: number
+}
+
+export type ResolvedStep = {
+  id: number
+  wheel: number
+  head: string
+  body: string
+  override_song: Blob | null
+  foreground_audio: Blob | null
   length: number
   wheel_index: number
 }
@@ -52,6 +54,6 @@ export type WheelAudio = {
 
 export type ResolvedWheelAudio = {
   id: number
-  wheel: number
-  audio: Blob
+  wheel: Wheel
+  audio: Blob | null
 }

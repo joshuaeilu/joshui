@@ -1,15 +1,17 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useParams } from 'react-router-dom';
-import { Wheel } from '../Types'
+import {  Wheel } from '../Types'
 import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { usePlayerState } from '../components/hooks/PlayerStateProvider';
 import { heart, heartOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
-import { StepListItem } from '../components/ListItem';
+import { resolvedWheelToWheel, StepListItem } from '../components/ListItem';
 import { useSavedWheels } from '../components/hooks/SavedWheelsProvider';
+import useNetworkConnectivity from '../components/hooks/UseNetworkConnectivity';
+import { Storage } from '@ionic/storage';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
@@ -20,10 +22,20 @@ const WheelView: React.FC = () => {
   const [wheel, setWheel] = useState<Wheel | null>(null)
   const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(parseInt(id)))
 
+  const isConnected = useNetworkConnectivity()
+
   useEffect(() => { getWheel() }, [])
   useEffect(() => { setSaved(savedWheelsContext.wheelSaved(parseInt(id))) }, [savedWheelsContext.wheelIDs])
 
   const getWheel = async () => {
+    if (!isConnected) {
+      const storage = new Storage()
+      await storage.create()
+      const wheelFromStorage: Wheel = await resolvedWheelToWheel(await storage.get(`pw-saved-${id}`))
+      setWheel(wheelFromStorage)
+      return
+    }
+
     const url = `${API_URL}/wheels/${id}/`
     const response = await fetch(url)
     setWheel(await response.json())
@@ -68,7 +80,16 @@ const WheelView: React.FC = () => {
           </IonTitle>
         </div>
         <IonButtons slot="end">
-          <IonButton onClick={() => setActiveWheel(wheel)}>
+          <IonButton onClick={async () => {
+            if (isConnected) {
+              setActiveWheel(wheel)
+            } else {
+              const storage = new Storage()
+              await storage.create()
+              const wheelFromStorage = await resolvedWheelToWheel(await storage.get(`pw-saved-${wheel.id}`))
+              setActiveWheel(wheelFromStorage)
+            }
+          }}>
             <IonIcon icon={play} />
             <p className="ion-hide-md-down">&nbsp;Play</p>
           </IonButton>
@@ -91,7 +112,7 @@ const WheelView: React.FC = () => {
         {
           wheel.steps.sort((a, b) => a.wheel_index - b.wheel_index).map((step) => {
             return (
-              <StepListItem key={wheel.steps.indexOf(step)} name={step.head} content={step.body} length={step.length} />
+              <StepListItem key={step.id} name={step.head} content={step.body} length={step.length} />
             )
           })
         }
