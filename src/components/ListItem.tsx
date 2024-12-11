@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Step, Wheel, WheelAudio } from "../Types";
@@ -96,6 +96,7 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
     setSaved(savedWheelsContext.wheelSaved(wheel.id))
   }, [savedWheelsContext.wheelIDs])
 
+  const [present] = useIonToast()
   const history = useHistory()
 
   return <IonCard>
@@ -140,12 +141,24 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
         const storage = new Storage()
         await storage.create()
         if (isSaved) {
+          present({
+            message: "Saving...",
+            duration: 1000
+          })
           // save using ionic storage
           const resolvedWheel = await resolveWheelURLs(wheel)
           await storage.set(`pw-saved-${wheel.id}`, resolvedWheel);
+          present({
+            message: "Saved",
+            duration: 1000
+          })
         } else {
           // delete using ionic storage
           await storage.remove(`pw-saved-${wheel.id}`)
+          present({
+            message: "Removed",
+            duration: 1000
+          })
         }
       }}>
         {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
