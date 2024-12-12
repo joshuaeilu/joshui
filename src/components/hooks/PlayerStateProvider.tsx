@@ -122,14 +122,9 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
       console.error("Audio failed to play.")
     }
 
-    updateSettings()
     playerState.backgroundAudio.play().catch(audioFailFunc)
     playerState.foregroundAudio.play().catch(audioFailFunc)
     startTimer()
-
-    if (playerState.wheel) {
-      setUpMediaSession(playerState.wheel, playerState.wheel.steps[playerState.curStpIdx], playWheel, pauseWheel, advanceWheel)
-    }
 
     setPaused(false)
   }
@@ -176,9 +171,8 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
 
     setPaused(false)
 
-    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
-
     setPlayerState(newPS)
+    setUpMediaSession(newPS.wheel, newPS.wheel.steps[newPS.curStpIdx], playWheel, pauseWheel, advanceWheel)
   }
 
   return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
@@ -203,9 +197,33 @@ const setUpMediaSession = (wheel: Wheel, currentStep: Step, playHandler: () => v
   if ("mediaSession" in navigator) {
     navigator.mediaSession.metadata = new MediaMetadata({ ...wheelMediaMetadata(wheel, currentStep), title: currentStep.head })
 
-    navigator.mediaSession.setActionHandler("play", playHandler)
-    navigator.mediaSession.setActionHandler("pause", playHandler)
-    navigator.mediaSession.setActionHandler("stop", pauseHandler)
-    navigator.mediaSession.setActionHandler("nexttrack", skipHandler)
+    navigator.mediaSession.setActionHandler("play", () => {
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "playing";
+      }
+
+      playHandler()
+    })
+    navigator.mediaSession.setActionHandler("pause", () => {
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "paused";
+      }
+
+      pauseHandler()
+    })
+    navigator.mediaSession.setActionHandler("stop", () => {
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "paused";
+      }
+
+      pauseHandler()
+    })
+    navigator.mediaSession.setActionHandler("nexttrack", () => {
+      if ("mediaSession" in navigator) {
+        navigator.mediaSession.playbackState = "playing";
+      }
+
+      skipHandler()
+    })
   }
 }
