@@ -20,6 +20,11 @@ const WheelList: React.FC = () => {
 
   const getWheels = async () => {
     if (!isConnected) {
+      present({
+        message: "No internet connection.  Showing saved wheels.",
+        duration: 10000,
+        position: "top"
+      });
       const storage = new Storage()
       await storage.create()
       const wheelsFromStorage: Wheel[] = await storage.keys().then(keys => {

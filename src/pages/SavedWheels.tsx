@@ -3,21 +3,32 @@ import { useEffect, useState } from "react"
 import { Wheel } from "../Types"
 import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
-import { WheelListItem } from "../components/ListItem"
+import { resolvedWheelToWheel, WheelListItem } from "../components/ListItem"
 import { useSavedWheels } from "../components/hooks/SavedWheelsProvider"
-
+import useNetworkConnectivity from "../components/hooks/UseNetworkConnectivity"
+import { Storage } from "@ionic/storage"
 const SavedWheels: React.FC = () => {
   const [wheels, setWheels] = useState<Wheel[]>([])
   const [present] = useIonToast();
 
   const savedWheelsContext = useSavedWheels()!
   const savedWheels = savedWheelsContext.wheelIDs
+  const isConnected = useNetworkConnectivity()
 
   useEffect(() => {
     getWheels()
   }, [savedWheels])
 
   const getWheels = async () => {
+    if (!isConnected) {
+      const storage = new Storage()
+      await storage.create()
+      const wheelsFromStorage: Wheel[] = await storage.keys().then(keys => {
+        return Promise.all(keys.map(async key => resolvedWheelToWheel(await storage.get(key))))
+      })
+      setWheels(wheelsFromStorage)
+      return
+    }
     let newWheels: Wheel[] = []
     for (const id of savedWheels) {
       const response = await fetch(`${API_URL}/wheels/${id}`)
