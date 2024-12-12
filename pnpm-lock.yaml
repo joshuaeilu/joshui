@@ -71,6 +71,9 @@ importers:
       use-local-storage-state:
         specifier: ^19.4.0
         version: 19.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
+      use-media-session:
+        specifier: ^0.0.3
+        version: 0.0.3(react@18.3.1)
     devDependencies:
       '@capacitor/cli':
         specifier: ^6.1.2
@@ -3778,6 +3781,12 @@ packages:
     peerDependencies:
       react: '>=18'
       react-dom: '>=18'
+
+  use-media-session@0.0.3:
+    resolution: {integrity: sha512-Ql23WacsMvIIElp+MjzUnW5sGFulswDLqP8VIC3XJbYu1achxciB/tpv3VjfDnYJkLm/1syjWtYEuuQURbZyPg==}
+    engines: {node: '>=8', npm: '>=5'}
+    peerDependencies:
+      react: ^16.9.0
 
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
@@ -8395,6 +8404,10 @@ snapshots:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
+
+  use-media-session@0.0.3(react@18.3.1):
+    dependencies:
+      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 
