@@ -1,4 +1,4 @@
-package io.ionic.starter;
+package com.coveredministries.prayerwheel;
 
 import com.getcapacitor.BridgeActivity;
 

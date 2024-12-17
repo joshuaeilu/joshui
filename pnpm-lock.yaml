@@ -41,6 +41,9 @@ importers:
       '@ionic/storage':
         specifier: ^4.0.0
         version: 4.0.0
+      '@jofr/capacitor-media-session':
+        specifier: ^4.0.0
+        version: 4.0.0(@capacitor/core@6.2.0)
       '@types/react-router':
         specifier: ^5.1.20
         version: 5.1.20
@@ -71,9 +74,6 @@ importers:
       use-local-storage-state:
         specifier: ^19.4.0
         version: 19.5.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
-      use-media-session:
-        specifier: ^0.0.3
-        version: 0.0.3(react@18.3.1)
     devDependencies:
       '@capacitor/cli':
         specifier: ^6.1.2
@@ -972,6 +972,11 @@ packages:
   '@ionic/utils-terminal@2.3.5':
     resolution: {integrity: sha512-3cKScz9Jx2/Pr9ijj1OzGlBDfcmx7OMVBt4+P1uRR0SSW4cm1/y3Mo4OY3lfkuaYifMNBW8Wz6lQHbs1bihr7A==}
     engines: {node: '>=16.0.0'}
+
+  '@jofr/capacitor-media-session@4.0.0':
+    resolution: {integrity: sha512-IGfc6BUzeeR0sJkk+0/jij3l0h78NdTqPMwBc9LXZrojtiqNtg4tw3CnIkYGccwZ/0glV3hPl8HVNTElOPVCyg==}
+    peerDependencies:
+      '@capacitor/core': ^6.0.0
 
   '@jridgewell/gen-mapping@0.3.5':
     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
@@ -3782,12 +3787,6 @@ packages:
       react: '>=18'
       react-dom: '>=18'
 
-  use-media-session@0.0.3:
-    resolution: {integrity: sha512-Ql23WacsMvIIElp+MjzUnW5sGFulswDLqP8VIC3XJbYu1achxciB/tpv3VjfDnYJkLm/1syjWtYEuuQURbZyPg==}
-    engines: {node: '>=8', npm: '>=5'}
-    peerDependencies:
-      react: ^16.9.0
-
   util-deprecate@1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}
 
@@ -5159,6 +5158,10 @@ snapshots:
       wrap-ansi: 7.0.0
     transitivePeerDependencies:
       - supports-color
+
+  '@jofr/capacitor-media-session@4.0.0(@capacitor/core@6.2.0)':
+    dependencies:
+      '@capacitor/core': 6.2.0
 
   '@jridgewell/gen-mapping@0.3.5':
     dependencies:
@@ -8404,10 +8407,6 @@ snapshots:
     dependencies:
       react: 18.3.1
       react-dom: 18.3.1(react@18.3.1)
-
-  use-media-session@0.0.3(react@18.3.1):
-    dependencies:
-      react: 18.3.1
 
   util-deprecate@1.0.2: {}
 

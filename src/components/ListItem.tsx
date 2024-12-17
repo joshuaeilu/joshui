@@ -1,7 +1,7 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
 import { heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Step, Wheel, WheelAudio } from "../Types";
+import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Wheel } from "../Types";
 import { useHistory } from "react-router";
 import { useSavedWheels } from "./hooks/SavedWheelsProvider";
 import { Storage } from "@ionic/storage";

@@ -6,7 +6,8 @@ import { useSettings } from "./AppSettingsContext";
 import singleBeepMP3 from '../../assets/single_beep.mp3';
 import headsUpMP3 from '../../assets/heads_up.mp3';
 import wheelCompleteMP3 from '../../assets/wheel_complete.mp3';
-import { useMediaMeta, useMediaSession } from "use-media-session";
+import { MediaSession } from "@jofr/capacitor-media-session";
+import logo from '../../assets/logo.png'
 
 export type PlayerState = {
   wheel: Wheel | null;
@@ -38,11 +39,8 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
   const settingsContext = useSettings();
   const timerContext = useTimer()!;
 
-
-
   if (settingsContext == null) return null;
   const { settings } = settingsContext;
-
 
   const { timerSeconds } = timerContext.timer;
   const { stopTimer, startTimer, setTimerSecs } = timerContext;
@@ -175,18 +173,37 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     setPlayerState(newPS)
   }
 
-  useMediaMeta({
-    title: playerState.wheel?.title,
-    artist: playerState.wheel?.steps[playerState.curStpIdx].head,
-    album: playerState.wheel?.steps[playerState.curStpIdx].head,
-    artwork: []
-  });
-  useMediaSession({
-    onPlay: playWheel,
-    onPause: pauseWheel,
-    onStop: pauseWheel,
-    onNextTrack: advanceWheel
-  });
+  React.useEffect(() => {
+    const curStep = playerState.wheel?.steps[playerState.curStpIdx]
+    if (curStep == null) return
+
+    MediaSession.setMetadata({
+      title: curStep.head,
+      artist: playerState.wheel?.title,
+      artwork: [
+        {
+          src: logo,
+          sizes: "512x512",
+          type: "image/png"
+        }
+      ]
+    })
+
+    MediaSession.setActionHandler({ action: 'play' }, playWheel)
+    MediaSession.setActionHandler({ action: 'pause' }, pauseWheel)
+    MediaSession.setActionHandler({ action: 'stop' }, pauseWheel)
+    MediaSession.setActionHandler({ action: 'nexttrack' }, advanceWheel)
+  }, [playerState])
+
+  React.useEffect(() => {
+    const curStep = playerState.wheel?.steps[playerState.curStpIdx]
+    if (curStep == null) return
+    MediaSession.setPositionState({ duration: curStep.length / 1000, playbackRate: 1, position: (curStep.length / 1000) - timerSeconds })
+  }, [timerSeconds])
+
+  React.useEffect(() => {
+    MediaSession.setPlaybackState({ playbackState: paused ? 'paused' : 'playing' })
+  }, [paused])
 
   return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
     {children}

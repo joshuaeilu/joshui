@@ -1,7 +1,7 @@
 import { CapacitorConfig } from "@capacitor/cli";
 
 const config: CapacitorConfig = {
-  appId: "io.ionic.starter",
+  appId: "com.coveredministries.prayerwheel",
   appName: "prayer-wheel-react",
   webDir: "dist",
   server: {
