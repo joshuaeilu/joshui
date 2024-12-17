@@ -6,10 +6,10 @@ import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { usePlayerState } from '../components/hooks/PlayerStateProvider';
-import { heart, heartOutline, play, share } from 'ionicons/icons';
+import { download, downloadOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 import { resolvedWheelToWheel, StepListItem } from '../components/ListItem';
-import { useSavedWheels } from '../components/hooks/SavedWheelsProvider';
+import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
 import useNetworkConnectivity from '../components/hooks/UseNetworkConnectivity';
 import { Storage } from '@ionic/storage';
 
@@ -17,21 +17,21 @@ const WheelView: React.FC = () => {
   const [present] = useIonToast();
   let { id } = useParams<{ id: string }>();
 
-  const savedWheelsContext = useSavedWheels()!
+  const downloadedWheelsContext = useDownloadedWheels()!
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
-  const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(parseInt(id)))
+  const [downloaded, setDownloaded] = useState(downloadedWheelsContext.wheelDownloaded(parseInt(id)))
 
   const isConnected = useNetworkConnectivity()
 
   useEffect(() => { getWheel() }, [])
-  useEffect(() => { setSaved(savedWheelsContext.wheelSaved(parseInt(id))) }, [savedWheelsContext.wheelIDs])
+  useEffect(() => { setDownloaded(downloadedWheelsContext.wheelDownloaded(parseInt(id))) }, [downloadedWheelsContext.wheelIDs])
 
   const getWheel = async () => {
     if (!isConnected) {
       const storage = new Storage()
       await storage.create()
-      const wheelFromStorage: Wheel = await resolvedWheelToWheel(await storage.get(`pw-saved-${id}`))
+      const wheelFromStorage: Wheel = await resolvedWheelToWheel(await storage.get(`pw-downloaded-${id}`))
       setWheel(wheelFromStorage)
       return
     }
@@ -86,7 +86,7 @@ const WheelView: React.FC = () => {
             } else {
               const storage = new Storage()
               await storage.create()
-              const wheelFromStorage = await resolvedWheelToWheel(await storage.get(`pw-saved-${wheel.id}`))
+              const wheelFromStorage = await resolvedWheelToWheel(await storage.get(`pw-downloaded-${wheel.id}`))
               setActiveWheel(wheelFromStorage)
             }
           }}>
@@ -94,11 +94,11 @@ const WheelView: React.FC = () => {
             <p className="ion-hide-md-down">&nbsp;Play</p>
           </IonButton>
           <IonButton onClick={() => {
-            savedWheelsContext.toggleSaveWheel(wheel.id)
-            setSaved(savedWheelsContext.wheelSaved(wheel.id))
+            downloadedWheelsContext.toggleDownloadedWheel(wheel.id)
+            setDownloaded(downloadedWheelsContext.wheelDownloaded(wheel.id))
           }}>
-            {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
-            <p className="ion-hide-md-down">&nbsp;Save</p>
+            {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
+            <p className="ion-hide-md-down">&nbsp;Download</p>
           </IonButton>
           <IonButton onClick={() => shareButton()}>
             <IonIcon icon={share} />

@@ -22,8 +22,8 @@ const appPages = [
     mdIcon: home
   },
   {
-    title: 'Saved Wheels',
-    url: '/saved',
+    title: 'Downloaded Wheels',
+    url: '/downloaded',
     iosIcon: documentTextOutline,
     mdIcon: documentTextOutline
   },

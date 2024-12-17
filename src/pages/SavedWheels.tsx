@@ -1,23 +1,20 @@
-import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from "@ionic/react"
+import { IonButtons, IonContent, IonHeader, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react"
 import { useEffect, useState } from "react"
 import { Wheel } from "../Types"
-import { API_URL } from "../App"
 import PlayerControls from "../components/PlayerControls"
 import { resolvedWheelToWheel, WheelListItem } from "../components/ListItem"
-import { useSavedWheels } from "../components/hooks/SavedWheelsProvider"
-import useNetworkConnectivity from "../components/hooks/UseNetworkConnectivity"
 import { Storage } from "@ionic/storage"
-const SavedWheels: React.FC = () => {
-  const [wheels, setWheels] = useState<Wheel[]>([])
-  const [present] = useIonToast();
+import { useDownloadedWheels } from "../components/hooks/DownloadedWheelsProvider"
 
-  const savedWheelsContext = useSavedWheels()!
-  const savedWheels = savedWheelsContext.wheelIDs
-  const isConnected = useNetworkConnectivity()
+const DownloadedWheels: React.FC = () => {
+  const [wheels, setWheels] = useState<Wheel[]>([])
+
+  const downloadedWheelsContext = useDownloadedWheels()!
+  const downloadedWheels = downloadedWheelsContext.wheelIDs
 
   useEffect(() => {
     getWheels()
-  }, [savedWheels])
+  }, [downloadedWheels])
 
   /**
    * Get wheels from local storage
@@ -38,7 +35,7 @@ const SavedWheels: React.FC = () => {
         <IonButtons slot="start">
           <IonMenuButton />
         </IonButtons>
-        <IonTitle>Saved Wheels</IonTitle>
+        <IonTitle>Downloaded Wheels</IonTitle>
       </IonToolbar>
     </IonHeader>
     <IonContent fullscreen={true}>
@@ -49,10 +46,10 @@ const SavedWheels: React.FC = () => {
           })
         }
       </IonList>}
-      {wheels.length == 0 && <>{"Loading... Do you have any wheels saved?"}</>}
+      {wheels.length == 0 && <>{"No wheels downloaded, go download some wheels!"}</>}
     </IonContent>
     <PlayerControls />
   </IonPage>
 };
 
-export default SavedWheels;
+export default DownloadedWheels;

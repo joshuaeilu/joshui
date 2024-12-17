@@ -1,9 +1,9 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
-import { heart, heartOutline, logOutOutline } from "ionicons/icons";
+import { download, downloadOutline, heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Wheel } from "../Types";
 import { useHistory } from "react-router";
-import { useSavedWheels } from "./hooks/SavedWheelsProvider";
+import { useDownloadedWheels } from "./hooks/DownloadedWheelsProvider";
 import { Storage } from "@ionic/storage";
 
 // Utility function to format milliseconds to hours, minutes, and seconds
@@ -25,7 +25,7 @@ const formatTime = (milliseconds: number): string => {
 export async function resolvedWheelToWheel(resolvedWheel: ResolvedWheel): Promise<Wheel> {
   const storage = new Storage()
   await storage.create()
-  const wheelFromStorage = await storage.get(`pw-saved-${resolvedWheel.id}`)
+  const wheelFromStorage = await storage.get(`pw-downloaded-${resolvedWheel.id}`)
 
   const wheel: Wheel = {
     ...wheelFromStorage,
@@ -45,7 +45,6 @@ export async function resolvedWheelToWheel(resolvedWheel: ResolvedWheel): Promis
 
 // Utility that requests the contents of the URLs in a wheel and returns a new wheel where the keys that the URLs were stored at now have blobs.
 async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
-  console.log("Resolving wheel", wheel)
   let resolvedWheel: ResolvedWheel = {
     ...wheel,
     background_audio: await Promise.all(wheel.background_audio.map(async (audio) => {
@@ -60,11 +59,8 @@ async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
       return resolvedAudio
     })),
     steps: await Promise.all(wheel.steps.map(async (step) => {
-      console.log("Resolving step", step)
       const foregroundAudio = await fetch(step.foreground_audio);
       const overrideAudio = await fetch(step.override_song);
-      console.log(foregroundAudio)
-      console.log(overrideAudio)
 
       const resolvedStep: ResolvedStep = {
         foreground_audio: await foregroundAudio.blob(),
@@ -77,8 +73,6 @@ async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
         wheel_index: step.wheel_index
        };
 
-      console.log("Resolved step", resolvedStep)
-
       return resolvedStep
     }))
   }
@@ -89,12 +83,12 @@ async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
 export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: number }) => {
   const time = (length > 0) ? formatTime(length) : "0sec";
 
-  const savedWheelsContext = useSavedWheels()!
+  const downloadedWheelsContext = useDownloadedWheels()!
 
-  const [saved, setSaved] = useState(savedWheelsContext.wheelSaved(wheel.id))
+  const [downloaded, setDownloaded] = useState(downloadedWheelsContext.wheelDownloaded(wheel.id))
   useEffect(() => {
-    setSaved(savedWheelsContext.wheelSaved(wheel.id))
-  }, [savedWheelsContext.wheelIDs])
+    setDownloaded(downloadedWheelsContext.wheelDownloaded(wheel.id))
+  }, [downloadedWheelsContext.wheelIDs])
 
   const [present] = useIonToast()
   const history = useHistory()
@@ -134,35 +128,35 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
       </IonButton>
       <IonButton onClick={async (e) => {
         e.preventDefault()
-        savedWheelsContext.toggleSaveWheel(wheel.id)
-        const isSaved = savedWheelsContext.wheelSaved(wheel.id)
-        setSaved(isSaved)
+        downloadedWheelsContext.toggleDownloadedWheel(wheel.id)
+        const isDownloaded = downloadedWheelsContext.wheelDownloaded(wheel.id)
+        setDownloaded(isDownloaded)
 
         const storage = new Storage()
         await storage.create()
-        if (isSaved) {
+        if (isDownloaded) {
           present({
-            message: "Saving...",
+            message: "Downloading...",
             duration: 1000
           })
           // save using ionic storage
           const resolvedWheel = await resolveWheelURLs(wheel)
-          await storage.set(`pw-saved-${wheel.id}`, resolvedWheel);
+          await storage.set(`pw-downloaded-${wheel.id}`, resolvedWheel);
           present({
-            message: "Saved",
+            message: "Downloaded",
             duration: 1000
           })
         } else {
           // delete using ionic storage
-          await storage.remove(`pw-saved-${wheel.id}`)
+          await storage.remove(`pw-downloaded-${wheel.id}`)
           present({
             message: "Removed",
             duration: 1000
           })
         }
       }}>
-        {saved ? <IonIcon icon={heart} /> : <IonIcon icon={heartOutline} />}
-        <p className="ion-hide-md-down">&nbsp;Save</p>
+        {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
+        <p className="ion-hide-md-down">&nbsp;Download</p>
       </IonButton>
     </IonCardContent>
   </IonCard>

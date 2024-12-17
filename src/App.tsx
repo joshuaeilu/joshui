@@ -53,7 +53,7 @@ const App = () => (
           <Route exact path="/homepage">
             <Home />
           </Route>
-          <Route exact path="/saved">
+          <Route exact path="/downloaded">
             <SavedWheels />
           </Route>
           <Route exact path="/wheellist">

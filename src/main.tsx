@@ -4,7 +4,7 @@ import App from './App';
 import { AppSettingsProvider } from './components/hooks/AppSettingsContext';
 import { PlayerStateProvider } from './components/hooks/PlayerStateProvider';
 import { TimerProvider } from './components/hooks/TimerProvider';
-import { SavedWheelsProvider } from './components/hooks/SavedWheelsProvider';
+import { DownloadedWheelsProvider } from './components/hooks/DownloadedWheelsProvider';
 
 const container = document.getElementById('root');
 const root = createRoot(container!);
@@ -13,9 +13,9 @@ root.render(
     <AppSettingsProvider>
       <TimerProvider>
         <PlayerStateProvider>
-          <SavedWheelsProvider>
+          <DownloadedWheelsProvider>
             <App />
-          </SavedWheelsProvider>
+          </DownloadedWheelsProvider>
         </PlayerStateProvider>
       </TimerProvider>
     </AppSettingsProvider>
