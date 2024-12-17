@@ -19,34 +19,17 @@ const SavedWheels: React.FC = () => {
     getWheels()
   }, [savedWheels])
 
+  /**
+   * Get wheels from local storage
+   */
   const getWheels = async () => {
-    if (!isConnected) {
-      const storage = new Storage()
-      await storage.create()
-      const wheelsFromStorage: Wheel[] = await storage.keys().then(keys => {
-        return Promise.all(keys.map(async key => resolvedWheelToWheel(await storage.get(key))))
-      })
-      setWheels(wheelsFromStorage)
-      return
-    }
-    let newWheels: Wheel[] = []
-    for (const id of savedWheels) {
-      const response = await fetch(`${API_URL}/wheels/${id}`)
-      if (!response.ok) {
-        present({
-          message: `Could not access wheel ${id}.  Error code ${response.status}: ${response.statusText}.`,
-          duration: 5000,
-          position: "top",
-          buttons: [
-            { text: "Remove Wheel From Saved", handler: () => { savedWheelsContext.removeSavedWheel(id) } }
-          ]
-        })
-      } else {
-        const wheel: Wheel = await response.json()
-        newWheels.push(wheel);
-      }
-    }
-    setWheels(newWheels)
+    const storage = new Storage()
+    await storage.create()
+    const wheelsFromStorage: Wheel[] = await storage.keys().then(keys => {
+      return Promise.all(keys.map(async key => resolvedWheelToWheel(await storage.get(key))))
+    })
+    setWheels(wheelsFromStorage)
+    return
   }
 
   return <IonPage>
