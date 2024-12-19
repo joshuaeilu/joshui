@@ -92,15 +92,8 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
 
     bgAudio.onended = () => {
       newPS.currentBgAudioIdx += 1;
-      let nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
-      if (!settings.shufflePlaylists) {
-        if (nextAudio == null) {
-          newPS.currentBgAudioIdx = 0;
-          nextAudio = wheel.background_audio[newPS.currentBgAudioIdx]?.audio_url;
-        }
-      } else {
-        nextAudio = wheel.background_audio[Math.floor(Math.random() * wheel.background_audio.length)]?.audio_url;
-      }
+      // Randomly pick the next track to play from the list of songs.
+      const nextAudio = wheel.background_audio[Math.floor(Math.random() * wheel.background_audio.length)]?.audio_url;
       bgAudio.src = nextAudio;
       bgAudio.load();
       bgAudio.play();

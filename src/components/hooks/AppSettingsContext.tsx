@@ -13,7 +13,6 @@ export const defaultAppSettingsContext = {
     enabled: true,
     volume: 100,
   },
-  shufflePlaylists: false
 };
 
 const AppSettingsContext = createContext<{
@@ -30,7 +29,6 @@ const AppSettingsContext = createContext<{
       enabled: boolean;
       volume: number;
     };
-    shufflePlaylists: boolean;
   };
   setSettings: React.Dispatch<
     React.SetStateAction<{
@@ -46,7 +44,6 @@ const AppSettingsContext = createContext<{
         enabled: boolean;
         volume: number;
       };
-      shufflePlaylists: boolean;
     }>
   >;
 } | null>(null);

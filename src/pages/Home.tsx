@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { API_URL } from "../App";
 import Markdown from "react-markdown";
+import PlayerControls from "../components/PlayerControls";
 
 const QuickstartCard = ({ name, icon, url }: { name: string, icon: string, url: string }) => {
   const history = useHistory()
@@ -58,6 +59,7 @@ const Home = () => {
         <p>Tap the three dots in the upper right corner of your browser and select the option to install this app to your home screen.  This will install the app onto your device.</p>
       </IonGrid>
     </IonContent>
+    <PlayerControls />
   </IonPage>
 }
 

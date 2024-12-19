@@ -7,9 +7,8 @@ import {
   IonIcon,
   IonLabel,
   IonItem,
-  IonText
 } from '@ionic/react'
-import { cogOutline, documentTextOutline, home, information, searchOutline, speedometerOutline } from 'ionicons/icons';
+import { cogOutline, documentTextOutline, home, information, searchOutline } from 'ionicons/icons';
 import logo from '../assets/logo.png'
 import "./Menu.css"
 import { useHistory } from 'react-router';
@@ -74,7 +73,6 @@ function Menu() {
         );
       })}
     </IonContent>
-    <IonText>Version {__APP_VERSION__}</IonText>
   </>
 };
 

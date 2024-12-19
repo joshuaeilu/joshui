@@ -142,23 +142,6 @@ const Settings: React.FC = () => {
           />
         </IonCardContent>
       </IonCard>
-      <IonCard>
-        <IonCardHeader>
-          <IonCardTitle>Shuffle Music</IonCardTitle>
-        </IonCardHeader>
-        <IonCardContent>
-          <IonToggle
-            checked={settings.shufflePlaylists}
-            onClick={() => {
-              setSettings({
-                ...settings,
-                shufflePlaylists: !settings.shufflePlaylists,
-              });
-            }} >
-            Enable
-          </IonToggle>
-        </IonCardContent>
-      </IonCard>
       <IonCard
         style={{ padding: 10 }}>
         <IonButton onClick={() => { history.back() }}>Go Back</IonButton>
