@@ -1,14 +1,14 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
-import {  Wheel } from '../Types'
+import { Wheel } from '../Types'
 import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { usePlayerState } from '../components/hooks/PlayerStateProvider';
 import { download, downloadOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
-import { resolvedWheelToWheel, StepListItem } from '../components/ListItem';
+import { resolvedWheelToWheel, resolveWheelURLs, StepListItem } from '../components/ListItem';
 import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
 import useNetworkConnectivity from '../components/hooks/UseNetworkConnectivity';
 import { Storage } from '@ionic/storage';
@@ -104,9 +104,33 @@ const WheelView: React.FC = () => {
             <IonIcon icon={play} />
             <p className="ion-hide-md-down">&nbsp;Play</p>
           </IonButton>
-          <IonButton onClick={() => {
+          <IonButton onClick={async () => {
             downloadedWheelsContext.toggleDownloadedWheel(wheel.id)
-            setDownloaded(downloadedWheelsContext.wheelDownloaded(wheel.id))
+            const isDownloaded = downloadedWheelsContext.wheelDownloaded(wheel.id)
+            setDownloaded(isDownloaded)
+
+            const storage = new Storage()
+            await storage.create()
+            if (isDownloaded) {
+              present({
+                message: "Downloading...",
+                duration: 1000
+              })
+              // save using ionic storage
+              const resolvedWheel = await resolveWheelURLs(wheel)
+              await storage.set(`pw-downloaded-${wheel.id}`, resolvedWheel);
+              present({
+                message: "Downloaded",
+                duration: 1000
+              })
+            } else {
+              // delete using ionic storage
+              await storage.remove(`pw-downloaded-${wheel.id}`)
+              present({
+                message: "Removed",
+                duration: 1000
+              })
+            }
           }}>
             {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
             <p className="ion-hide-md-down">&nbsp;Download</p>

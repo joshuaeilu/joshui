@@ -47,14 +47,23 @@ function PlayerControls() {
               marginLeft: 0,
               marginBottom: 0
             }}><b>{wheel.title}</b></h4>
-            <div onClick={(e) => e.stopPropagation()}>
-              <IonButton onClick={playWheel} shape="round" fill="clear">
+            <div>
+              <IonButton onClick={(e) => {
+                e.stopPropagation()
+                playWheel()
+              }} shape="round" fill="clear">
                 <IonIcon slot="icon-only" icon={play} />
               </IonButton>
-              <IonButton onClick={pauseWheel} shape="round" fill="clear">
+              <IonButton onClick={(e) => {
+                e.stopPropagation()
+                pauseWheel()
+              }} shape="round" fill="clear">
                 <IonIcon slot="icon-only" icon={pause} />
               </IonButton>
-              <IonButton onClick={advanceWheel} shape="round" fill="clear">
+              <IonButton onClick={(e) => {
+                e.stopPropagation()
+                advanceWheel()
+              }} shape="round" fill="clear">
                 <IonIcon slot="icon-only" icon={playSkipForward} />
               </IonButton>
             </div>

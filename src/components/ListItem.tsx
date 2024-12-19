@@ -44,7 +44,7 @@ export async function resolvedWheelToWheel(resolvedWheel: ResolvedWheel): Promis
 }
 
 // Utility that requests the contents of the URLs in a wheel and returns a new wheel where the keys that the URLs were stored at now have blobs.
-async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
+export async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
   let resolvedWheel: ResolvedWheel = {
     ...wheel,
     background_audio: await Promise.all(wheel.background_audio.map(async (audio) => {
