@@ -1,4 +1,4 @@
-import { Redirect, Route } from 'react-router-dom';
+import { Redirect, Route, Switch } from 'react-router-dom';
 import {
   IonApp,
   IonRouterOutlet,
@@ -35,6 +35,7 @@ import './theme/variables.css';
 import AppUrlListener from './components/AppUrlListener';
 import Home from './pages/Home';
 import Support from './pages/Support';
+import { NotFoundPage } from './pages/NotFoundPage';
 
 setupIonicReact();
 
@@ -47,30 +48,35 @@ const App = () => (
           <Menu />
         </IonMenu>
         <IonRouterOutlet id="main-content">
-          <Route exact path="/">
-            <Redirect to="/homepage" />
-          </Route>
-          <Route exact path="/homepage">
-            <Home />
-          </Route>
-          <Route exact path="/downloaded">
-            <SavedWheels />
-          </Route>
-          <Route exact path="/wheellist">
-            <WheelList />
-          </Route>
-          <Route exact path="/settings">
-            <Settings />
-          </Route>
-          <Route path="/wheel/:id" >
-            <WheelView />
-          </Route>
-          <Route path="/user/:username" >
-            <UserProfile />
-          </Route>
-          <Route exact path="/support">
-            <Support />
-          </Route>
+          <Switch>
+            <Route exact path="/">
+              <Redirect to="/homepage" />
+            </Route>
+            <Route exact path="/homepage">
+              <Home />
+            </Route>
+            <Route exact path="/downloaded">
+              <SavedWheels />
+            </Route>
+            <Route exact path="/wheellist">
+              <WheelList />
+            </Route>
+            <Route exact path="/settings">
+              <Settings />
+            </Route>
+            <Route path="/wheel/:id" >
+              <WheelView />
+            </Route>
+            <Route path="/user/:username" >
+              <UserProfile />
+            </Route>
+            <Route exact path="/support">
+              <Support />
+            </Route>
+            <Route path="*">
+              <NotFoundPage />
+            </Route>
+          </Switch>
         </IonRouterOutlet>
       </IonReactRouter>
     </IonSplitPane>

@@ -1,6 +1,6 @@
 import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
-import { useParams } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
 import {  Wheel } from '../Types'
 import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
@@ -16,6 +16,7 @@ import { Storage } from '@ionic/storage';
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
   let { id } = useParams<{ id: string }>();
+  const history = useHistory();
 
   const downloadedWheelsContext = useDownloadedWheels()!
 
@@ -24,7 +25,7 @@ const WheelView: React.FC = () => {
 
   const isConnected = useNetworkConnectivity()
 
-  useEffect(() => { getWheel() }, [])
+  useEffect(() => { getWheel() }, [id])
   useEffect(() => { setDownloaded(downloadedWheelsContext.wheelDownloaded(parseInt(id))) }, [downloadedWheelsContext.wheelIDs])
 
   const getWheel = async () => {
@@ -38,6 +39,16 @@ const WheelView: React.FC = () => {
 
     const url = `${API_URL}/wheels/${id}/`
     const response = await fetch(url)
+    if (response.status != 200) {
+      present({
+        message: `Could not load wheel, got status: ${response.status} ${response.statusText}`,
+        duration: 5000,
+        position: 'top',
+        color: 'danger'
+      })
+      history.push('/wheellist')
+    }
+
     setWheel(await response.json())
   }
 
