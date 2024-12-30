@@ -12,7 +12,6 @@ import Settings from './pages/Settings';
 import WheelView from './pages/WheelView';
 import UserProfile from './pages/UserProfile'
 import Menu from './components/Menu';
-import SavedWheels from './pages/SavedWheels';
 
 /* Core CSS required for Ionic components to work properly */
 import '@ionic/react/css/core.css';
@@ -36,6 +35,7 @@ import AppUrlListener from './components/AppUrlListener';
 import Home from './pages/Home';
 import Support from './pages/Support';
 import { NotFoundPage } from './pages/NotFoundPage';
+import DownloadedWheels from './pages/DownloadedWheels';
 
 setupIonicReact();
 
@@ -56,7 +56,7 @@ const App = () => (
               <Home />
             </Route>
             <Route exact path="/downloaded">
-              <SavedWheels />
+              <DownloadedWheels />
             </Route>
             <Route exact path="/wheellist">
               <WheelList />
