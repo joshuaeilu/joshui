@@ -24,6 +24,8 @@ const useStorage = (): Storage | null => {
 export const defaultDownloadedWheels: number[] = []
 
 const DownloadedWheelsContext = createContext<{
+  // needed for upstream components to listen to events
+  reactiveValue: number,
   addWheel: (wheelID: number) => Promise<void>,
   removeWheel: (wheelID: number) => Promise<void>,
   isDownloaded: (wheelID: number) => Promise<boolean>,
@@ -32,18 +34,20 @@ const DownloadedWheelsContext = createContext<{
 } | null>(null)
 
 export const DownloadedWheelsProvider = ({ children }: { children: React.ReactNode }) => {
+  const [reactiveValueHack, setReactiveValueHack] = useState(0) 
   const storage = useStorage()
-
   if (!storage) return;
 
   const addWheel = async (wheelID: number) => {
     const resolvedWheel = await resolveWheelURLs(wheelID)
     await storage.set(`pw-downloaded-${wheelID}`, resolvedWheel);
+    setReactiveValueHack(reactiveValueHack+1)
     return Promise.resolve()
   }
 
   const removeWheel = async (wheelID: number) => {
     await storage.remove(`pw-downloaded-${wheelID}`)
+    setReactiveValueHack(reactiveValueHack-1)
     return Promise.resolve()
   }
 
@@ -62,6 +66,7 @@ export const DownloadedWheelsProvider = ({ children }: { children: React.ReactNo
   }
 
   return <DownloadedWheelsContext.Provider value={{
+    reactiveValue: reactiveValueHack,
     addWheel: addWheel,
     removeWheel: removeWheel,
     isDownloaded: isDownloaded,
