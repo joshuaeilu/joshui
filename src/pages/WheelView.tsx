@@ -12,7 +12,7 @@ import { StepListItem } from '../components/ListItem';
 import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
 
 const WheelView: React.FC = () => {
-  const [present, dismiss] = useIonToast();
+  const [present] = useIonToast();
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
 

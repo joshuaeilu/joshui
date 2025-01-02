@@ -3,7 +3,6 @@ import { useEffect, useState } from "react"
 import { Wheel } from "../Types"
 import PlayerControls from "../components/PlayerControls"
 import { WheelListItem } from "../components/ListItem"
-import { Storage } from "@ionic/storage"
 import { useDownloadedWheels } from "../components/hooks/DownloadedWheelsProvider"
 
 const DownloadedWheels: React.FC = () => {

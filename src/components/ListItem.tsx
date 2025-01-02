@@ -1,10 +1,9 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonSpinner, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
-import { download, downloadOutline, heart, heartOutline, logOutOutline } from "ionicons/icons";
+import { download, downloadOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
-import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Wheel } from "../Types";
+import { Wheel } from "../Types";
 import { useHistory } from "react-router";
 import { useDownloadedWheels } from "./hooks/DownloadedWheelsProvider";
-import { Storage } from "@ionic/storage";
 
 // Utility function to format milliseconds to hours, minutes, and seconds
 const formatTime = (milliseconds: number): string => {
@@ -34,7 +33,7 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
   }, [])
   const [processingDownload, setProcessingDownload] = useState(false)
 
-  const [present, dismiss] = useIonToast()
+  const [present] = useIonToast()
   const history = useHistory()
 
   return <IonCard>
