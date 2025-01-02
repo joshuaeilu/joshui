@@ -14,9 +14,6 @@ const DownloadedWheels: React.FC = () => {
     getWheels()
   }, [])
 
-  /**
-   * Get wheels from local storage
-   */
   const getWheels = async () => {
     const wheels = await downloadedWheelsContext.retrieveWheels()
     setWheels(wheels)
