@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonSpinner, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
 import { download, downloadOutline, heart, heartOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Wheel } from "../Types";
@@ -22,75 +22,19 @@ const formatTime = (milliseconds: number): string => {
   return time;
 };
 
-export async function resolvedWheelToWheel(resolvedWheel: ResolvedWheel): Promise<Wheel> {
-  const storage = new Storage()
-  await storage.create()
-  const wheelFromStorage = await storage.get(`pw-downloaded-${resolvedWheel.id}`)
-
-  const wheel: Wheel = {
-    ...wheelFromStorage,
-    steps: resolvedWheel.steps.map((step) => ({
-      ...step,
-      override_song: step.override_song?.type.includes("audio") ? URL.createObjectURL(step.override_song) : null,
-      foreground_audio: step.foreground_audio?.type.includes("audio") ? URL.createObjectURL(step.foreground_audio) : null
-    })),
-    background_audio: resolvedWheel.background_audio.map((audio) => ({
-      ...audio,
-      audio_url: audio.audio ? URL.createObjectURL(audio.audio) : null
-    }))
-  }
-
-  return wheel
-}
-
-// Utility that requests the contents of the URLs in a wheel and returns a new wheel where the keys that the URLs were stored at now have blobs.
-export async function resolveWheelURLs(wheel: Wheel): Promise<ResolvedWheel> {
-  let resolvedWheel: ResolvedWheel = {
-    ...wheel,
-    background_audio: await Promise.all(wheel.background_audio.map(async (audio) => {
-      const audioBlob = await fetch(audio.audio_url);
-
-      const resolvedAudio: ResolvedWheelAudio = {
-        audio: await audioBlob.blob(),
-        id: audio.id,
-        wheel
-      }
-
-      return resolvedAudio
-    })),
-    steps: await Promise.all(wheel.steps.map(async (step) => {
-      const foregroundAudio = await fetch(step.foreground_audio);
-      const overrideAudio = await fetch(step.override_song);
-
-      const resolvedStep: ResolvedStep = {
-        foreground_audio: await foregroundAudio.blob(),
-        override_song: await overrideAudio.blob(),
-        body: step.body,
-        head: step.head,
-        id: step.id,
-        wheel: step.wheel,
-        length: step.length,
-        wheel_index: step.wheel_index
-       };
-
-      return resolvedStep
-    }))
-  }
-
-  return resolvedWheel
-}
-
 export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: number }) => {
   const time = (length > 0) ? formatTime(length) : "0sec";
 
   const downloadedWheelsContext = useDownloadedWheels()!
 
-  const [downloaded, setDownloaded] = useState(downloadedWheelsContext.wheelDownloaded(wheel.id))
+  const [downloaded, setDownloaded] = useState(false)
   useEffect(() => {
-    setDownloaded(downloadedWheelsContext.wheelDownloaded(wheel.id))
-  }, [downloadedWheelsContext.wheelIDs])
+    const updateDownloaded = async () => setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
+    updateDownloaded()
+  }, [])
+  const [processingDownload, setProcessingDownload] = useState(false)
 
-  const [present] = useIonToast()
+  const [present, dismiss] = useIonToast()
   const history = useHistory()
 
   return <IonCard>
@@ -128,38 +72,34 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
       </IonButton>
       <IonButton onClick={async (e) => {
         e.preventDefault()
-        downloadedWheelsContext.toggleDownloadedWheel(wheel.id)
-        const isDownloaded = downloadedWheelsContext.wheelDownloaded(wheel.id)
-        setDownloaded(isDownloaded)
 
-        const storage = new Storage()
-        await storage.create()
-        if (isDownloaded) {
-          present({
-            message: "Downloading...",
-            duration: 1000
-          })
-          // save using ionic storage
-          const resolvedWheel = await resolveWheelURLs(wheel)
-          await storage.set(`pw-downloaded-${wheel.id}`, resolvedWheel);
-          present({
-            message: "Downloaded",
-            duration: 1000
+        setProcessingDownload(true)
+        if (!downloaded) {
+          await downloadedWheelsContext.addWheel(wheel.id).then(() => {
+            present({
+              message: "Downloaded",
+              duration: 3000,
+            })
           })
         } else {
-          // delete using ionic storage
-          await storage.remove(`pw-downloaded-${wheel.id}`)
-          present({
-            message: "Removed",
-            duration: 1000
+          await downloadedWheelsContext.removeWheel(wheel.id).then(() => {
+            present({
+              message: "Removed",
+              duration: 3000
+            })
           })
         }
+        setProcessingDownload(false)
+
+        setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
       }}>
-        {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
+        {processingDownload ?
+          <IonSpinner name="dots" /> :
+          <>{downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}</>}
         <p className="ion-hide-md-down">&nbsp;Download</p>
       </IonButton>
     </IonCardContent>
-  </IonCard>
+  </IonCard >
 }
 
 export const StepListItem = ({ name, content, length = 0 }: { name: string, content: string, length?: number }) => {

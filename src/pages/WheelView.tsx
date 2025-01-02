@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Wheel } from '../Types'
@@ -8,32 +8,30 @@ import PlayerControls from '../components/PlayerControls';
 import { usePlayerState } from '../components/hooks/PlayerStateProvider';
 import { download, downloadOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
-import { resolvedWheelToWheel, resolveWheelURLs, StepListItem } from '../components/ListItem';
+import { StepListItem } from '../components/ListItem';
 import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
-import useNetworkConnectivity from '../components/hooks/UseNetworkConnectivity';
-import { Storage } from '@ionic/storage';
 
 const WheelView: React.FC = () => {
-  const [present] = useIonToast();
+  const [present, dismiss] = useIonToast();
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
 
   const downloadedWheelsContext = useDownloadedWheels()!
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
-  const [downloaded, setDownloaded] = useState(downloadedWheelsContext.wheelDownloaded(parseInt(id)))
-
-  const isConnected = useNetworkConnectivity()
+  const [downloaded, setDownloaded] = useState(false)
+  const [processingDownload, setProcessingDownload] = useState(false)
 
   useEffect(() => { getWheel() }, [id])
-  useEffect(() => { setDownloaded(downloadedWheelsContext.wheelDownloaded(parseInt(id))) }, [downloadedWheelsContext.wheelIDs])
+  useEffect(() => {
+    const updateDownloaded = async () => setDownloaded(await downloadedWheelsContext.isDownloaded(parseInt(id)))
+    updateDownloaded()
+  }, [])
 
   const getWheel = async () => {
-    if (!isConnected) {
-      const storage = new Storage()
-      await storage.create()
-      const wheelFromStorage: Wheel = await resolvedWheelToWheel(await storage.get(`pw-downloaded-${id}`))
-      setWheel(wheelFromStorage)
+    if (await downloadedWheelsContext.isDownloaded(parseInt(id))) {
+      const wheel = await downloadedWheelsContext.getWheel(parseInt(id))
+      setWheel(wheel)
       return
     }
 
@@ -92,47 +90,37 @@ const WheelView: React.FC = () => {
         </div>
         <IonButtons slot="end">
           <IonButton onClick={async () => {
-            if (isConnected) {
-              setActiveWheel(wheel)
-            } else {
-              const storage = new Storage()
-              await storage.create()
-              const wheelFromStorage = await resolvedWheelToWheel(await storage.get(`pw-downloaded-${wheel.id}`))
-              setActiveWheel(wheelFromStorage)
-            }
+            setActiveWheel(wheel)
           }}>
             <IonIcon icon={play} />
             <p className="ion-hide-md-down">&nbsp;Play</p>
           </IonButton>
-          <IonButton onClick={async () => {
-            downloadedWheelsContext.toggleDownloadedWheel(wheel.id)
-            const isDownloaded = downloadedWheelsContext.wheelDownloaded(wheel.id)
-            setDownloaded(isDownloaded)
+          <IonButton onClick={async (e) => {
+            e.preventDefault()
 
-            const storage = new Storage()
-            await storage.create()
-            if (isDownloaded) {
-              present({
-                message: "Downloading...",
-                duration: 1000
-              })
-              // save using ionic storage
-              const resolvedWheel = await resolveWheelURLs(wheel)
-              await storage.set(`pw-downloaded-${wheel.id}`, resolvedWheel);
-              present({
-                message: "Downloaded",
-                duration: 1000
+            setProcessingDownload(true)
+            if (!downloaded) {
+              await downloadedWheelsContext.addWheel(wheel.id).then(() => {
+                present({
+                  message: "Downloaded",
+                  duration: 1000
+                })
               })
             } else {
-              // delete using ionic storage
-              await storage.remove(`pw-downloaded-${wheel.id}`)
-              present({
-                message: "Removed",
-                duration: 1000
+              await downloadedWheelsContext.removeWheel(wheel.id).then(() => {
+                present({
+                  message: "Removed",
+                  duration: 1000
+                })
               })
             }
+            setProcessingDownload(false)
+
+            setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
           }}>
-            {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
+            {processingDownload ?
+              <IonSpinner name="dots" /> : 
+              <>{downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}</>}
             <p className="ion-hide-md-down">&nbsp;Download</p>
           </IonButton>
           <IonButton onClick={() => shareButton()}>
