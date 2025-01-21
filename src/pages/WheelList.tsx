@@ -83,7 +83,8 @@ const WheelList: React.FC = () => {
           <h3 style={{ margin: "auto" }}>Failed to fetch wheels.</h3>
         </IonRow>
         <IonRow>
-          <p style={{margin: "auto"}}>Please refresh the app and contact support if this happens regularly.</p>
+          <p style={{ margin: "auto" }}>Please check you have an active internet connection and refresh the app.
+            Contact support if this happens regularly.</p>
         </IonRow>
       </IonGrid>
     </IonContent>}
