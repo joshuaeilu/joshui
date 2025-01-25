@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonSpinner, IonTitle, IonToolbar, useIonToast } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonSpinner, IonTitle, IonToolbar, useIonModal, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Wheel } from '../Types'
@@ -10,6 +10,7 @@ import { download, downloadOutline, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 import { StepListItem } from '../components/ListItem';
 import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
+import FullscreenPlayer from '../components/modals/FullscreenPlayer';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
@@ -21,6 +22,10 @@ const WheelView: React.FC = () => {
   const [wheel, setWheel] = useState<Wheel | null>(null)
   const [downloaded, setDownloaded] = useState(false)
   const [processingDownload, setProcessingDownload] = useState(false)
+
+  const [fullscreenPresent, fullscreenDismiss] = useIonModal(FullscreenPlayer, {
+    dismiss: () => fullscreenDismiss()
+  })
 
   useEffect(() => { getWheel() }, [id])
   useEffect(() => {
@@ -94,6 +99,7 @@ const WheelView: React.FC = () => {
         <IonButtons slot="end">
           <IonButton onClick={async () => {
             setActiveWheel(wheel)
+            fullscreenPresent()
           }}>
             <IonIcon icon={play} />
             <p className="ion-hide-md-down">&nbsp;Play</p>
@@ -122,7 +128,7 @@ const WheelView: React.FC = () => {
             setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
           }}>
             {processingDownload ?
-              <IonSpinner name="dots" /> : 
+              <IonSpinner name="dots" /> :
               <IonIcon icon={download} color={downloaded ? 'primary' : ''} />}
             <p className="ion-hide-md-down">&nbsp;Download</p>
           </IonButton>
