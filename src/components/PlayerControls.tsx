@@ -30,8 +30,6 @@ function PlayerControls() {
 
   if (timerContext == null) return null;
 
-  let timerSeconds = timerContext.timer.timerSeconds
-
   return <IonFooter>
     <div onClick={() => openFullscreen()}>
       <IonToolbar>
