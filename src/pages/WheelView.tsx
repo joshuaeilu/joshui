@@ -123,7 +123,7 @@ const WheelView: React.FC = () => {
           }}>
             {processingDownload ?
               <IonSpinner name="dots" /> : 
-              <>{downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}</>}
+              <IonIcon icon={download} color={downloaded ? 'primary' : ''} />}
             <p className="ion-hide-md-down">&nbsp;Download</p>
           </IonButton>
           <IonButton onClick={() => shareButton()}>
