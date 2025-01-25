@@ -10,6 +10,7 @@ export type Wheel = {
   description: string
   steps: Step[]
   background_audio: WheelAudio[]
+  // milliseconds
   wheel_time: number
   icon: string
 }
@@ -31,6 +32,7 @@ export type Step = {
   body: string
   override_song: string
   foreground_audio: string
+  // milliseconds
   length: number
   wheel_index: number
 }
