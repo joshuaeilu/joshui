@@ -49,7 +49,7 @@ const WheelList: React.FC = () => {
       </IonToolbar>
     </IonHeader>
     {!failed ? <IonContent fullscreen={true}>
-      <IonInput className="ion-padding-horizontal" label="Search Wheels" fill="solid" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}>
+      <IonInput className="ion-padding-horizontal" fill="solid" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}>
         <IonIcon slot="start" icon={search} aria-hidden="true" />
       </IonInput>
       {wheels.length != 0 && !loading && <IonList lines="none" className="wheellist">
