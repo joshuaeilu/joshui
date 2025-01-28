@@ -1,4 +1,4 @@
-import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
 import { cogOutline, searchOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
@@ -9,7 +9,7 @@ import PlayerControls from "../components/PlayerControls";
 const QuickstartCard = ({ name, icon, url }: { name: string, icon: string, url: string }) => {
   const history = useHistory()
 
-  return <IonCard className="ion-padding" onClick={(e) => {
+  return <IonCard style={{ width: "100%" }} className="ion-padding" onClick={(e) => {
     e.preventDefault()
     history.push(url)
   }}>
@@ -46,17 +46,15 @@ const Home = () => {
     <IonContent>
       <IonGrid className="ion-padding ion-text-center ion-justify-content-center">
         {markdown ?
-        <Markdown>{markdown}</Markdown>
-        :
-        <h3>Welcome to Prayer Wheels!</h3>}
+          <Markdown>{markdown}</Markdown>
+          :
+          <h3>Welcome to Prayer Wheels!</h3>}
 
         <h3>Quick Start</h3>
-        <QuickstartCard name="Find Wheels" icon={searchOutline} url="/wheellist" />
-        <QuickstartCard name="Settings" icon={cogOutline} url="/settings" />
-
-        <h3>PWA Support</h3>
-        <p>If you would like to use this app natively on mobile, it supports being installed as a PWA!</p>
-        <p>Tap the three dots in the upper right corner of your browser and select the option to install this app to your home screen.  This will install the app onto your device.</p>
+        <div style={{ display: "flex", width: "100%", maxHeight: 175 }}>
+          <QuickstartCard name="Find Wheels" icon={searchOutline} url="/wheellist" />
+          <QuickstartCard name="Settings" icon={cogOutline} url="/settings" />
+        </div>
       </IonGrid>
     </IonContent>
     <PlayerControls />
