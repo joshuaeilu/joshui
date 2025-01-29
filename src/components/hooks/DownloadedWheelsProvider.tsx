@@ -33,6 +33,8 @@ const DownloadedWheelsContext = createContext<{
   retrieveWheels: () => Promise<Wheel[]>
 } | null>(null)
 
+const KEY_PREFIX = 'pw-downloaded'
+
 export const DownloadedWheelsProvider = ({ children }: { children: React.ReactNode }) => {
   const [reactiveValueHack, setReactiveValueHack] = useState(0) 
   const storage = useStorage()
@@ -40,28 +42,28 @@ export const DownloadedWheelsProvider = ({ children }: { children: React.ReactNo
 
   const addWheel = async (wheelID: number) => {
     const resolvedWheel = await resolveWheelURLs(wheelID)
-    await storage.set(`pw-downloaded-${wheelID}`, resolvedWheel);
+    await storage.set(`${KEY_PREFIX}-${wheelID}`, resolvedWheel);
     setReactiveValueHack(reactiveValueHack+1)
     return Promise.resolve()
   }
 
   const removeWheel = async (wheelID: number) => {
-    await storage.remove(`pw-downloaded-${wheelID}`)
+    await storage.remove(`${KEY_PREFIX}-${wheelID}`)
     setReactiveValueHack(reactiveValueHack-1)
     return Promise.resolve()
   }
 
   const isDownloaded = async (wheelID: number) => {
-    return (await storage.get(`pw-downloaded-${wheelID}`)) != null
+    return (await storage.get(`${KEY_PREFIX}-${wheelID}`)) != null
   }
 
   const getWheel = async (wheelID: number) => {
-    return resolvedWheelToWheel(await storage.get(`pw-downloaded-${wheelID}`))
+    return resolvedWheelToWheel(await storage.get(`${KEY_PREFIX}-${wheelID}`))
   }
 
   const retrieveWheels = async () => {
     return await storage.keys().then(keys => {
-      return Promise.all(keys.map(async key => resolvedWheelToWheel(await storage.get(key))))
+      return Promise.all(keys.filter(key => key.includes(KEY_PREFIX)).map(async key => resolvedWheelToWheel(await storage.get(key))))
     })
   }
 

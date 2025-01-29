@@ -49,21 +49,23 @@ const WheelList: React.FC = () => {
       </IonToolbar>
     </IonHeader>
     {!failed ? <IonContent fullscreen={true}>
-      <IonInput className="ion-padding-horizontal" fill="solid" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}>
-        <IonIcon slot="start" icon={search} aria-hidden="true" />
-      </IonInput>
-      {wheels.length != 0 && !loading && <IonList lines="none" className="wheellist">
-        {
-          wheels.filter((wheel) => wheel.title.includes(searchTerm) || wheel.description.includes(searchTerm)).map((data) => {
-            const totalTime = data.steps.reduce(
-              (accumulator, currentValue) => accumulator + currentValue.length, 0
-            )
-            return (
-              <WheelListItem key={wheels.indexOf(data)} wheel={data} length={totalTime} />
-            )
-          })
-        }
-      </IonList>}
+      {wheels.length != 0 && !loading && <>
+        <IonInput className="ion-padding-horizontal" fill="solid" labelPlacement="floating" placeholder="Enter your search term..." onIonInput={(e) => setFilter((e.target as HTMLIonInputElement).value as string)}>
+          <IonIcon slot="start" icon={search} aria-hidden="true" />
+        </IonInput>
+        <IonList lines="none" className="wheellist">
+          {
+            wheels.filter((wheel) => wheel.title.includes(searchTerm) || wheel.description.includes(searchTerm)).map((data) => {
+              const totalTime = data.steps.reduce(
+                (accumulator, currentValue) => accumulator + currentValue.length, 0
+              )
+              return (
+                <WheelListItem key={wheels.indexOf(data)} wheel={data} length={totalTime} />
+              )
+            })
+          }
+        </IonList>
+      </>}
       {wheels.length == 0 && !loading && <IonGrid>
         <IonRow className="ion-margin-bottom">
           <h3 style={{ margin: "auto" }}>No Wheels Available</h3>
