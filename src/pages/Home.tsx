@@ -1,10 +1,11 @@
-import { IonButtons, IonCard, IonCol, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
+import { IonButtons, IonCard, IonContent, IonGrid, IonHeader, IonIcon, IonMenuButton, IonPage, IonRow, IonTitle, IonToolbar } from "@ionic/react";
 import { cogOutline, searchOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { useHistory } from "react-router";
 import { API_URL } from "../App";
 import Markdown from "react-markdown";
 import PlayerControls from "../components/PlayerControls";
+import { useLocalStorage } from "react-use";
 
 const QuickstartCard = ({ name, icon, url }: { name: string, icon: string, url: string }) => {
   const history = useHistory()
@@ -19,17 +20,19 @@ const QuickstartCard = ({ name, icon, url }: { name: string, icon: string, url: 
 }
 
 const Home = () => {
+  const [savedText, setSavedText] = useLocalStorage('pw-home-page', null)
   const [markdown, setMarkdown] = useState<string | null>();
 
   const getMarkdown = async () => {
-    const request = await fetch(`${API_URL}/mdpages/intro_page`)
-    if (!request.ok) {
-      return
-    }
-    const data = await request.json()
-    setMarkdown(data)
+    await fetch(`${API_URL}/mdpages/intro_page`)
+      .then(async (res) => {
+        const data = await res.json()
+        setSavedText(data)
+        setMarkdown(data)
+      }).catch(() => {
+        setMarkdown(savedText)
+      })
   }
-
   useEffect(() => {
     getMarkdown()
   }, [])

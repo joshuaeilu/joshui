@@ -1,10 +1,9 @@
-import { useIonToast } from "@ionic/react"
 import { Storage } from "@ionic/storage"
 import { createContext, useContext, useEffect, useState } from "react"
 import { ResolvedStep, ResolvedWheel, ResolvedWheelAudio, Wheel } from "../../Types"
 import { API_URL } from "../../App"
 
-const useStorage = (): Storage | null => {
+export const useStorage = (): Storage | null => {
   const [storage, setStorage] = useState<Storage | null>(null)
 
   const initStorage = async () => {

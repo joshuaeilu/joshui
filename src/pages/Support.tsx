@@ -3,19 +3,24 @@ import { useEffect, useState } from "react";
 import Markdown from "react-markdown";
 import { API_URL } from "../App";
 import PlayerControls from "../components/PlayerControls";
-import { returnUpBack } from "ionicons/icons";
+import { useLocalStorage } from "react-use";
 
 const Support = () => {
+  const [savedText, setSavedText] = useLocalStorage('pw-support-page', null)
   const [markdown, setMarkdown] = useState<string | null>()
 
   const [version, setVersion] = useState<string | null>()
   const [apiFailed, setApiFailed] = useState<boolean>(false)
 
   const getMarkdown = async () => {
-    const request = await fetch(`${API_URL}/mdpages/support_page`)
-    if (!request.ok) return
-    const data = await request.json()
-    setMarkdown(data)
+    await fetch(`${API_URL}/mdpages/support_page`)
+      .then(async (res) => {
+        const data = await res.json()
+        setSavedText(data)
+        setMarkdown(data)
+      }).catch(() => {
+        setMarkdown(savedText)
+      })
   }
 
   useEffect(() => {
