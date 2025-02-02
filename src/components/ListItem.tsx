@@ -1,4 +1,4 @@
-import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonSpinner, IonText, IonThumbnail, IonTitle, useIonToast } from "@ionic/react";
+import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCol, IonGrid, IonIcon, IonRow, IonText, IonThumbnail, IonTitle, useIonLoading, useIonToast } from "@ionic/react";
 import { download, downloadOutline, logOutOutline } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import { Wheel } from "../Types";
@@ -31,9 +31,9 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
     const updateDownloaded = async () => setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
     updateDownloaded()
   }, [])
-  const [processingDownload, setProcessingDownload] = useState(false)
 
   const [present] = useIonToast()
+  const [presentLoad, dismissLoad] = useIonLoading()
   const history = useHistory()
 
   return <IonCard>
@@ -72,7 +72,9 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
       <IonButton onClick={async (e) => {
         e.preventDefault()
 
-        setProcessingDownload(true)
+        presentLoad({
+          message: "Downloading..."
+        })
         if (!downloaded) {
           await downloadedWheelsContext.addWheel(wheel.id).then(() => {
             present({
@@ -88,13 +90,11 @@ export const WheelListItem = ({ wheel, length = 0 }: { wheel: Wheel, length?: nu
             })
           })
         }
-        setProcessingDownload(false)
+        dismissLoad()
 
         setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
       }}>
-        {processingDownload ?
-          <IonSpinner name="dots" /> :
-          <>{downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}</>}
+        {downloaded ? <IonIcon icon={download} /> : <IonIcon icon={downloadOutline} />}
         <p className="ion-hide-md-down">&nbsp;Download</p>
       </IonButton>
     </IonCardContent>

@@ -36,48 +36,65 @@ import Home from './pages/Home';
 import Support from './pages/Support';
 import { NotFoundPage } from './pages/NotFoundPage';
 import DownloadedWheels from './pages/DownloadedWheels';
+import { ErrorBoundary } from 'react-error-boundary';
+import { ErrorInfo } from 'react';
 
 setupIonicReact();
+
+const fallback = ({ error }: { error: any }) => {
+  return <div>
+    <p>Something went wrong while displaying the application.</p>
+    <p>Error Message:</p>
+    <p>{error.message}</p>
+  </div>
+}
+
+const logError = (error: Error, info: ErrorInfo) => {
+  console.error(error)
+  console.error(info)
+}
 
 const App = () => (
   <IonApp>
     <IonSplitPane when="md" contentId="main-content">
       <IonReactRouter>
-        <AppUrlListener />
-        <IonMenu contentId="main-content">
-          <Menu />
-        </IonMenu>
-        <IonRouterOutlet id="main-content">
-          <Switch>
-            <Route exact path="/">
-              <Redirect to="/homepage" />
-            </Route>
-            <Route exact path="/homepage">
-              <Home />
-            </Route>
-            <Route exact path="/downloaded">
-              <DownloadedWheels />
-            </Route>
-            <Route exact path="/wheellist">
-              <WheelList />
-            </Route>
-            <Route exact path="/settings">
-              <Settings />
-            </Route>
-            <Route path="/wheel/:id" >
-              <WheelView />
-            </Route>
-            <Route path="/user/:username" >
-              <UserProfile />
-            </Route>
-            <Route exact path="/support">
-              <Support />
-            </Route>
-            <Route path="*">
-              <NotFoundPage />
-            </Route>
-          </Switch>
-        </IonRouterOutlet>
+        <ErrorBoundary FallbackComponent={fallback} onError={logError}>
+          <AppUrlListener />
+          <IonMenu contentId="main-content">
+            <Menu />
+          </IonMenu>
+          <IonRouterOutlet id="main-content">
+            <Switch>
+              <Route exact path="/">
+                <Redirect to="/homepage" />
+              </Route>
+              <Route exact path="/homepage">
+                <Home />
+              </Route>
+              <Route exact path="/downloaded">
+                <DownloadedWheels />
+              </Route>
+              <Route exact path="/wheellist">
+                <WheelList />
+              </Route>
+              <Route exact path="/settings">
+                <Settings />
+              </Route>
+              <Route path="/wheel/:id" >
+                <WheelView />
+              </Route>
+              <Route path="/user/:username" >
+                <UserProfile />
+              </Route>
+              <Route exact path="/support">
+                <Support />
+              </Route>
+              <Route path="*">
+                <NotFoundPage />
+              </Route>
+            </Switch>
+          </IonRouterOutlet>
+        </ErrorBoundary>
       </IonReactRouter>
     </IonSplitPane>
   </IonApp>

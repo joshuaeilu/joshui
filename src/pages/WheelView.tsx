@@ -1,4 +1,4 @@
-import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonSpinner, IonTitle, IonToolbar, useIonModal, useIonToast } from '@ionic/react';
+import { IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonList, IonMenuButton, IonPage, IonTitle, IonToolbar, useIonLoading, useIonModal, useIonToast } from '@ionic/react';
 import * as React from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { Wheel } from '../Types'
@@ -6,7 +6,7 @@ import { useEffect, useState } from 'react';
 import { API_URL } from '../App'
 import PlayerControls from '../components/PlayerControls';
 import { usePlayerState } from '../components/hooks/PlayerStateProvider';
-import { download, downloadOutline, play, share } from 'ionicons/icons';
+import { download, play, share } from 'ionicons/icons';
 import { Share } from '@capacitor/share';
 import { StepListItem } from '../components/ListItem';
 import { useDownloadedWheels } from '../components/hooks/DownloadedWheelsProvider';
@@ -14,6 +14,7 @@ import FullscreenPlayer from '../components/modals/FullscreenPlayer';
 
 const WheelView: React.FC = () => {
   const [present] = useIonToast();
+  const [presentLoad, dismissLoad] = useIonLoading()
   let { id } = useParams<{ id: string }>();
   const history = useHistory();
 
@@ -21,7 +22,6 @@ const WheelView: React.FC = () => {
 
   const [wheel, setWheel] = useState<Wheel | null>(null)
   const [downloaded, setDownloaded] = useState(false)
-  const [processingDownload, setProcessingDownload] = useState(false)
 
   const [fullscreenPresent, fullscreenDismiss] = useIonModal(FullscreenPlayer, {
     dismiss: () => fullscreenDismiss()
@@ -107,7 +107,9 @@ const WheelView: React.FC = () => {
           <IonButton onClick={async (e) => {
             e.preventDefault()
 
-            setProcessingDownload(true)
+            presentLoad({
+              message: "Downloading..."
+            })
             if (!downloaded) {
               await downloadedWheelsContext.addWheel(wheel.id).then(() => {
                 present({
@@ -123,13 +125,10 @@ const WheelView: React.FC = () => {
                 })
               })
             }
-            setProcessingDownload(false)
-
+            dismissLoad()
             setDownloaded(await downloadedWheelsContext.isDownloaded(wheel.id))
           }}>
-            {processingDownload ?
-              <IonSpinner name="dots" /> :
-              <IonIcon icon={download} color={downloaded ? 'primary' : ''} />}
+            <IonIcon icon={download} color={downloaded ? 'primary' : ''} />
             <p className="ion-hide-md-down">&nbsp;Download</p>
           </IonButton>
           <IonButton onClick={() => shareButton()}>
