@@ -1,6 +1,6 @@
 import { IonButton, IonCol, IonFooter, IonIcon, IonRange, IonRow, IonText, IonToolbar, useIonModal } from '@ionic/react';
 import { usePlayerState } from './hooks/PlayerStateProvider';
-import { pause, play, playSkipForward } from 'ionicons/icons';
+import { pause, play, playSkipBack, playSkipForward } from 'ionicons/icons';
 import FullscreenPlayer from './modals/FullscreenPlayer';
 import { useTimer } from './hooks/TimerProvider';
 
@@ -27,7 +27,7 @@ function PlayerControls() {
     return null;
   }
 
-  let { playerState, playWheel, pauseWheel, advanceWheel, paused } = playerStateContext;
+  let { playerState, rewindWheel, playWheel, pauseWheel, advanceWheel, paused } = playerStateContext;
   let wheel = playerState.wheel;
 
   if (wheel == null) {
@@ -61,8 +61,8 @@ function PlayerControls() {
           </IonCol>
           <IonCol style={{ paddingTop: 0 }}>
             <div style={{ display: "flex", justifyContent: "space-between", fontSize: "smaller", maxHeight: 3 }}>
-              <p style={{fontSize: "smaller"}}>{formatTime(wheel?.steps[playerState.curStpIdx].length - (timerContext.timer.timerSeconds * 1000))}</p>
-              <p style={{fontSize: "smaller"}}>{formatTime(wheel?.steps[playerState.curStpIdx].length)}</p>
+              <p style={{ fontSize: "smaller" }}>{formatTime(wheel?.steps[playerState.curStpIdx].length - (timerContext.timer.timerSeconds * 1000))}</p>
+              <p style={{ fontSize: "smaller" }}>{formatTime(wheel?.steps[playerState.curStpIdx].length)}</p>
             </div>
             <IonRange
               value={(wheel?.steps[playerState.curStpIdx].length / 1000) - timerContext.timer.timerSeconds}
@@ -88,10 +88,16 @@ function PlayerControls() {
               </IonButton> */}
               <IonButton onClick={(e) => {
   e.stopPropagation()
-  paused ? playWheel() : pauseWheel()
+  rewindWheel()
 }} shape="round" fill="clear" size="small">
-  <IonIcon slot="icon-only" icon={paused ? play : pause} />
+  <IonIcon slot="icon-only" icon={playSkipBack} />
 </IonButton>
+              <IonButton onClick={(e) => {
+                e.stopPropagation()
+                paused ? playWheel() : pauseWheel()
+              }} shape="round" fill="clear" size="small">
+                <IonIcon slot="icon-only" icon={paused ? play : pause} />
+              </IonButton>
               <IonButton onClick={(e) => {
                 e.stopPropagation()
                 advanceWheel()

@@ -28,6 +28,7 @@ export const defaultPlayerStateContext = {
 const PlayerStateContext = createContext<{
   playerState: PlayerState
   setActiveWheel: (wheel: Wheel) => void
+  rewindWheel: () => void
   playWheel: () => void
   pauseWheel: () => void
   advanceWheel: () => void
@@ -109,6 +110,32 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     playWheel()
     setPlayerState(newPS)
   }
+
+const rewindWheel = () => {
+  const newPS = { ...playerState };
+  if (newPS.wheel == null) return;
+
+  if (newPS.curStpIdx <= 0) {
+    // Already on first step, just restart it
+    setTimerSecs(newPS.wheel.steps[0].length / 1000)
+    newPS.foregroundAudio.src = newPS.wheel.steps[0].foreground_audio;
+    newPS.foregroundAudio.load()
+    playWheel()
+    setPlayerState(newPS)
+    return;
+  }
+
+  newPS.curStpIdx -= 1;
+  setTimerSecs(newPS.wheel.steps[newPS.curStpIdx].length / 1000)
+  newPS.foregroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].foreground_audio;
+  newPS.foregroundAudio.load()
+  if (newPS.wheel.steps[newPS.curStpIdx].override_song != null) {
+    newPS.backgroundAudio.src = newPS.wheel.steps[newPS.curStpIdx].override_song;
+    newPS.backgroundAudio.load()
+  }
+  playWheel()
+  setPlayerState(newPS)
+}
 
   const playWheel = () => {
     const audioFailFunc = () => {
@@ -199,7 +226,7 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     MediaSession.setPlaybackState({ playbackState: paused ? 'paused' : 'playing' })
   }, [paused])
 
-  return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel, paused }}>
+  return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, rewindWheel, playWheel, pauseWheel, advanceWheel, paused }}>
     {children}
   </PlayerStateContext.Provider>
 }
