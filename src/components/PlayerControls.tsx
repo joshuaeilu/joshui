@@ -27,7 +27,7 @@ function PlayerControls() {
     return null;
   }
 
-  let { playerState, playWheel, pauseWheel, advanceWheel } = playerStateContext;
+  let { playerState, playWheel, pauseWheel, advanceWheel, paused } = playerStateContext;
   let wheel = playerState.wheel;
 
   if (wheel == null) {
@@ -74,7 +74,7 @@ function PlayerControls() {
               }}
             ></IonRange>
             <div style={{ display: "flex", width: "100%", justifyContent: "center" }}>
-              <IonButton onClick={(e) => {
+              {/* <IonButton onClick={(e) => {
                 e.stopPropagation()
                 playWheel()
               }} shape="round" fill="clear" size="small">
@@ -85,7 +85,13 @@ function PlayerControls() {
                 pauseWheel()
               }} shape="round" fill="clear" size="small">
                 <IonIcon slot="icon-only" icon={pause} />
-              </IonButton>
+              </IonButton> */}
+              <IonButton onClick={(e) => {
+  e.stopPropagation()
+  paused ? playWheel() : pauseWheel()
+}} shape="round" fill="clear" size="small">
+  <IonIcon slot="icon-only" icon={paused ? play : pause} />
+</IonButton>
               <IonButton onClick={(e) => {
                 e.stopPropagation()
                 advanceWheel()

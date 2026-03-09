@@ -31,6 +31,7 @@ const PlayerStateContext = createContext<{
   playWheel: () => void
   pauseWheel: () => void
   advanceWheel: () => void
+  paused: boolean
 } | null>(null);
 
 export const PlayerStateProvider = ({ children }: { children: React.ReactNode }) => {
@@ -198,7 +199,7 @@ export const PlayerStateProvider = ({ children }: { children: React.ReactNode })
     MediaSession.setPlaybackState({ playbackState: paused ? 'paused' : 'playing' })
   }, [paused])
 
-  return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel }}>
+  return <PlayerStateContext.Provider value={{ playerState, setActiveWheel, playWheel, pauseWheel, advanceWheel, paused }}>
     {children}
   </PlayerStateContext.Provider>
 }
