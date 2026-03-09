@@ -149,6 +149,7 @@ const WheelView: React.FC = () => {
         }
       </IonList>
     </IonContent>
+    <PlayerControls />
   </IonPage>
 }
 
