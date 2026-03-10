@@ -1,5 +1,5 @@
 import { IonButton, IonCard, IonCardContent, IonCardHeader, IonCardTitle, IonCol, IonContent, IonGrid, IonIcon, IonPage, IonRow } from "@ionic/react";
-import { chevronDownOutline, pause, play, playSkipForward } from "ionicons/icons";
+import { chevronDownOutline, pause, play, playSkipBack, playSkipForward } from "ionicons/icons";
 import { usePlayerState } from "../hooks/PlayerStateProvider";
 import { useTimer } from "../hooks/TimerProvider";
 import { prettyPrintSeconds } from "../player/PlayerStepItem";
@@ -28,7 +28,7 @@ const PlayerWheelView = () => {
   if (!playerStateContext) {
     return null;
   }
-  let { playerState, playWheel, pauseWheel, advanceWheel } = playerStateContext;
+  let { playerState, rewindWheel, playWheel, pauseWheel, advanceWheel, paused } = playerStateContext;
   let wheel = playerState.wheel;
 
   if (wheel == null) return <></>
@@ -46,12 +46,18 @@ const PlayerWheelView = () => {
     </IonRow>
     <IonRow className="ion-justify-content-center">
       <IonCol size="auto">
-        <IonButton onClick={playWheel} shape="round" fill="clear">
+        {/* <IonButton onClick={playWheel} shape="round" fill="clear">
           <IonIcon slot="icon-only" icon={play} />
         </IonButton>
         <IonButton onClick={pauseWheel} shape="round" fill="clear">
           <IonIcon slot="icon-only" icon={pause} />
-        </IonButton>
+        </IonButton> */}
+<IonButton onClick={rewindWheel} shape="round" fill="clear">
+  <IonIcon slot="icon-only" icon={playSkipBack} />
+</IonButton>
+        <IonButton onClick={paused ? playWheel : pauseWheel} shape="round" fill="clear">
+  <IonIcon slot="icon-only" icon={paused ? play : pause} />
+</IonButton>
         <IonButton onClick={advanceWheel} shape="round" fill="clear">
           <IonIcon slot="icon-only" icon={playSkipForward} />
         </IonButton>
