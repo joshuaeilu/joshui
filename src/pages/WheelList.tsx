@@ -55,7 +55,7 @@ const WheelList: React.FC = () => {
         </IonInput>
         <IonList lines="none" className="wheellist">
           {
-            wheels.filter((wheel) => wheel.title.includes(searchTerm) || wheel.description.includes(searchTerm)).map((data) => {
+            wheels.filter((wheel) => wheel.title.toLowerCase().includes(searchTerm.toLowerCase().trim()) || wheel.description.toLowerCase().includes(searchTerm.toLowerCase().trim())).map((data) => {
               const totalTime = data.steps.reduce(
                 (accumulator, currentValue) => accumulator + currentValue.length, 0
               )
