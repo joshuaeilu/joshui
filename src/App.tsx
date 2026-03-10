@@ -102,5 +102,7 @@ const App = () => (
 
 export default App;
 
-export const API_URL = 'http://127.0.0.1:8000'
-  // import.meta.env.VITE_API_BASE_URL ?? 'https://api-new.prayerwheel.coveredministries.com'
+export const API_URL = 
+  import.meta.env.VITE_API_BASE_URL ?? 'https://api-new.prayerwheel.coveredministries.com'
+
+  // "http://10.5.198.241:8000/"
